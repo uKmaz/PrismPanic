@@ -32,6 +32,9 @@ namespace PrismPanic.Core
         public static event Action OnGameRestart;
         public static event Action OnVictory;
 
+        // --- Polish / Juice ---
+        public static event Action<bool> OnAdrenalineStateChanged;
+
         // --- Fire Helpers (null-safe) ---
         public static void FireAngelStunned(GameObject angel) => OnAngelStunned?.Invoke(angel);
         public static void FireAngelKilled(GameObject angel) => OnAngelKilled?.Invoke(angel);
@@ -45,6 +48,7 @@ namespace PrismPanic.Core
         public static void FireLevelComplete() => OnLevelComplete?.Invoke();
         public static void FirePlayerDeath() => OnPlayerDeath?.Invoke();
         public static void FireGameRestart() => OnGameRestart?.Invoke();
+        public static void FireAdrenalineStateChanged(bool isActive) => OnAdrenalineStateChanged?.Invoke(isActive);
         public static void FireVictory() => OnVictory?.Invoke();
 
         /// <summary>
@@ -64,6 +68,7 @@ namespace PrismPanic.Core
             OnLevelComplete = null;
             OnPlayerDeath = null;
             OnGameRestart = null;
+            OnAdrenalineStateChanged = null;
             OnVictory = null;
         }
     }

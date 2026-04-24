@@ -49,6 +49,11 @@ namespace PrismPanic.Light
                     // 2-bounce — 2x damage (instant kill on 2HP angel)
                     angel.TakeDamage(2);
                     break;
+
+                case 3:
+                    // 3-bounce — 3x damage (heavy hit)
+                    angel.TakeDamage(3);
+                    break;
             }
         }
     }
