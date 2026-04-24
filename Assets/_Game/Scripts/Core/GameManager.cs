@@ -76,9 +76,12 @@ namespace PrismPanic.Core
         private void HandleAngelKilled(GameObject angel)
         {
             ActiveAngelCount--;
+            Debug.Log($"[GameManager] Angel killed! Remaining: {ActiveAngelCount}");
+
             if (ActiveAngelCount <= 0)
             {
                 ActiveAngelCount = 0;
+                Debug.Log("[GameManager] ALL ANGELS CLEARED! Firing DoorsOpen...");
                 SetPhase(GamePhase.DoorsOpen);
                 EventBus.FireAllAngelsCleared();
                 EventBus.FireDoorsOpen();

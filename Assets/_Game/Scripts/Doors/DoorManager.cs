@@ -38,19 +38,52 @@ namespace PrismPanic.Doors
         private void HandleRoomReconfigure(ScriptableObject layoutSO)
         {
             _currentLayout = layoutSO as LevelLayoutSO;
+            Debug.Log($"[DoorManager] Layout received: {(_currentLayout != null ? _currentLayout.layoutID : "NULL")}");
             CloseDoors();
         }
 
         private void HandleDoorsOpen()
         {
-            if (_currentLayout == null || _upgradeRegistry == null) return;
+            Debug.Log($"[DoorManager] DoorsOpen fired! Layout={_currentLayout != null}, Registry={_upgradeRegistry != null}");
+
+            if (_currentLayout == null)
+            {
+                Debug.LogError("[DoorManager] _currentLayout is NULL! Was OnRoomReconfigure received?");
+                return;
+            }
+
+            if (_upgradeRegistry == null)
+            {
+                Debug.LogError("[DoorManager] _upgradeRegistry is NULL! Assign it in Inspector.");
+                return;
+            }
 
             var pool = PoolManager.Instance;
-            if (pool?.Doors == null) return;
+            if (pool == null)
+            {
+                Debug.LogError("[DoorManager] PoolManager.Instance is NULL!");
+                return;
+            }
+
+            if (pool.Doors == null)
+            {
+                Debug.LogError("[DoorManager] pool.Doors is NULL! Assign door prefab in PoolManager.");
+                return;
+            }
 
             List<UpgradeDefinitionSO> upgrades = _upgradeRegistry.GetRandomUpgrades(
                 Constants.DOORS_PER_LEVEL, _usedUpgradeIDs
             );
+
+            Debug.Log($"[DoorManager] Got {upgrades.Count} upgrades. Spawning doors...");
+
+            if (upgrades.Count == 0)
+            {
+                Debug.LogWarning("[DoorManager] No upgrades available! All used up. Skipping to next level.");
+                // Auto-advance if no upgrades left
+                EventBus.FireUpgradeSelected(null);
+                return;
+            }
 
             for (int i = 0; i < Constants.DOORS_PER_LEVEL && i < upgrades.Count; i++)
             {
@@ -69,6 +102,7 @@ namespace PrismPanic.Doors
                 }
 
                 _activeDoors.Add(doorTransform);
+                Debug.Log($"[DoorManager] Door {i} spawned at {spawnPos} with upgrade: {upgrades[i].displayName}");
             }
         }
 

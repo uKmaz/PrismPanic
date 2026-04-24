@@ -39,10 +39,14 @@ namespace PrismPanic.Player
 
         private void Update()
         {
-            if (GameManager.Instance != null && GameManager.Instance.CurrentPhase != GamePhase.Combat)
+            if (GameManager.Instance != null)
             {
-                DeactivateFlashlight();
-                return;
+                var phase = GameManager.Instance.CurrentPhase;
+                if (phase != GamePhase.Combat && phase != GamePhase.DoorsOpen)
+                {
+                    DeactivateFlashlight();
+                    return;
+                }
             }
 
             // Update spotlight cone angle from stats

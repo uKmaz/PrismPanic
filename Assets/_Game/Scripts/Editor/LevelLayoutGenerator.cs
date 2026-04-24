@@ -15,20 +15,7 @@ namespace PrismPanic.Editor
         [MenuItem("PrismPanic/Generate Map1 (Tutorial)")]
         public static void GenerateMap1()
         {
-            // Find or create the asset
-            string path = "Assets/_Game/Scripts/ScriptableObjects/LevelLayouts/Map1.asset";
-            LevelLayoutSO layout = AssetDatabase.LoadAssetAtPath<LevelLayoutSO>(path);
-
-            if (layout == null)
-            {
-                layout = ScriptableObject.CreateInstance<LevelLayoutSO>();
-                // Ensure folder exists
-                if (!AssetDatabase.IsValidFolder("Assets/_Game/Scripts/ScriptableObjects/LevelLayouts"))
-                {
-                    AssetDatabase.CreateFolder("Assets/_Game/Scripts/ScriptableObjects", "LevelLayouts");
-                }
-                AssetDatabase.CreateAsset(layout, path);
-            }
+            var layout = GetOrCreateLayout("Map1", "map1_tutorial");
 
             layout.layoutID = "map1_tutorial";
 
@@ -129,21 +116,7 @@ namespace PrismPanic.Editor
                 }
             };
 
-            EditorUtility.SetDirty(layout);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-
-            Debug.Log($"[PrismPanic] Map1 generated! Walls: {layout.wallPositions.Length}, " +
-                      $"Floors: {layout.floorPositions.Length}, Mirrors: {layout.mirrorPlacements.Length}");
-
-            if (baseAngel == null)
-            {
-                Debug.LogWarning("[PrismPanic] BaseAngel EnemyDataSO not found. " +
-                                 "Create it at ScriptableObjects/EnemyData/BaseAngel and assign manually in Map1 waves.");
-            }
-
-            // Select it in inspector
-            Selection.activeObject = layout;
+            SaveLayout(layout, "Map1");
         }
 
         [MenuItem("PrismPanic/Generate Map2 (Intermediate)")]
@@ -315,7 +288,7 @@ namespace PrismPanic.Editor
 
         private static LevelLayoutSO GetOrCreateLayout(string name, string id)
         {
-            string folder = "Assets/_Game/ScriptableObjects/LevelLayouts";
+            string folder = "Assets/_Game/Scripts/ScriptableObjects/LevelLayouts";
             string path = $"{folder}/{name}.asset";
             var layout = AssetDatabase.LoadAssetAtPath<LevelLayoutSO>(path);
 
@@ -324,7 +297,7 @@ namespace PrismPanic.Editor
                 layout = ScriptableObject.CreateInstance<LevelLayoutSO>();
                 if (!AssetDatabase.IsValidFolder(folder))
                 {
-                    AssetDatabase.CreateFolder("Assets/_Game/ScriptableObjects", "LevelLayouts");
+                    AssetDatabase.CreateFolder("Assets/_Game/Scripts/ScriptableObjects", "LevelLayouts");
                 }
                 AssetDatabase.CreateAsset(layout, path);
             }
