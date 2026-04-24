@@ -30,6 +30,7 @@ namespace PrismPanic.Core
         public static event Action OnLevelComplete;
         public static event Action OnPlayerDeath;
         public static event Action OnGameRestart;
+        public static event Action OnVictory;
 
         // --- Fire Helpers (null-safe) ---
         public static void FireAngelStunned(GameObject angel) => OnAngelStunned?.Invoke(angel);
@@ -44,6 +45,7 @@ namespace PrismPanic.Core
         public static void FireLevelComplete() => OnLevelComplete?.Invoke();
         public static void FirePlayerDeath() => OnPlayerDeath?.Invoke();
         public static void FireGameRestart() => OnGameRestart?.Invoke();
+        public static void FireVictory() => OnVictory?.Invoke();
 
         /// <summary>
         /// Clears all subscribers. Call on scene unload to prevent leaks.
@@ -62,6 +64,7 @@ namespace PrismPanic.Core
             OnLevelComplete = null;
             OnPlayerDeath = null;
             OnGameRestart = null;
+            OnVictory = null;
         }
     }
 

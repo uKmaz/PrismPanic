@@ -2025,7 +2025,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 592244c199f23fa4187b5fb13795fc8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.Upgrades.UpgradeRegistry
-  _allUpgrades: []
+  _allUpgrades:
+  - {fileID: 11400000, guid: 173db5e40ec64c045acd1c303894f16c, type: 2}
+  - {fileID: 11400000, guid: 6af5a504aaff8124e8d995d51e56ce3f, type: 2}
+  - {fileID: 11400000, guid: 846a95a3a36840041aec0d3950b0e0c9, type: 2}
+  - {fileID: 11400000, guid: 5afcdeb70a4e03d49b2f32b7a4690cef, type: 2}
+  - {fileID: 11400000, guid: 3cafe548a5194ec4ea65175ed13d37fc, type: 2}
 --- !u!1 &1145367987
 GameObject:
   m_ObjectHideFlags: 0
@@ -2839,7 +2844,7 @@ MonoBehaviour:
   _beamSegmentPrefab: {fileID: 2574209346340796483, guid: 7bbd5ca2a53cf8b409cd9714df5827de, type: 3}
   _mirrorPrefab: {fileID: 7225587360873773376, guid: b412992d750d1d748b7d1faec3351ff1, type: 3}
   _pillarPrefab: {fileID: 2480729469309833656, guid: 208c65d9dc2bc034db92eda186dcb2af, type: 3}
-  _doorPrefab: {fileID: 8281813688544015564, guid: f72f3db12ea423743933dc001953dfad, type: 3}
+  _doorPrefab: {fileID: 3777878252204090040, guid: 48be171b3872a0845ab8b633e5e357df, type: 3}
   _wallPrefab: {fileID: 2435632597238552481, guid: 7ef5d7545d22bbe40bd65ea54e94ddc3, type: 3}
   _floorPrefab: {fileID: 407413420915878017, guid: 329cfabe72a93584b959093358296a0a, type: 3}
   _enemiesContainer: {fileID: 1122887649}

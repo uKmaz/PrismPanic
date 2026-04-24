@@ -21,6 +21,9 @@ namespace PrismPanic.Enemies
         private EnemyDataSO _data;
         private int _currentHP;
         private float _stunTimer;
+        private float _graceTimer; // brief invulnerability/idle after spawn
+
+        private const float SPAWN_GRACE_DURATION = 1f; // seconds before angel starts moving
 
         private void Awake()
         {
@@ -32,9 +35,6 @@ namespace PrismPanic.Enemies
         }
 
         /// <summary>
-        /// Called by RoomConfigurator when spawning from pool.
-        /// </summary>
-        /// <summary>
         /// Called by RoomConfigurator AFTER NavMesh is baked.
         /// </summary>
         public void Initialize(EnemyDataSO data)
@@ -42,7 +42,8 @@ namespace PrismPanic.Enemies
             _data = data;
             _currentHP = data != null ? data.maxHP : Constants.ANGEL_BASE_HP;
             _stunTimer = 0f;
-            CurrentState = AngelState.Pursuing;
+            _graceTimer = SPAWN_GRACE_DURATION;
+            CurrentState = AngelState.Idle; // start idle during grace period
 
             if (_agent != null)
             {
@@ -50,7 +51,7 @@ namespace PrismPanic.Enemies
                 // Warp places the agent on the NavMesh at current position without errors
                 _agent.enabled = true;
                 _agent.Warp(transform.position);
-                _agent.isStopped = false;
+                _agent.isStopped = true; // don't move during grace
             }
 
             // Cache player reference
@@ -62,6 +63,19 @@ namespace PrismPanic.Enemies
         private void Update()
         {
             if (CurrentState == AngelState.Dead) return;
+
+            // Grace period — angel waits before pursuing
+            if (_graceTimer > 0f)
+            {
+                _graceTimer -= Time.deltaTime;
+                if (_graceTimer <= 0f)
+                {
+                    CurrentState = AngelState.Pursuing;
+                    if (_agent != null && _agent.enabled)
+                        _agent.isStopped = false;
+                }
+                return; // don't move or kill during grace
+            }
 
             if (CurrentState == AngelState.Stunned)
             {
@@ -160,10 +174,27 @@ namespace PrismPanic.Enemies
         /// </summary>
         private void OnTriggerEnter(Collider other)
         {
-            if (CurrentState == AngelState.Dead) return;
+            if (CurrentState == AngelState.Dead || _graceTimer > 0f) return;
 
-            if (other.gameObject.layer == Constants.LayerPlayer)
+            bool isPlayer = other.gameObject.layer == Constants.LayerPlayer
+                         || other.CompareTag("Player");
+
+            if (isPlayer)
             {
+                EventBus.FirePlayerDeath();
+            }
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (CurrentState == AngelState.Dead || _graceTimer > 0f) return;
+
+            bool isPlayer = collision.gameObject.layer == Constants.LayerPlayer
+                         || collision.gameObject.CompareTag("Player");
+
+            if (isPlayer)
+            {
+                Debug.Log("[Angel] Player collision! Firing PlayerDeath.");
                 EventBus.FirePlayerDeath();
             }
         }

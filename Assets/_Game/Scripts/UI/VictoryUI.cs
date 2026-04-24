@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
 using PrismPanic.Core;
@@ -7,16 +6,16 @@ using PrismPanic.Core;
 namespace PrismPanic.UI
 {
     /// <summary>
-    /// Game Over screen. MUST be on an ALWAYS-ACTIVE GameObject.
-    /// Keyboard shortcuts: R = Restart, Escape = Menu
+    /// Victory screen shown after completing all levels.
+    /// MUST be on an ALWAYS-ACTIVE GameObject. Panel child gets toggled.
+    /// R = Restart, Escape = Menu
     /// </summary>
-    public class GameOverUI : MonoBehaviour
+    public class VictoryUI : MonoBehaviour
     {
         [Header("UI References")]
         [SerializeField] private GameObject _panel;
-        [SerializeField] private TMP_Text _levelReachedText;
-        [SerializeField] private Button _restartButton;
-        [SerializeField] private Button _menuButton;
+        [SerializeField] private TMP_Text _titleText;
+        [SerializeField] private TMP_Text _statsText;
 
         private bool _isShowing;
 
@@ -30,24 +29,12 @@ namespace PrismPanic.UI
 
         private void OnEnable()
         {
-            EventBus.OnPlayerDeath += HandlePlayerDeath;
-
-            if (_restartButton != null)
-                _restartButton.onClick.AddListener(OnRestart);
-
-            if (_menuButton != null)
-                _menuButton.onClick.AddListener(OnMenu);
+            EventBus.OnVictory += HandleVictory;
         }
 
         private void OnDisable()
         {
-            EventBus.OnPlayerDeath -= HandlePlayerDeath;
-
-            if (_restartButton != null)
-                _restartButton.onClick.RemoveListener(OnRestart);
-
-            if (_menuButton != null)
-                _menuButton.onClick.RemoveListener(OnMenu);
+            EventBus.OnVictory -= HandleVictory;
         }
 
         private void Update()
@@ -67,15 +54,18 @@ namespace PrismPanic.UI
             }
         }
 
-        private void HandlePlayerDeath()
+        private void HandleVictory()
         {
             _isShowing = true;
 
             if (_panel != null)
                 _panel.SetActive(true);
 
-            if (_levelReachedText != null && GameManager.Instance != null)
-                _levelReachedText.text = $"You reached Level {GameManager.Instance.CurrentLevelIndex + 1}";
+            if (_titleText != null)
+                _titleText.text = "YOU WIN!";
+
+            if (_statsText != null && GameManager.Instance != null)
+                _statsText.text = $"All {GameManager.Instance.CurrentLevelIndex} levels completed!\n\nR - Play Again\nEsc - Menu";
 
             Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.None;

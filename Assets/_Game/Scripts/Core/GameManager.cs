@@ -76,6 +76,16 @@ namespace PrismPanic.Core
         private void HandleAngelKilled(GameObject angel)
         {
             ActiveAngelCount--;
+            if (ActiveAngelCount < 0) ActiveAngelCount = 0;
+
+            // Safety: verify against real scene state to prevent count drift
+            int realCount = CountActiveAngels();
+            if (realCount != ActiveAngelCount)
+            {
+                Debug.LogWarning($"[GameManager] Count drift! Counter={ActiveAngelCount}, Real={realCount}. Correcting.");
+                ActiveAngelCount = realCount;
+            }
+
             Debug.Log($"[GameManager] Angel killed! Remaining: {ActiveAngelCount}");
 
             if (ActiveAngelCount <= 0)
@@ -86,6 +96,21 @@ namespace PrismPanic.Core
                 EventBus.FireAllAngelsCleared();
                 EventBus.FireDoorsOpen();
             }
+        }
+
+        /// <summary>
+        /// Count real active (non-dead) angels in scene. Failsafe for counter drift.
+        /// </summary>
+        private int CountActiveAngels()
+        {
+            int count = 0;
+            var angels = FindObjectsByType<Enemies.AngelController>(FindObjectsSortMode.None);
+            foreach (var angel in angels)
+            {
+                if (angel.gameObject.activeInHierarchy && angel.CurrentState != Enemies.AngelState.Dead)
+                    count++;
+            }
+            return count;
         }
 
         private void HandleUpgradeSelected(ScriptableObject upgrade)
@@ -101,11 +126,10 @@ namespace PrismPanic.Core
             }
             else
             {
-                // All levels complete — you win! Loop back for endless mode.
-                CurrentLevelIndex = 0;
-                LevelLayoutSO loopLayout = _levelManager.GetLayout(CurrentLevelIndex);
-                SetPhase(GamePhase.RoomSetup);
-                EventBus.FireRoomReconfigure(loopLayout);
+                // All levels complete — YOU WIN!
+                Debug.Log("[GameManager] ALL LEVELS COMPLETE! Victory!");
+                SetPhase(GamePhase.Victory);
+                EventBus.FireVictory();
             }
         }
 
@@ -137,6 +161,7 @@ namespace PrismPanic.Core
         RoomSetup,
         Combat,
         DoorsOpen,
-        GameOver
+        GameOver,
+        Victory
     }
 }
