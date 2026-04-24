@@ -14,7 +14,7 @@ namespace PrismPanic.Player
     {
         [Header("References")]
         [SerializeField] private PlayerStatsSO _playerStats;
-        [SerializeField] private Light _spotLight;
+        [SerializeField] private UnityEngine.Light _spotLight;
         [SerializeField] private RoomConfigurator _roomConfigurator;
         [SerializeField] private GameObject _ghostMirrorPrefab;
 

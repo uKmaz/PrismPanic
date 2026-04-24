@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Unity.AI.Navigation;
 using PrismPanic.Core;
 using PrismPanic.ScriptableObjects;
 using PrismPanic.Utilities;
