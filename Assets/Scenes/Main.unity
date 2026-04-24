@@ -153,7 +153,7 @@ RectTransform:
   m_Children:
   - {fileID: 1498738242}
   - {fileID: 103794675}
-  m_Father: {fileID: 241338989}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -403,9 +403,7 @@ Transform:
   m_LocalPosition: {x: -4.08865, y: -3.44928, z: -2.3064}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 65257827}
-  - {fileID: 1701156761}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &278161761
@@ -900,7 +898,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 63.1, y: -50.6}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &563074429
@@ -989,7 +987,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -90.24359, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1894,6 +1892,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.Core.LevelManager
   _layouts:
   - {fileID: 11400000, guid: 05c44f3c8a7380e44b3ee6dc49cbb8ac, type: 2}
+  - {fileID: 11400000, guid: 6de37d453745e7441b14ffd9b2d5da2a, type: 2}
+  - {fileID: 11400000, guid: 8f5543c204f43d94eac5592786eb7d90, type: 2}
+  - {fileID: 11400000, guid: 5a189b0e360e17e4d93a18a908e1b3e7, type: 2}
 --- !u!1 &1122887648
 GameObject:
   m_ObjectHideFlags: 0
@@ -1961,7 +1962,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 40.3}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1126979967
@@ -2121,7 +2122,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 592244c199f23fa4187b5fb13795fc8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.Upgrades.UpgradeRegistry
-  _allUpgrades: []
+  _allUpgrades:
+  - {fileID: 11400000, guid: 173db5e40ec64c045acd1c303894f16c, type: 2}
+  - {fileID: 11400000, guid: 6af5a504aaff8124e8d995d51e56ce3f, type: 2}
+  - {fileID: 11400000, guid: 846a95a3a36840041aec0d3950b0e0c9, type: 2}
+  - {fileID: 11400000, guid: 5afcdeb70a4e03d49b2f32b7a4690cef, type: 2}
+  - {fileID: 11400000, guid: 3cafe548a5194ec4ea65175ed13d37fc, type: 2}
 --- !u!1 &1145367987
 GameObject:
   m_ObjectHideFlags: 0
@@ -2156,7 +2162,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 17, y: -98}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1145367989
@@ -2800,7 +2806,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1151584705}
-  m_Father: {fileID: 241338989}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2935,7 +2941,7 @@ MonoBehaviour:
   _beamSegmentPrefab: {fileID: 2574209346340796483, guid: 7bbd5ca2a53cf8b409cd9714df5827de, type: 3}
   _mirrorPrefab: {fileID: 7225587360873773376, guid: b412992d750d1d748b7d1faec3351ff1, type: 3}
   _pillarPrefab: {fileID: 2480729469309833656, guid: 208c65d9dc2bc034db92eda186dcb2af, type: 3}
-  _doorPrefab: {fileID: 8281813688544015564, guid: f72f3db12ea423743933dc001953dfad, type: 3}
+  _doorPrefab: {fileID: 3777878252204090040, guid: 48be171b3872a0845ab8b633e5e357df, type: 3}
   _wallPrefab: {fileID: 2435632597238552481, guid: 7ef5d7545d22bbe40bd65ea54e94ddc3, type: 3}
   _floorPrefab: {fileID: 407413420915878017, guid: 329cfabe72a93584b959093358296a0a, type: 3}
   _enemiesContainer: {fileID: 1122887649}
@@ -3119,4 +3125,5 @@ SceneRoots:
   - {fileID: 1399055757}
   - {fileID: 241338989}
   - {fileID: 1697908833}
-  - {fileID: 697361150}
+  - {fileID: 65257827}
+  - {fileID: 1701156761}

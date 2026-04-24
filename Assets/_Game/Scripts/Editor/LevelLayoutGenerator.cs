@@ -15,20 +15,7 @@ namespace PrismPanic.Editor
         [MenuItem("PrismPanic/Generate Map1 (Tutorial)")]
         public static void GenerateMap1()
         {
-            // Find or create the asset
-            string path = "Assets/_Game/Scripts/ScriptableObjects/LevelLayouts/Map1.asset";
-            LevelLayoutSO layout = AssetDatabase.LoadAssetAtPath<LevelLayoutSO>(path);
-
-            if (layout == null)
-            {
-                layout = ScriptableObject.CreateInstance<LevelLayoutSO>();
-                // Ensure folder exists
-                if (!AssetDatabase.IsValidFolder("Assets/_Game/Scripts/ScriptableObjects/LevelLayouts"))
-                {
-                    AssetDatabase.CreateFolder("Assets/_Game/Scripts/ScriptableObjects", "LevelLayouts");
-                }
-                AssetDatabase.CreateAsset(layout, path);
-            }
+            var layout = GetOrCreateLayout("Map1", "map1_tutorial");
 
             layout.layoutID = "map1_tutorial";
 
@@ -129,21 +116,241 @@ namespace PrismPanic.Editor
                 }
             };
 
-            EditorUtility.SetDirty(layout);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+            SaveLayout(layout, "Map1");
+        }
 
-            Debug.Log($"[PrismPanic] Map1 generated! Walls: {layout.wallPositions.Length}, " +
-                      $"Floors: {layout.floorPositions.Length}, Mirrors: {layout.mirrorPlacements.Length}");
+        [MenuItem("PrismPanic/Generate Map2 (Intermediate)")]
+        public static void GenerateMap2()
+        {
+            var layout = GetOrCreateLayout("Map2", "map2_intermediate");
+            var baseAngel = FindEnemyData("BaseAngel");
 
-            if (baseAngel == null)
+            // 12x12 room
+            layout.wallPositions = BuildPerimeterWalls(6);
+            layout.floorPositions = BuildFloorGrid(6);
+
+            layout.mirrorPlacements = new MirrorPlacement[]
             {
-                Debug.LogWarning("[PrismPanic] BaseAngel EnemyDataSO not found. " +
-                                 "Create it at ScriptableObjects/EnemyData/BaseAngel and assign manually in Map1 waves.");
+                new MirrorPlacement { position = new Vector3(3f, 1f, 2f), rotationY = 50f },
+                new MirrorPlacement { position = new Vector3(-3f, 1f, -1f), rotationY = -45f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, 4f), rotationY = 20f }
+            };
+
+            layout.pillarPositions = new Vector3[]
+            {
+                new Vector3(2f, 1.5f, -2f),
+                new Vector3(-2f, 1.5f, 2f)
+            };
+
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -4f);
+
+            layout.enemySpawnPoints = new Vector3[]
+            {
+                new Vector3(-4f, 0.5f, 4f),
+                new Vector3(4f, 0.5f, 4f),
+                new Vector3(0f, 0.5f, 3f)
+            };
+
+            layout.doorSpawnPoints = new Vector3[]
+            {
+                new Vector3(0f, 1.5f, 5f),
+                new Vector3(-3f, 1.5f, 5f),
+                new Vector3(3f, 1.5f, 5f)
+            };
+
+            layout.waves = new EnemyWaveData[]
+            {
+                new EnemyWaveData { enemyData = baseAngel, count = 3 }
+            };
+
+            SaveLayout(layout, "Map2");
+        }
+
+        [MenuItem("PrismPanic/Generate Map3 (Advanced)")]
+        public static void GenerateMap3()
+        {
+            var layout = GetOrCreateLayout("Map3", "map3_advanced");
+            var baseAngel = FindEnemyData("BaseAngel");
+            var fastAngel = FindEnemyData("FastAngel");
+
+            // 14x12 room (wider)
+            layout.wallPositions = BuildPerimeterWallsRect(7, 6);
+            layout.floorPositions = BuildFloorGridRect(7, 6);
+
+            layout.mirrorPlacements = new MirrorPlacement[]
+            {
+                new MirrorPlacement { position = new Vector3(4f, 1f, 0f), rotationY = 45f },
+                new MirrorPlacement { position = new Vector3(-4f, 1f, 3f), rotationY = -60f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, -2f), rotationY = 30f },
+                new MirrorPlacement { position = new Vector3(2f, 1f, 4f), rotationY = -45f }
+            };
+
+            layout.pillarPositions = new Vector3[]
+            {
+                new Vector3(3f, 1.5f, 2f),
+                new Vector3(-3f, 1.5f, -1f),
+                new Vector3(0f, 1.5f, 1f)
+            };
+
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -4f);
+
+            layout.enemySpawnPoints = new Vector3[]
+            {
+                new Vector3(-5f, 0.5f, 4f),
+                new Vector3(5f, 0.5f, 4f),
+                new Vector3(-2f, 0.5f, 2f),
+                new Vector3(2f, 0.5f, 2f)
+            };
+
+            layout.doorSpawnPoints = new Vector3[]
+            {
+                new Vector3(0f, 1.5f, 5f),
+                new Vector3(-4f, 1.5f, 5f),
+                new Vector3(4f, 1.5f, 5f)
+            };
+
+            layout.waves = new EnemyWaveData[]
+            {
+                new EnemyWaveData { enemyData = baseAngel, count = 2 },
+                new EnemyWaveData { enemyData = fastAngel != null ? fastAngel : baseAngel, count = 2 }
+            };
+
+            SaveLayout(layout, "Map3");
+        }
+
+        [MenuItem("PrismPanic/Generate Map4 (Hard)")]
+        public static void GenerateMap4()
+        {
+            var layout = GetOrCreateLayout("Map4", "map4_hard");
+            var baseAngel = FindEnemyData("BaseAngel");
+            var fastAngel = FindEnemyData("FastAngel");
+
+            // 14x14 room
+            layout.wallPositions = BuildPerimeterWalls(7);
+            layout.floorPositions = BuildFloorGrid(7);
+
+            layout.mirrorPlacements = new MirrorPlacement[]
+            {
+                new MirrorPlacement { position = new Vector3(4f, 1f, 3f), rotationY = 40f },
+                new MirrorPlacement { position = new Vector3(-4f, 1f, -3f), rotationY = -55f },
+                new MirrorPlacement { position = new Vector3(2f, 1f, -4f), rotationY = 70f },
+                new MirrorPlacement { position = new Vector3(-2f, 1f, 4f), rotationY = -25f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, 0f), rotationY = 45f }
+            };
+
+            layout.pillarPositions = new Vector3[]
+            {
+                new Vector3(3f, 1.5f, 0f),
+                new Vector3(-3f, 1.5f, 0f),
+                new Vector3(0f, 1.5f, 3f),
+                new Vector3(0f, 1.5f, -3f)
+            };
+
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -5f);
+
+            layout.enemySpawnPoints = new Vector3[]
+            {
+                new Vector3(-5f, 0.5f, 5f),
+                new Vector3(5f, 0.5f, 5f),
+                new Vector3(-3f, 0.5f, 3f),
+                new Vector3(3f, 0.5f, 3f),
+                new Vector3(0f, 0.5f, 5f),
+                new Vector3(0f, 0.5f, 0f)
+            };
+
+            layout.doorSpawnPoints = new Vector3[]
+            {
+                new Vector3(0f, 1.5f, 6f),
+                new Vector3(-4f, 1.5f, 6f),
+                new Vector3(4f, 1.5f, 6f)
+            };
+
+            layout.waves = new EnemyWaveData[]
+            {
+                new EnemyWaveData { enemyData = baseAngel, count = 2 },
+                new EnemyWaveData { enemyData = fastAngel != null ? fastAngel : baseAngel, count = 4 }
+            };
+
+            SaveLayout(layout, "Map4");
+        }
+
+        [MenuItem("PrismPanic/Generate ALL Maps")]
+        public static void GenerateAll()
+        {
+            GenerateMap1();
+            GenerateMap2();
+            GenerateMap3();
+            GenerateMap4();
+            Debug.Log("[PrismPanic] All 4 maps generated!");
+        }
+
+        // --- Helpers ---
+
+        private static LevelLayoutSO GetOrCreateLayout(string name, string id)
+        {
+            string folder = "Assets/_Game/Scripts/ScriptableObjects/LevelLayouts";
+            string path = $"{folder}/{name}.asset";
+            var layout = AssetDatabase.LoadAssetAtPath<LevelLayoutSO>(path);
+
+            if (layout == null)
+            {
+                layout = ScriptableObject.CreateInstance<LevelLayoutSO>();
+                if (!AssetDatabase.IsValidFolder(folder))
+                {
+                    AssetDatabase.CreateFolder("Assets/_Game/Scripts/ScriptableObjects", "LevelLayouts");
+                }
+                AssetDatabase.CreateAsset(layout, path);
             }
 
-            // Select it in inspector
+            layout.layoutID = id;
+            return layout;
+        }
+
+        private static void SaveLayout(LevelLayoutSO layout, string name)
+        {
+            EditorUtility.SetDirty(layout);
+            AssetDatabase.SaveAssets();
+            Debug.Log($"[PrismPanic] {name} generated!");
             Selection.activeObject = layout;
+        }
+
+        private static Vector3[] BuildPerimeterWalls(int halfSize)
+        {
+            return BuildPerimeterWallsRect(halfSize, halfSize);
+        }
+
+        private static Vector3[] BuildPerimeterWallsRect(int halfX, int halfZ)
+        {
+            List<Vector3> walls = new List<Vector3>();
+            for (int x = -halfX; x <= halfX; x++)
+            {
+                walls.Add(new Vector3(x, 1.5f, -halfZ));
+                walls.Add(new Vector3(x, 1.5f, halfZ));
+            }
+            for (int z = -halfZ + 1; z <= halfZ - 1; z++)
+            {
+                walls.Add(new Vector3(-halfX, 1.5f, z));
+                walls.Add(new Vector3(halfX, 1.5f, z));
+            }
+            return walls.ToArray();
+        }
+
+        private static Vector3[] BuildFloorGrid(int halfSize)
+        {
+            return BuildFloorGridRect(halfSize, halfSize);
+        }
+
+        private static Vector3[] BuildFloorGridRect(int halfX, int halfZ)
+        {
+            List<Vector3> floors = new List<Vector3>();
+            for (int x = -halfX; x <= halfX; x++)
+            {
+                for (int z = -halfZ; z <= halfZ; z++)
+                {
+                    floors.Add(new Vector3(x, 0f, z));
+                }
+            }
+            return floors.ToArray();
         }
 
         private static EnemyDataSO FindEnemyData(string name)

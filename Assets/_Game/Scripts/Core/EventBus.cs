@@ -30,6 +30,7 @@ namespace PrismPanic.Core
         public static event Action OnLevelComplete;
         public static event Action OnPlayerDeath;
         public static event Action OnGameRestart;
+        public static event Action OnVictory;
 
         // --- Polish / Juice ---
         public static event Action<bool> OnAdrenalineStateChanged;
@@ -48,6 +49,7 @@ namespace PrismPanic.Core
         public static void FirePlayerDeath() => OnPlayerDeath?.Invoke();
         public static void FireGameRestart() => OnGameRestart?.Invoke();
         public static void FireAdrenalineStateChanged(bool isActive) => OnAdrenalineStateChanged?.Invoke(isActive);
+        public static void FireVictory() => OnVictory?.Invoke();
 
         /// <summary>
         /// Clears all subscribers. Call on scene unload to prevent leaks.
@@ -67,6 +69,7 @@ namespace PrismPanic.Core
             OnPlayerDeath = null;
             OnGameRestart = null;
             OnAdrenalineStateChanged = null;
+            OnVictory = null;
         }
     }
 

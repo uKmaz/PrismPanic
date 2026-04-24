@@ -33,8 +33,13 @@ namespace PrismPanic.Player
 
         private void Update()
         {
-            if (GameManager.Instance != null && GameManager.Instance.CurrentPhase != GamePhase.Combat)
-                return;
+            if (GameManager.Instance != null)
+            {
+                var phase = GameManager.Instance.CurrentPhase;
+                // Allow movement during combat AND door selection
+                if (phase != GamePhase.Combat && phase != GamePhase.DoorsOpen)
+                    return;
+            }
 
             HandleMovement();
             HandleAim();
