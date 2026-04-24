@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6937712450283397799}
   - component: {fileID: 7037449628642667663}
   m_Layer: 8
-  m_Name: Mirror
+  m_Name: GhostMirror
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6fd3c18db772be449854f0bf9c7e0d25, type: 2}
+  - {fileID: 2100000, guid: da394672379d07449b8c1d529e96e424, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
