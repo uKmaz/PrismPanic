@@ -1,0 +1,57 @@
+using UnityEngine;
+
+namespace PrismPanic.Core
+{
+    /// <summary>
+    /// Global constants. No magic numbers in scripts — reference these instead.
+    /// </summary>
+    public static class Constants
+    {
+        // --- Physics Layers ---
+        public static readonly int LayerPlayer = 6;
+        public static readonly int LayerEnemy = 7;
+        public static readonly int LayerMirror = 8;
+        public static readonly int LayerWall = 9;
+        public static readonly int LayerPillar = 10;
+        public static readonly int LayerBeam = 11;
+        public static readonly int LayerDoor = 12;
+
+        // --- Layer Masks (for raycasting) ---
+        public static readonly int BeamRaycastMask =
+            (1 << LayerMirror) | (1 << LayerWall) | (1 << LayerPillar) | (1 << LayerEnemy);
+
+        public static readonly int EnemyMovementMask =
+            (1 << LayerWall) | (1 << LayerPillar);
+
+        public static readonly int GroundRaycastMask =
+            (1 << LayerWall) | (1 << LayerPillar) | (1 << 0); // Default layer for floor
+
+        // --- Beam ---
+        public const int MAX_BOUNCES = 2;
+        public const float DEFAULT_BEAM_RANGE = 20f;
+        public const float BEAM_WIDTH = 0.06f;
+
+        // --- Player Defaults ---
+        public const float BASE_MOVE_SPEED = 5f;
+        public const float BASE_STUN_DURATION = 3f;
+        public const float BASE_CONE_ANGLE = 15f;
+        public const float BASE_BEAM_RANGE = 20f;
+
+        // --- Angel Defaults ---
+        public const float ANGEL_BASE_SPEED = 1.5f;
+        public const int ANGEL_BASE_HP = 2;
+
+        // --- Pool Sizes ---
+        public const int POOL_ANGELS = 8;
+        public const int POOL_BEAM_SEGMENTS = 6;
+        public const int POOL_MIRRORS = 12;
+        public const int POOL_PILLARS = 8;
+        public const int POOL_DOORS = 3;
+        public const int POOL_WALLS = 60;
+        public const int POOL_FLOORS = 60;
+
+        // --- Gameplay ---
+        public const int DOORS_PER_LEVEL = 3;
+        public const float ROOM_TRANSITION_DELAY = 0.5f;
+    }
+}
