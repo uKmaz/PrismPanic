@@ -21,7 +21,7 @@ namespace PrismPanic.Player
         [Header("Settings")]
         [SerializeField] private float _placementDistance = 3f;
 
-        private bool _isFlashlightActive;
+        private bool _isFlashlightActive = true; // ON by default
         private bool _isPlacementMode;
         private GameObject _ghostMirror;
         private float _placementRotation;

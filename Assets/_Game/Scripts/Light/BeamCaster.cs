@@ -41,9 +41,17 @@ namespace PrismPanic.Light
 
             // Cast beam from origin in player's forward direction
             Vector3 origin = _beamOrigin != null ? _beamOrigin.position : transform.position;
+            // Force beam to a consistent height (mid-wall) for reliable hits
+            origin.y = 1f;
+
             Vector3 direction = _playerController != null
                 ? _playerController.AimDirection
                 : transform.forward;
+            // Flatten direction to XZ plane — beam travels horizontally
+            direction.y = 0f;
+            direction.Normalize();
+
+            if (direction.sqrMagnitude < 0.001f) return; // no valid aim
 
             CastBeam(origin, direction, 0);
         }
@@ -65,8 +73,11 @@ namespace PrismPanic.Light
                 if (hitLayer == Constants.LayerMirror)
                 {
                     Vector3 reflectDir = Vector3.Reflect(direction, hit.normal);
+                    // Keep reflection on XZ plane
+                    reflectDir.y = 0f;
+                    reflectDir.Normalize();
                     // Offset origin slightly to avoid re-hitting the same mirror
-                    CastBeam(hit.point + reflectDir * 0.01f, reflectDir, bounceCount + 1);
+                    CastBeam(hit.point + reflectDir * 0.05f, reflectDir, bounceCount + 1);
                 }
                 // Enemy — register illumination and fire hit event
                 else if (hitLayer == Constants.LayerEnemy)

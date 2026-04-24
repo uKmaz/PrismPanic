@@ -25,10 +25,17 @@ namespace PrismPanic.Enemies
         private void Awake()
         {
             _agent = GetComponent<NavMeshAgent>();
+            // Disable immediately — agent can't exist without NavMesh.
+            // It will be enabled in Initialize() after NavMesh is baked.
+            if (_agent != null)
+                _agent.enabled = false;
         }
 
         /// <summary>
         /// Called by RoomConfigurator when spawning from pool.
+        /// </summary>
+        /// <summary>
+        /// Called by RoomConfigurator AFTER NavMesh is baked.
         /// </summary>
         public void Initialize(EnemyDataSO data)
         {
@@ -40,7 +47,9 @@ namespace PrismPanic.Enemies
             if (_agent != null)
             {
                 _agent.speed = data != null ? data.moveSpeed : Constants.ANGEL_BASE_SPEED;
+                // Warp places the agent on the NavMesh at current position without errors
                 _agent.enabled = true;
+                _agent.Warp(transform.position);
                 _agent.isStopped = false;
             }
 

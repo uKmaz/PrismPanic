@@ -44,9 +44,9 @@ namespace PrismPanic.Room
 
             ClearRoom();
             BuildRoom(_currentLayout);
-            SpawnEnemies(_currentLayout);
             MovePlayer(_currentLayout.playerSpawnPoint);
-            RebakeNavMesh();
+            RebakeNavMesh();          // NavMesh MUST exist before spawning enemies
+            SpawnEnemies(_currentLayout); // Now agents can Warp onto valid NavMesh
 
             EventBus.FireRoomReconfigureComplete();
         }
