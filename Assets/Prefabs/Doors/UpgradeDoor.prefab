@@ -539,4 +539,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.Doors.UpgradeDoor
   _nameLabel: {fileID: 2153696894807273843}
   _iconImage: {fileID: 5473993488951813831}
-  _interactRadius: 0.6
+  _interactRadius: 1
