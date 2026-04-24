@@ -37,7 +37,7 @@ namespace PrismPanic.Upgrades
                     break;
 
                 case UpgradeEffectType.FlashlightConeWidth:
-                    _playerStats.flashlightConeAngle += upgrade.effectValue;
+                    _playerStats.wideAngle += upgrade.effectValue;
                     break;
 
                 case UpgradeEffectType.ExtraMirrorPlacement:

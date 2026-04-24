@@ -66,6 +66,44 @@ namespace PrismPanic.Light
                 return; // no valid aim
             }
 
+            // --- WIDE MODE ---
+            if (_flashlightController.CurrentMode == FlashlightMode.Wide)
+            {
+                // Clean up any lingering laser segments
+                ReturnSegments();
+                
+                float range = _playerStats != null ? _playerStats.beamRange : Constants.DEFAULT_BEAM_RANGE;
+                float halfAngle = (_playerStats != null ? _playerStats.wideAngle : Constants.BASE_WIDE_ANGLE) / 2f;
+                
+                // 1. Broad phase: Find all enemies in a sphere
+                Collider[] hits = Physics.OverlapSphere(origin, range, 1 << Constants.LayerEnemy);
+                foreach (Collider hit in hits)
+                {
+                    Vector3 toEnemy = hit.transform.position - origin;
+                    toEnemy.y = 0; // Flatten to XZ plane
+                    
+                    // 2. Narrow phase: Check if they are inside the mathematical cone angle
+                    if (Vector3.Angle(direction, toEnemy.normalized) <= halfAngle)
+                    {
+                        // 3. Line of Sight phase: Make sure they aren't hiding behind a wall, pillar, or mirror
+                        int blockMask = (1 << Constants.LayerWall) | (1 << Constants.LayerPillar) | (1 << Constants.LayerMirror);
+                        if (!Physics.Raycast(origin, toEnemy.normalized, toEnemy.magnitude, blockMask))
+                        {
+                            AngelController angel = hit.GetComponent<AngelController>();
+                            if (angel != null)
+                            {
+                                AngelIlluminationRegistry.Register(angel);
+                                // Bounce count 0 means STUN ONLY in BeamHitHandler
+                                EventBus.FireBeamHit(new BeamHitData(hit.gameObject, 0, hit.transform.position));
+                            }
+                        }
+                    }
+                }
+                
+                return; // Wide mode does NOT draw physical laser segments or reflect!
+            }
+
+            // --- LASER MODE ---
             CastBeam(origin, direction, 0);
 
             // After casting, return any excess segments to the pool that were not used this frame

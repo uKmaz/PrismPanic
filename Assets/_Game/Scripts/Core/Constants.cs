@@ -2,6 +2,12 @@ using UnityEngine;
 
 namespace PrismPanic.Core
 {
+    public enum FlashlightMode
+    {
+        Wide,
+        Laser
+    }
+
     /// <summary>
     /// Global constants. No magic numbers in scripts — reference these instead.
     /// </summary>
@@ -34,7 +40,10 @@ namespace PrismPanic.Core
         // --- Player Defaults ---
         public const float BASE_MOVE_SPEED = 5f;
         public const float BASE_STUN_DURATION = 3f;
-        public const float BASE_CONE_ANGLE = 15f;
+        public const float BASE_WIDE_ANGLE = 75f;
+        public const float BASE_WIDE_INTENSITY = 20f;
+        public const float BASE_LASER_INTENSITY = 50f;
+        public const float BASE_LASER_ANGLE = 10f;
         public const float BASE_BEAM_RANGE = 20f;
 
         // --- Angel Defaults ---
@@ -71,5 +80,7 @@ namespace PrismPanic.Core
         public const float ROTATION_SPEED_RED = 600f;
         public const float ROTATION_SPEED_PURPLE = 1500f;
         public const float BEAM_PARTICLE_SIZE = 0.05f;
+        public const float BEAM_LIGHT_RADIUS = 8f;
+        public const float BEAM_LIGHT_INTENSITY = 0.05f;
     }
 }

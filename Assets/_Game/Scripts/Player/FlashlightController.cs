@@ -21,6 +21,8 @@ namespace PrismPanic.Player
         [Header("Settings")]
         [SerializeField] private float _placementDistance = 3f;
 
+        public FlashlightMode CurrentMode { get; private set; } = FlashlightMode.Wide;
+
         private bool _isFlashlightActive = true; // ON by default
         private bool _isPlacementMode;
         private GameObject _ghostMirror;
@@ -49,11 +51,26 @@ namespace PrismPanic.Player
                 }
             }
 
-            // Update spotlight cone angle from stats
+            // Handle mode toggle via R key
+            if (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame)
+            {
+                CurrentMode = CurrentMode == FlashlightMode.Wide ? FlashlightMode.Laser : FlashlightMode.Wide;
+            }
+
+            // Update spotlight cone angle and intensity smoothly
             if (_spotLight != null)
             {
-                _spotLight.spotAngle = _playerStats.flashlightConeAngle * 2f;
                 _spotLight.enabled = _isFlashlightActive;
+                
+                if (_isFlashlightActive)
+                {
+                    float targetAngle = CurrentMode == FlashlightMode.Wide ? _playerStats.wideAngle : _playerStats.laserAngle;
+                    // Wide = 10 intensity, Laser = 50 intensity
+                    float targetIntensity = CurrentMode == FlashlightMode.Wide ? Constants.BASE_WIDE_INTENSITY : Constants.BASE_LASER_INTENSITY; 
+
+                    _spotLight.spotAngle = Mathf.Lerp(_spotLight.spotAngle, targetAngle, Time.deltaTime * 15f);
+                    _spotLight.intensity = Mathf.Lerp(_spotLight.intensity, targetIntensity, Time.deltaTime * 15f);
+                }
             }
 
             if (_isPlacementMode)

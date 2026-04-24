@@ -19,6 +19,9 @@ namespace PrismPanic.Light
         private ParticleSystem.EmissionModule _psEmission;
         private ParticleSystem.ShapeModule _psShape;
 
+        private System.Collections.Generic.List<UnityEngine.Light> _beamLights = new System.Collections.Generic.List<UnityEngine.Light>();
+        private GameObject _lightsContainer;
+
         private float _rotationSpeed = 0f;
         private float _spiralRadius = 0.1f;
         private float _timeOffset = 0f;
@@ -26,7 +29,6 @@ namespace PrismPanic.Light
         private float _currentDistance = 0f;
         private float _lastGeneratedDistance = -1f;
         private float _accumulatedSpin = 0f;
-
         private void Awake()
         {
             _timeOffset = Random.Range(0f, 1000f);
@@ -34,6 +36,8 @@ namespace PrismPanic.Light
             _lineRenderer = GetComponent<LineRenderer>();
             _lineRenderer.useWorldSpace = true;
             _lineRenderer.positionCount = 2;
+            
+            Material baseMat = _lineRenderer.sharedMaterial; // Grab the material assigned in the Inspector
 
             // 1. Generate Spiral LineRenderer for level 2 & 3
             _spiralObj = new GameObject("BeamSpiral");
@@ -41,7 +45,7 @@ namespace PrismPanic.Light
             
             _spiralRenderer = _spiralObj.AddComponent<LineRenderer>();
             _spiralRenderer.useWorldSpace = false; // Render in local space
-            _spiralRenderer.material = new Material(Shader.Find("Sprites/Default"));
+            _spiralRenderer.material = baseMat;
             _spiralObj.SetActive(false);
 
             // 2. Generate Particles for level 1, 2, 3
@@ -63,7 +67,11 @@ namespace PrismPanic.Light
             _psEmission.rateOverTime = 0;
 
             var psRenderer = _particleSystem.GetComponent<ParticleSystemRenderer>();
-            psRenderer.material = new Material(Shader.Find("Sprites/Default"));
+            psRenderer.material = baseMat;
+
+            // 3. Setup Lights Container
+            _lightsContainer = new GameObject("BeamLights");
+            _lightsContainer.transform.SetParent(transform);
         }
 
         private void Update()
@@ -105,6 +113,42 @@ namespace PrismPanic.Light
                 _particleSystem.transform.position = start + dir * 0.5f;
                 _particleSystem.transform.rotation = baseRotation;
                 _psShape.scale = new Vector3(0.5f, 0.5f, _currentDistance); 
+                
+                // Position point lights evenly along the beam (1 light every 3 units)
+                int requiredLights = Mathf.Max(1, Mathf.CeilToInt(_currentDistance / 3f));
+                
+                // Add missing lights
+                while (_beamLights.Count < requiredLights)
+                {
+                    GameObject lightObj = new GameObject("BeamPointLight");
+                    lightObj.transform.SetParent(_lightsContainer.transform);
+                    UnityEngine.Light l = lightObj.AddComponent<UnityEngine.Light>();
+                    l.type = LightType.Point;
+                    l.range = PrismPanic.Core.Constants.BEAM_LIGHT_RADIUS;
+                    l.intensity = PrismPanic.Core.Constants.BEAM_LIGHT_INTENSITY;
+                    l.shadows = LightShadows.None; // Performance: don't cast shadows from every beam segment
+                    _beamLights.Add(l);
+                }
+                
+                // Disable excess lights
+                for (int i = 0; i < _beamLights.Count; i++)
+                {
+                    if (i < requiredLights)
+                    {
+                        _beamLights[i].enabled = true;
+                        float t = (float)i / requiredLights + (1f / (requiredLights * 2f)); // Center them in their chunk
+                        _beamLights[i].transform.position = Vector3.Lerp(start, end, t);
+                    }
+                    else
+                    {
+                        _beamLights[i].enabled = false;
+                    }
+                }
+            }
+            else
+            {
+                // Disable all lights if beam is basically 0 length
+                foreach (var l in _beamLights) l.enabled = false;
             }
         }
 
@@ -172,13 +216,17 @@ namespace PrismPanic.Light
                     break;
             }
 
+            // Make colors HDR to trigger Bloom/Glow
+            float hdrIntensity = 4.0f;
+            Color hdrColor = new Color(color.r * hdrIntensity, color.g * hdrIntensity, color.b * hdrIntensity, 1f);
+
             // 1. Core LineRenderer Color
-            _lineRenderer.startColor = color;
+            _lineRenderer.startColor = color; // vertex color alpha
             _lineRenderer.endColor = color;
             MaterialPropertyBlock block = new MaterialPropertyBlock();
             _lineRenderer.GetPropertyBlock(block);
-            block.SetColor("_BaseColor", color);
-            block.SetColor("_Color", color);
+            block.SetColor("_BaseColor", hdrColor);
+            block.SetColor("_Color", hdrColor);
             _lineRenderer.SetPropertyBlock(block);
 
             // 2. Spiral Appearance
@@ -193,10 +241,13 @@ namespace PrismPanic.Light
                 _spiralRenderer.startColor = spiralColor;
                 _spiralRenderer.endColor = spiralColor;
                 
+                Color hdrSpiralColor = hdrColor;
+                hdrSpiralColor.a = 0.8f;
+
                 MaterialPropertyBlock spiralBlock = new MaterialPropertyBlock();
                 _spiralRenderer.GetPropertyBlock(spiralBlock);
-                spiralBlock.SetColor("_BaseColor", spiralColor);
-                spiralBlock.SetColor("_Color", spiralColor);
+                spiralBlock.SetColor("_BaseColor", hdrSpiralColor);
+                spiralBlock.SetColor("_Color", hdrSpiralColor);
                 _spiralRenderer.SetPropertyBlock(spiralBlock);
 
                 // Force mesh generation if active
@@ -209,7 +260,7 @@ namespace PrismPanic.Light
             }
 
             // 3. Particle Appearance
-            _psMain.startColor = color;
+            _psMain.startColor = hdrColor;
             _psEmission.rateOverTime = emissionRate;
             if (emissionRate > 0 && !_particleSystem.isPlaying)
             {
@@ -219,6 +270,12 @@ namespace PrismPanic.Light
             {
                 _particleSystem.Stop();
                 _particleSystem.Clear();
+            }
+
+            // 4. Physical Lights Appearance
+            foreach (var l in _beamLights)
+            {
+                l.color = color; // Real Unity lights don't need HDR intensity multiplication
             }
         }
     }
