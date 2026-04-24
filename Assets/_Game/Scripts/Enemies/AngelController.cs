@@ -77,7 +77,7 @@ namespace PrismPanic.Enemies
             }
 
             // Pursue player
-            HandlePursuing();
+            //HandlePursuing();
         }
 
         private void HandlePursuing()
@@ -124,7 +124,7 @@ namespace PrismPanic.Enemies
             _currentHP -= amount;
             if (_currentHP <= 0)
             {
-                Die();
+                //Die();
             }
         }
 

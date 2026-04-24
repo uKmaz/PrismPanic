@@ -27,7 +27,7 @@ namespace PrismPanic.Core
             (1 << LayerWall) | (1 << LayerPillar) | (1 << 0); // Default layer for floor
 
         // --- Beam ---
-        public const int MAX_BOUNCES = 2;
+        public const int MAX_BOUNCES = 3;
         public const float DEFAULT_BEAM_RANGE = 20f;
         public const float BEAM_WIDTH = 0.06f;
 
@@ -62,5 +62,14 @@ namespace PrismPanic.Core
         public const float ADRENALINE_PUMP_MAGNITUDE = 0.2f;
         public const float SHAKE_BASE_INTENSITY = 0.05f;
         public const float SHAKE_PUMP_INTENSITY = 0.15f;
+
+        // --- Beam Visuals ---
+        public const float SPIRAL_RADIUS_RED_MULTIPLIER = 1.0f;
+        public const float SPIRAL_RADIUS_PURPLE_MULTIPLIER = 1.8f;
+        public const float SPIRAL_WIDTH_MULTIPLIER = 0.4f;
+        public const float SPIRAL_FREQUENCY = 1.5f;
+        public const float ROTATION_SPEED_RED = 600f;
+        public const float ROTATION_SPEED_PURPLE = 1500f;
+        public const float BEAM_PARTICLE_SIZE = 0.05f;
     }
 }

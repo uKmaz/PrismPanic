@@ -24,23 +24,32 @@ namespace PrismPanic.Light
 
         // Active beam segments this frame
         private readonly List<Transform> _activeSegments = new List<Transform>();
+        private int _currentSegmentCount = 0;
 
         private void Update()
         {
             // Clear illumination registry every frame
             AngelIlluminationRegistry.Clear();
-
-            // Return previous segments to pool
-            ReturnSegments();
+            
+            _currentSegmentCount = 0;
 
             if (_flashlightController == null || !_flashlightController.IsFlashlightActive)
+            {
+                ReturnSegments();
                 return;
+            }
 
             if (GameManager.Instance != null && GameManager.Instance.CurrentPhase != GamePhase.Combat)
+            {
+                ReturnSegments();
                 return;
+            }
 
             // Cast beam from origin in player's forward direction
-            Vector3 origin = _beamOrigin != null ? _beamOrigin.position : transform.position;
+            Vector3 origin = _beamOrigin != null 
+                ? _beamOrigin.position 
+                : (_playerController != null ? _playerController.transform.position : transform.position);
+            
             // Force beam to a consistent height (mid-wall) for reliable hits
             origin.y = 1f;
 
@@ -51,9 +60,28 @@ namespace PrismPanic.Light
             direction.y = 0f;
             direction.Normalize();
 
-            if (direction.sqrMagnitude < 0.001f) return; // no valid aim
+            if (direction.sqrMagnitude < 0.001f) 
+            {
+                ReturnSegments();
+                return; // no valid aim
+            }
 
             CastBeam(origin, direction, 0);
+
+            // After casting, return any excess segments to the pool that were not used this frame
+            while (_activeSegments.Count > _currentSegmentCount)
+            {
+                int lastIndex = _activeSegments.Count - 1;
+                Transform excessSeg = _activeSegments[lastIndex];
+                
+                var pool = PoolManager.Instance;
+                if (pool?.BeamSegments != null)
+                {
+                    pool.BeamSegments.Return(excessSeg);
+                }
+                
+                _activeSegments.RemoveAt(lastIndex);
+            }
         }
 
         private void CastBeam(Vector3 origin, Vector3 direction, int bounceCount)
@@ -108,23 +136,27 @@ namespace PrismPanic.Light
             var pool = PoolManager.Instance;
             if (pool?.BeamSegments == null) return;
 
-            Transform segTransform = pool.BeamSegments.Get();
+            Transform segTransform;
+            
+            // Reuse an already active segment if possible to prevent ParticleSystem reset
+            if (_currentSegmentCount < _activeSegments.Count)
+            {
+                segTransform = _activeSegments[_currentSegmentCount];
+            }
+            else
+            {
+                segTransform = pool.BeamSegments.Get();
+                _activeSegments.Add(segTransform);
+            }
+
             BeamSegment seg = segTransform.GetComponent<BeamSegment>();
             if (seg != null)
             {
                 seg.SetPositions(start, end);
-                seg.SetWidth(Constants.BEAM_WIDTH);
-
-                // Color by bounce count for visual feedback
-                switch (bounceCount)
-                {
-                    case 0: seg.SetColor(Color.white); break;
-                    case 1: seg.SetColor(Color.yellow); break;
-                    case 2: seg.SetColor(new Color(1f, 0.5f, 0f)); break; // orange
-                }
+                seg.ApplyStyle(bounceCount, Constants.BEAM_WIDTH);
             }
 
-            _activeSegments.Add(segTransform);
+            _currentSegmentCount++;
         }
 
         private void ReturnSegments()
@@ -133,6 +165,8 @@ namespace PrismPanic.Light
             if (pool?.BeamSegments == null) return;
 
             pool.BeamSegments.ReturnAll(_activeSegments);
+            _activeSegments.Clear();
+            _currentSegmentCount = 0;
         }
     }
 }
