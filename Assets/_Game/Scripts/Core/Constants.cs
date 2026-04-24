@@ -53,5 +53,14 @@ namespace PrismPanic.Core
         // --- Gameplay ---
         public const int DOORS_PER_LEVEL = 3;
         public const float ROOM_TRANSITION_DELAY = 0.5f;
+
+        // --- Adrenaline Effect ---
+        public const float ADRENALINE_TRIGGER_RADIUS = 2.5f;
+        public const float ADRENALINE_FADE_IN_SPEED = 5.0f;
+        public const float ADRENALINE_FADE_OUT_SPEED = 3.0f;
+        public const float ADRENALINE_PUMP_SPEED = 8.0f;
+        public const float ADRENALINE_PUMP_MAGNITUDE = 0.2f;
+        public const float SHAKE_BASE_INTENSITY = 0.05f;
+        public const float SHAKE_PUMP_INTENSITY = 0.15f;
     }
 }

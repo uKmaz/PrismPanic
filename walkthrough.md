@@ -257,6 +257,18 @@ Create `Map1` through `Map4`. Here's **Map1** data to type in:
 6. Add Button: "QUIT" → below start
 7. Create empty GO → Add `MainMenuUI.cs` → Assign button refs
 
+### Step 12: Adrenaline Pump Effect Setup
+1. Open the **Player** prefab.
+2. Add a `SphereCollider` (Is Trigger = true) with radius `2.5`.
+3. Add the `DangerDetector` script to the Player prefab.
+4. Create an empty GameObject `Adrenaline_Volume` in the Main scene.
+5. Add a **Volume** component. Mode = Global, Weight = 0.
+6. Create/Assign a Volume Profile. Add Overrides:
+   - **Vignette** (Color: Dark Red, Intensity: 0.5)
+   - **Color Adjustments** (Post Exposure: -1.5)
+   - **Chromatic Aberration** (Intensity: 1.0)
+7. Add the `AdrenalineController` script to `Adrenaline_Volume`.
+
 ---
 
 ## Architecture Flow Recap
