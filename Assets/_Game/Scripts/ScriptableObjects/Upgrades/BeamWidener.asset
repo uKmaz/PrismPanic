@@ -17,4 +17,4 @@ MonoBehaviour:
   icon: {fileID: -867353944, guid: 6f364858257666f4497d8c472ba07394, type: 3}
   description: BeamRangeBonus
   effectType: 2
-  effectValue: 5
+  effectValue: 0.3

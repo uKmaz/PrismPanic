@@ -32,6 +32,10 @@ namespace PrismPanic.ScriptableObjects
 
         [Header("Waves")]
         public EnemyWaveData[] waves;
+
+        [Header("Boss Setup")]
+        public bool hasBoss;
+        public Vector3 bossSpawnPoint;
     }
 
     [System.Serializable]

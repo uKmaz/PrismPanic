@@ -188,7 +188,7 @@ namespace PrismPanic.Editor
             };
 
             layout.pillarPositions = new Vector3[] { new Vector3(2f, 1.5f, 2f), new Vector3(-2f, 1.5f, 2f), new Vector3(0f, 1.5f, -1f) };
-            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -5f);
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -3f);
             layout.enemySpawnPoints = new Vector3[] { new Vector3(-7f, 0.5f, 5f), new Vector3(7f, 0.5f, 5f), new Vector3(-4f, 0.5f, 2f), new Vector3(4f, 0.5f, 2f), new Vector3(0f, 0.5f, 5f) };
             layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 6f), new Vector3(-5f, 1.5f, 6f), new Vector3(5f, 1.5f, 6f) };
             layout.waves = new EnemyWaveData[] { new EnemyWaveData { enemyData = baseAngel, count = 3 }, new EnemyWaveData { enemyData = fastAngel, count = 3 } };
@@ -215,7 +215,7 @@ namespace PrismPanic.Editor
             };
 
             layout.pillarPositions = new Vector3[] { new Vector3(3f, 1.5f, 3f), new Vector3(-3f, 1.5f, -3f), new Vector3(-3f, 1.5f, 3f), new Vector3(3f, 1.5f, -3f) };
-            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -7f);
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -3f);
             layout.enemySpawnPoints = new Vector3[] { new Vector3(-6f, 0.5f, 6f), new Vector3(6f, 0.5f, 6f), new Vector3(-2f, 0.5f, 4f), new Vector3(2f, 0.5f, 4f), new Vector3(-6f, 0.5f, 0f), new Vector3(6f, 0.5f, 0f) };
             layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 8f), new Vector3(-4f, 1.5f, 8f), new Vector3(4f, 1.5f, 8f) };
             layout.waves = new EnemyWaveData[] { new EnemyWaveData { enemyData = baseAngel, count = 4 }, new EnemyWaveData { enemyData = fastAngel, count = 3 } };
@@ -243,7 +243,7 @@ namespace PrismPanic.Editor
             };
 
             layout.pillarPositions = new Vector3[] { new Vector3(5f, 1.5f, 0f), new Vector3(-5f, 1.5f, 0f), new Vector3(2f, 1.5f, 3f), new Vector3(-2f, 1.5f, 3f) };
-            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -6f);
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -3f);
             layout.enemySpawnPoints = new Vector3[] { new Vector3(-8f, 0.5f, 6f), new Vector3(8f, 0.5f, 6f), new Vector3(-4f, 0.5f, 6f), new Vector3(4f, 0.5f, 6f), new Vector3(-8f, 0.5f, -2f), new Vector3(8f, 0.5f, -2f) };
             layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 7f), new Vector3(-5f, 1.5f, 7f), new Vector3(5f, 1.5f, 7f) };
             layout.waves = new EnemyWaveData[] { new EnemyWaveData { enemyData = baseAngel, count = 3 }, new EnemyWaveData { enemyData = fastAngel, count = 5 } };
@@ -274,7 +274,7 @@ namespace PrismPanic.Editor
             };
 
             layout.pillarPositions = new Vector3[] { new Vector3(6f, 1.5f, 0f), new Vector3(-6f, 1.5f, 0f), new Vector3(0f, 1.5f, 4f), new Vector3(4f, 1.5f, -4f), new Vector3(-4f, 1.5f, -4f) };
-            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -9f);
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -3f);
             
             layout.enemySpawnPoints = new Vector3[] 
             { 
@@ -294,6 +294,50 @@ namespace PrismPanic.Editor
                 new EnemyWaveData { enemyData = fastAngel, count = 4 }
             };
             SaveLayout(layout, "Map8");
+        }
+
+        [MenuItem("PrismPanic/Maps/Generate Map9 (Boss)")]
+        public static void GenerateMap9()
+        {
+            var layout = GetOrCreateLayout("Map9", "map9");
+
+            // Circular/Square large map for boss
+            layout.wallPositions = BuildPerimeterWalls(12);
+            layout.floorPositions = BuildFloorGrid(12);
+
+            // Dynamic mirrors will be handled by the layout or prefabs later,
+            // but we can spawn initial mirrors here
+            layout.mirrorPlacements = new MirrorPlacement[]
+            {
+                new MirrorPlacement { position = new Vector3(8f, 1f, 8f), rotationY = 45f },
+                new MirrorPlacement { position = new Vector3(-8f, 1f, -8f), rotationY = 45f },
+                new MirrorPlacement { position = new Vector3(-8f, 1f, 8f), rotationY = -45f },
+                new MirrorPlacement { position = new Vector3(8f, 1f, -8f), rotationY = -45f }
+            };
+
+            // Pillars to hide behind from the boss laser
+            layout.pillarPositions = new Vector3[] 
+            { 
+                new Vector3(4f, 1.5f, 4f), new Vector3(-4f, 1.5f, 4f), 
+                new Vector3(4f, 1.5f, -4f), new Vector3(-4f, 1.5f, -4f),
+                new Vector3(0f, 1.5f, 6f), new Vector3(0f, 1.5f, -6f),
+                new Vector3(6f, 1.5f, 0f), new Vector3(-6f, 1.5f, 0f)
+            };
+            
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -9f);
+            
+            // Set Boss properties
+            layout.hasBoss = true;
+            layout.bossSpawnPoint = new Vector3(0f, 1.5f, 0f); // Center of the room
+
+            // No regular waves for boss fight, or maybe 1 initial wave
+            layout.waves = new EnemyWaveData[0];
+            layout.enemySpawnPoints = new Vector3[0];
+            
+            // Doors appear after boss is defeated
+            layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 10f) };
+            
+            SaveLayout(layout, "Map9");
         }
 
         // --- Helpers ---

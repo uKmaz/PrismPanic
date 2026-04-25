@@ -464,7 +464,7 @@ MonoBehaviour:
   - {x: -3, y: 1.5, z: -3}
   - {x: -3, y: 1.5, z: 3}
   - {x: 3, y: 1.5, z: -3}
-  playerSpawnPoint: {x: 0, y: 0.5, z: -7}
+  playerSpawnPoint: {x: 0, y: 0.5, z: -3}
   enemySpawnPoints:
   - {x: -6, y: 0.5, z: 6}
   - {x: 6, y: 0.5, z: 6}
