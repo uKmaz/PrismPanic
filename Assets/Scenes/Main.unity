@@ -2522,15 +2522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.Core.LevelManager
   _layouts:
-  - {fileID: 11400000, guid: 480d5157a2e5f8048a3d19fc505a1849, type: 2}
-  - {fileID: 11400000, guid: 05c44f3c8a7380e44b3ee6dc49cbb8ac, type: 2}
-  - {fileID: 11400000, guid: 6de37d453745e7441b14ffd9b2d5da2a, type: 2}
-  - {fileID: 11400000, guid: 8f5543c204f43d94eac5592786eb7d90, type: 2}
-  - {fileID: 11400000, guid: 5a189b0e360e17e4d93a18a908e1b3e7, type: 2}
-  - {fileID: 11400000, guid: ef974d743900f294c8aaa65e060a0f58, type: 2}
-  - {fileID: 11400000, guid: b0f314143703a2c43863e7cb9d397a77, type: 2}
-  - {fileID: 11400000, guid: e77032e4308877940a8da4329ef4da00, type: 2}
-  - {fileID: 11400000, guid: 33fd2cec3b163374c80b5eff748971e2, type: 2}
+  - {fileID: 11400000, guid: a9a236bbe73ec82449e3f0105f869f36, type: 2}
 --- !u!1 &1051682732
 GameObject:
   m_ObjectHideFlags: 0
