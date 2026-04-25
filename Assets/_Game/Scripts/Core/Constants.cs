@@ -84,10 +84,12 @@ namespace PrismPanic.Core
         public const float MAX_IMPACT_TRAUMA = 2.0f;
 
         // --- Beam Visuals ---
+        public const float SPIRAL_RADIUS_BLUE_MULTIPLIER = 0.7f;
         public const float SPIRAL_RADIUS_RED_MULTIPLIER = 1.0f;
         public const float SPIRAL_RADIUS_PURPLE_MULTIPLIER = 1.8f;
         public const float SPIRAL_WIDTH_MULTIPLIER = 0.4f;
         public const float SPIRAL_FREQUENCY = 1.5f;
+        public const float ROTATION_SPEED_BLUE = 300f;
         public const float ROTATION_SPEED_RED = 600f;
         public const float ROTATION_SPEED_PURPLE = 1500f;
         public const float BEAM_PARTICLE_SIZE = 0.05f;

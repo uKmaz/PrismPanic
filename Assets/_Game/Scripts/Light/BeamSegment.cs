@@ -198,7 +198,9 @@ namespace PrismPanic.Light
                 case 1: // Blue, little particles
                     color = Color.blue; 
                     emissionRate = 50;
-                    useSpiral = false;
+                    useSpiral = true;
+                    _spiralRadius = width * PrismPanic.Core.Constants.SPIRAL_RADIUS_RED_MULTIPLIER;
+                    _rotationSpeed = PrismPanic.Core.Constants.ROTATION_SPEED_RED; 
                     break;
                 case 2: // Red, particles + rotating spiral
                     color = Color.red;
