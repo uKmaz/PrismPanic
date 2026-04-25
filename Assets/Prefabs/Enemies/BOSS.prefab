@@ -220,7 +220,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.Enemies.BossController
   _maxHealth: 10
-  _laserOrigin: {fileID: 0}
   _rotationSpeed: 30
   _laserRange: 50
   _laserDamage: 1
@@ -284,8 +283,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.009021759
-        value: 0.15575027
+        time: 0.0060157776
+        value: 0.26194382
         inSlope: 0
         outSlope: 0
         tangentMode: 0

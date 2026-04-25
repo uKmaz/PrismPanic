@@ -117,11 +117,11 @@ namespace PrismPanic.Core
         public const float BOSS_LASER_WIDTH = 0.1f;
         public const float BOSS_SHUFFLE_INTERVAL = 10f;          // Seconds between pillar/mirror reshuffle
         public const float BOSS_SHUFFLE_MOVE_SPEED = 3f;         // How fast objects slide to new positions
-        public const float BOSS_LASER_STRIKE_DURATION = 8f;      // How long the laser fires (seconds)
+        public const float BOSS_LASER_STRIKE_DURATION = 15f;      // How long the laser fires (seconds)
         public const float BOSS_LASER_COOLDOWN = 3f;             // Pause between laser strikes
-        public const float BOSS_RAY_ESCALATION_INTERVAL = 120f;  // Every 2 min, boss gets +1 ray
+        public const float BOSS_RAY_ESCALATION_INTERVAL = 2f;   // Every 30 sec, boss gets +1 ray
         public const int BOSS_MAX_RAY_COUNT = 4;                 // Maximum number of simultaneous rays
-        public const float BOSS_MIN_DISTANCE_FROM_BOSS = 10f;    // Objects can't be closer than this to boss
-        public const float BOSS_MIN_DISTANCE_BETWEEN_OBJECTS = 2f; // Objects can't be closer than this to each other
+        public const float BOSS_MIN_DISTANCE_FROM_BOSS = 3f;    // Objects can't be closer than this to boss
+        public const float BOSS_MIN_DISTANCE_BETWEEN_OBJECTS = 0.5f; // Objects can't be closer than this to each other
     }
 }

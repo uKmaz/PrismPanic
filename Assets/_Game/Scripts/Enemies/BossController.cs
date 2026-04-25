@@ -83,9 +83,11 @@ namespace PrismPanic.Enemies
             {
                 if (_strikeTimer <= 0f)
                 {
-                    // Stop firing, start cooldown
+                    // Stop firing, start cooldown — reset ray count for next strike
                     _isFiring = false;
                     _strikeTimer = Constants.BOSS_LASER_COOLDOWN;
+                    _currentRayCount = 1;
+                    _escalationTimer = Constants.BOSS_RAY_ESCALATION_INTERVAL;
                     ReturnSegments();
                     return;
                 }
@@ -116,17 +118,16 @@ namespace PrismPanic.Enemies
             Vector3 origin = transform.position;
             origin.y = 1f; // Match beam height
 
-            // Fire N rays based on current ray count
-            // 1 ray: forward only
-            // 2 rays: forward + 180° (opposite)
-            // 3 rays: forward + 120° + 240°
-            // 4 rays: forward + 90° + 180° + 270°
-            float angleStep = 360f / _currentRayCount;
+            // Fixed ray offsets relative to boss forward:
+            // Ray 1: 0° (forward)
+            // Ray 2: 180° (opposite)
+            // Ray 3: 90° (right)
+            // Ray 4: 270° (left)
+            float[] rayOffsets = { 0f, 180f, 90f, 270f };
 
             for (int i = 0; i < _currentRayCount; i++)
             {
-                float angle = i * angleStep;
-                Vector3 direction = Quaternion.Euler(0, angle, 0) * transform.forward;
+                Vector3 direction = Quaternion.Euler(0, rayOffsets[i], 0) * transform.forward;
                 direction.y = 0f;
                 direction.Normalize();
 
