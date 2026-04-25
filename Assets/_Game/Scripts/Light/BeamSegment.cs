@@ -196,8 +196,8 @@ namespace PrismPanic.Light
                     useSpiral = false;
                     break;
                 case 1: // Blue, little particles
-                    color = Color.cyan; 
-                    emissionRate = 40;
+                    color = Color.blue; 
+                    emissionRate = 50;
                     useSpiral = false;
                     break;
                 case 2: // Red, particles + rotating spiral
