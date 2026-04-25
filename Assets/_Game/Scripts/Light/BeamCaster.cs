@@ -95,7 +95,7 @@ namespace PrismPanic.Light
                             if (angel != null)
                             {
                                 AngelIlluminationRegistry.Register(angel);
-                                // Bounce count 0 means STUN ONLY in BeamHitHandler
+                                // Wide mode is always stun only (bounce 0), even with blue beam upgrade
                                 EventBus.FireBeamHit(new BeamHitData(hit.gameObject, 0, hit.transform.position));
                             }
                         }
@@ -119,14 +119,16 @@ namespace PrismPanic.Light
             }
 
             // --- LASER MODE ---
-            CastBeam(origin, direction, 0, _currentVisualRange);
+            // Blue beam upgrade: start at bounce 1 so the first segment acts as blue-tier
+            int startBounce = (_playerStats != null && _playerStats.hasBlueBeam) ? 1 : 0;
+            CastBeam(origin, direction, startBounce, _currentVisualRange);
 
             if (_playerStats != null && _playerStats.multishotCount > 1)
             {
                 Vector3 leftDir = Quaternion.Euler(0, -15f, 0) * direction;
                 Vector3 rightDir = Quaternion.Euler(0, 15f, 0) * direction;
-                CastBeam(origin, leftDir, 0, _currentVisualRange);
-                CastBeam(origin, rightDir, 0, _currentVisualRange);
+                CastBeam(origin, leftDir, startBounce, _currentVisualRange);
+                CastBeam(origin, rightDir, startBounce, _currentVisualRange);
             }
 
             // After casting, return any excess segments to the pool that were not used this frame
@@ -149,7 +151,9 @@ namespace PrismPanic.Light
         {
             if (bounceCount > Constants.MAX_BOUNCES || remainingRange <= 0f) return;
 
-            if (Physics.Raycast(origin, direction, out RaycastHit hit, remainingRange, Constants.BeamRaycastMask))
+            float radius = _playerStats != null ? _playerStats.beamRadius : Constants.BASE_BEAM_RADIUS;
+
+            if (Physics.SphereCast(origin, radius, direction, out RaycastHit hit, remainingRange, Constants.BeamRaycastMask))
             {
                 // Draw beam segment to hit point
                 DrawSegment(origin, hit.point, bounceCount);
@@ -164,8 +168,8 @@ namespace PrismPanic.Light
                     // Keep reflection on XZ plane
                     reflectDir.y = 0f;
                     reflectDir.Normalize();
-                    // Offset origin slightly to avoid re-hitting the same mirror
-                    CastBeam(hit.point + reflectDir * 0.05f, reflectDir, bounceCount + 1, remainingRange - distanceTraveled);
+                    // Offset origin by radius to avoid re-hitting the same mirror
+                    CastBeam(hit.point + reflectDir * (radius + 0.05f), reflectDir, bounceCount + 1, remainingRange - distanceTraveled);
                 }
                 // Enemy — register illumination and fire hit event
                 else if (hitLayer == Constants.LayerEnemy)
@@ -213,7 +217,15 @@ namespace PrismPanic.Light
             if (seg != null)
             {
                 seg.SetPositions(start, end);
-                seg.ApplyStyle(bounceCount, Constants.BEAM_WIDTH);
+
+                // Calculate visual width from beam radius
+                float radius = _playerStats != null ? _playerStats.beamRadius : Constants.BASE_BEAM_RADIUS;
+                float visualWidth = Mathf.Max(Constants.BEAM_WIDTH, radius * 1.2f);
+
+                // Check if the first segment should be blue
+                bool forceBlue = bounceCount == 0 && (_playerStats != null && _playerStats.hasBlueBeam);
+
+                seg.ApplyStyle(bounceCount, visualWidth, forceBlue);
             }
 
             _currentSegmentCount++;

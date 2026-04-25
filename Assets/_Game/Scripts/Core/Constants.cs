@@ -37,6 +37,7 @@ namespace PrismPanic.Core
         public const int MAX_BOUNCES = 10;
         public const float DEFAULT_BEAM_RANGE = 20f;
         public const float BEAM_WIDTH = 0.06f;
+        public const float BASE_BEAM_RADIUS = 0.05f; // SphereCast radius — grows with BeamRadiusWidener upgrade
 
         // --- Player Defaults ---
         public const float BASE_MOVE_SPEED = 5f;

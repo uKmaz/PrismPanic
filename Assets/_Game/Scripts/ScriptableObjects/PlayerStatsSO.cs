@@ -37,6 +37,8 @@ namespace PrismPanic.ScriptableObjects
         [System.NonSerialized] public int multishotCount;
         [System.NonSerialized] public float beamGrowthSpeed;
         [System.NonSerialized] public float energyDrainMultiplier;
+        [System.NonSerialized] public float beamRadius;  // SphereCast radius for laser
+        [System.NonSerialized] public bool hasBlueBeam;  // First beam turns blue when true
 
         private void OnEnable()
         {
@@ -63,6 +65,8 @@ namespace PrismPanic.ScriptableObjects
             multishotCount = 1;
             beamGrowthSpeed = Constants.BEAM_GROWTH_SPEED;
             energyDrainMultiplier = 1.0f;
+            beamRadius = Constants.BASE_BEAM_RADIUS;
+            hasBlueBeam = false;
         }
     }
 }

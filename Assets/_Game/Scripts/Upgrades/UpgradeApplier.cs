@@ -36,8 +36,8 @@ namespace PrismPanic.Upgrades
                     _playerStats.moveSpeed += upgrade.effectValue;
                     break;
 
-                case UpgradeEffectType.FlashlightConeWidth:
-                    _playerStats.wideAngle *= 1.30f;
+                case UpgradeEffectType.BeamRadiusWidenerBonus:
+                    _playerStats.beamRadius += upgrade.effectValue;
                     break;
 
                 case UpgradeEffectType.ExtraMirrorPlacement:
@@ -46,9 +46,8 @@ namespace PrismPanic.Upgrades
                     _playerStats.placeableMirrorCount = _playerStats.mirrorsPerRoom;
                     break;
 
-                case UpgradeEffectType.BeamRangeBonus:
-                    _playerStats.beamRange += upgrade.effectValue;
-                    _playerStats.beamGrowthSpeed *= 0.5f; 
+                case UpgradeEffectType.BeamColorChangeBonus:
+                    _playerStats.hasBlueBeam = true;
                     break;
                     
                 case UpgradeEffectType.Multishot:
