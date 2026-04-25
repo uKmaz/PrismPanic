@@ -4,8 +4,17 @@ using PrismPanic.Core;
 namespace PrismPanic.Audio
 {
     /// <summary>
-    /// Handles all sound effects. Listens to EventBus for global events, 
-    /// and provides public methods for specific interactions (Walking, Lasers).
+    /// Handles all sound effects with proper contextual logic:
+    /// - Laser: loops while flashlight is in Laser mode
+    /// - Walking: loops while player is moving
+    /// - Heartbeat: loops while an angel is nearby (adrenaline)
+    /// - Heating: loops while beam is hitting an angel
+    /// - Door: plays when player presses F to enter a door
+    /// - Explosion: plays on angel death
+    /// - Flashlight click: plays on mode change
+    /// 
+    /// Uses 3 AudioSources: one-shot SFX, a looping ambient source, and a laser source.
+    /// Priority system prevents lower-priority loops from overriding higher ones.
     /// </summary>
     public class AudioEffectHandler : MonoBehaviour
     {
@@ -13,17 +22,28 @@ namespace PrismPanic.Audio
 
         [Header("Audio Sources")]
         [SerializeField] private AudioSource _sfxSource;
-        [SerializeField] private AudioSource _loopingSource; // For Heartbeat/Walking/Heating
+        [Tooltip("For ambient loops: heartbeat, walking")]
+        [SerializeField] private AudioSource _loopingSource;
+        [Tooltip("Dedicated source for laser hum — won't fight with other loops")]
+        [SerializeField] private AudioSource _laserLoopSource;
 
-        [Header("Sound Effects")]
+        [Header("One-Shot Sound Effects")]
         [SerializeField] private AudioClip _screamClip;
-        [SerializeField] private AudioClip _heartbeatClip;
         [SerializeField] private AudioClip _explosionClip;
+        [SerializeField] private AudioClip _flashlightClickClip;
+        [SerializeField] private AudioClip _doorOpeningClip;
+
+        [Header("Looping Sound Effects")]
+        [SerializeField] private AudioClip _heartbeatClip;
         [SerializeField] private AudioClip _laserClip;
         [SerializeField] private AudioClip _heatingClip;
-        [SerializeField] private AudioClip _flashlightClickClip;
         [SerializeField] private AudioClip _walkingClip;
-        [SerializeField] private AudioClip _doorOpeningClip;
+
+        // State tracking
+        private bool _isAdrenalineActive;
+        private bool _isLaserActive;
+        private bool _isHeating;
+        private bool _isWalking;
 
         private void Awake()
         {
@@ -38,86 +58,154 @@ namespace PrismPanic.Audio
         private void OnEnable()
         {
             EventBus.OnAngelKilled += HandleAngelKilled;
-            EventBus.OnDoorsOpen += HandleDoorsOpen;
             EventBus.OnAdrenalineStateChanged += HandleAdrenaline;
+            EventBus.OnUpgradeSelected += HandleUpgradeSelected;
         }
 
         private void OnDisable()
         {
             EventBus.OnAngelKilled -= HandleAngelKilled;
-            EventBus.OnDoorsOpen -= HandleDoorsOpen;
             EventBus.OnAdrenalineStateChanged -= HandleAdrenaline;
+            EventBus.OnUpgradeSelected -= HandleUpgradeSelected;
         }
 
         private void Update()
         {
-            // Automatically handle heating sound if any angel is illuminated by the flashlight
+            // --- Heating: beam is hitting an angel ---
             bool isAnyAngelHeating = PrismPanic.Light.AngelIlluminationRegistry.Count > 0;
-            PlayHeating(isAnyAngelHeating);
+            if (isAnyAngelHeating != _isHeating)
+            {
+                _isHeating = isAnyAngelHeating;
+            }
+
+            // --- Update ambient loop priority ---
+            UpdateAmbientLoop();
         }
 
-        // --- EventBus Driven ---
+        // ====================================================
+        //  EVENT HANDLERS
+        // ====================================================
 
         private void HandleAngelKilled(GameObject angel)
         {
             PlayOneShot(_explosionClip);
-            // Optionally play scream on death:
-            // PlayOneShot(_screamClip);
-        }
-
-        private void HandleDoorsOpen()
-        {
-            PlayOneShot(_doorOpeningClip);
         }
 
         private void HandleAdrenaline(bool isActive)
         {
+            _isAdrenalineActive = isActive;
             if (isActive)
             {
-                PlayLooping(_heartbeatClip);
-                PlayOneShot(_screamClip); // Scream when spotted!
+                PlayOneShot(_screamClip);
             }
-            else
+        }
+
+        /// <summary>
+        /// Door sound when player picks an upgrade (presses F).
+        /// </summary>
+        private void HandleUpgradeSelected(ScriptableObject upgrade)
+        {
+            PlayOneShot(_doorOpeningClip);
+        }
+
+        // ====================================================
+        //  PUBLIC METHODS — Called by Player/Flashlight scripts
+        // ====================================================
+
+        /// <summary>
+        /// Call from FlashlightController when mode changes.
+        /// Manages laser loop start/stop and plays click sound.
+        /// </summary>
+        public void SetFlashlightMode(FlashlightMode mode)
+        {
+            bool wasLaser = _isLaserActive;
+            _isLaserActive = (mode == FlashlightMode.Laser);
+
+            // Laser loop
+            if (_isLaserActive && !wasLaser)
             {
-                StopLooping(_heartbeatClip);
+                StartLaserLoop();
             }
-        }
+            else if (!_isLaserActive && wasLaser)
+            {
+                StopLaserLoop();
+            }
 
-        // --- Public Methods for Player/Flashlight Scripts ---
-
-        public void PlayLaser(int level)
-        {
-            if (_laserClip == null) return;
-            
-            // Pitch goes up based on the frequency level (1, 2, 3, 4)
-            _sfxSource.pitch = 1f + (level * 0.15f); 
-            _sfxSource.PlayOneShot(_laserClip);
-            
-            // Reset pitch after firing
-            Invoke(nameof(ResetPitch), 0.5f);
-        }
-
-        public void PlayHeating(bool isHeating)
-        {
-            if (isHeating) PlayLooping(_heatingClip);
-            else StopLooping(_heatingClip);
-        }
-
-        public void PlayWalking(bool isWalking)
-        {
-            // Only play walking if not already playing heartbeat or heating
-            if (isWalking && _loopingSource.clip != _heartbeatClip) 
-                PlayLooping(_walkingClip);
-            else 
-                StopLooping(_walkingClip);
-        }
-
-        public void PlayFlashlightClick()
-        {
+            // Click sound on any mode change
             PlayOneShot(_flashlightClickClip);
         }
 
-        // --- Internal Helpers ---
+        /// <summary>
+        /// Call from PlayerController each frame with current movement state.
+        /// </summary>
+        public void SetWalking(bool isWalking)
+        {
+            _isWalking = isWalking;
+        }
+
+        // ====================================================
+        //  AMBIENT LOOP PRIORITY SYSTEM
+        //  Priority: Heartbeat > Heating > Walking > Silence
+        //  Laser has its own dedicated source so it never fights.
+        // ====================================================
+
+        private void UpdateAmbientLoop()
+        {
+            AudioClip desired = null;
+
+            // Priority order — highest first
+            if (_isAdrenalineActive && _heartbeatClip != null)
+                desired = _heartbeatClip;
+            else if (_isHeating && _heatingClip != null)
+                desired = _heatingClip;
+            else if (_isWalking && _walkingClip != null)
+                desired = _walkingClip;
+
+            if (_loopingSource == null) return;
+
+            if (desired != null)
+            {
+                if (_loopingSource.clip != desired || !_loopingSource.isPlaying)
+                {
+                    _loopingSource.clip = desired;
+                    _loopingSource.loop = true;
+                    _loopingSource.Play();
+                }
+            }
+            else
+            {
+                if (_loopingSource.isPlaying)
+                {
+                    _loopingSource.Stop();
+                    _loopingSource.clip = null;
+                }
+            }
+        }
+
+        // ====================================================
+        //  LASER LOOP (dedicated source)
+        // ====================================================
+
+        private void StartLaserLoop()
+        {
+            if (_laserLoopSource == null || _laserClip == null) return;
+            if (_laserLoopSource.isPlaying && _laserLoopSource.clip == _laserClip) return;
+
+            _laserLoopSource.clip = _laserClip;
+            _laserLoopSource.loop = true;
+            _laserLoopSource.Play();
+        }
+
+        private void StopLaserLoop()
+        {
+            if (_laserLoopSource == null) return;
+            _laserLoopSource.Stop();
+            _laserLoopSource.clip = null;
+        }
+
+        // ====================================================
+        //  HELPERS
+        // ====================================================
 
         private void PlayOneShot(AudioClip clip)
         {
@@ -125,30 +213,6 @@ namespace PrismPanic.Audio
             {
                 _sfxSource.PlayOneShot(clip);
             }
-        }
-
-        private void PlayLooping(AudioClip clip)
-        {
-            if (clip == null || _loopingSource == null) return;
-            if (_loopingSource.clip == clip && _loopingSource.isPlaying) return;
-
-            _loopingSource.clip = clip;
-            _loopingSource.loop = true;
-            _loopingSource.Play();
-        }
-
-        private void StopLooping(AudioClip clip)
-        {
-            if (_loopingSource != null && _loopingSource.clip == clip)
-            {
-                _loopingSource.Stop();
-                _loopingSource.clip = null;
-            }
-        }
-
-        private void ResetPitch()
-        {
-            if (_sfxSource != null) _sfxSource.pitch = 1f;
         }
     }
 }
