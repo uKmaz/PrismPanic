@@ -71,6 +71,16 @@ namespace PrismPanic.Player
                 else CurrentMode = FlashlightMode.Closed;
             }
 
+            // Handle Mirror Placement via T key
+            if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
+            {
+                if (_playerStats.placeableMirrorCount > 0)
+                {
+                    if (!_isPlacementMode) EnterPlacementMode();
+                    else ConfirmPlacement();
+                }
+            }
+
             // Energy Logic
             if (CurrentMode == FlashlightMode.Closed)
             {
@@ -81,6 +91,7 @@ namespace PrismPanic.Player
             else
             {
                 float drain = CurrentMode == FlashlightMode.Wide ? Constants.ENERGY_DRAIN_WIDE : Constants.ENERGY_DRAIN_LASER;
+                drain *= _playerStats.energyDrainMultiplier;
                 _playerStats.currentEnergy -= drain * Time.deltaTime;
 
                 if (_playerStats.currentEnergy <= 0)

@@ -27,8 +27,8 @@ namespace PrismPanic.Doors
         [SerializeField] private Sprite _openSprite;
 
         [Header("Settings")]
-        [SerializeField] private float _interactRadius = 2.5f;  // Show prompt radius
-        [SerializeField] private float _confirmRadius = 2.5f;   // Must be within this to confirm
+        [SerializeField] private float _interactRadius = 1.5f;  // Show prompt radius
+        [SerializeField] private float _confirmRadius = 1.0f;   // Must be within this to confirm
 
         private UpgradeDefinitionSO _upgrade;
         private bool _triggered;

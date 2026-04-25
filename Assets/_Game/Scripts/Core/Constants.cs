@@ -79,6 +79,9 @@ namespace PrismPanic.Core
         public const float ADRENALINE_PUMP_MAGNITUDE = 0.2f;
         public const float SHAKE_BASE_INTENSITY = 0.05f;
         public const float SHAKE_PUMP_INTENSITY = 0.15f;
+        public const float IMPACT_SHAKE_MAGNITUDE = 2.0f;
+        public const float IMPACT_SHAKE_DECAY = 5.0f;
+        public const float MAX_IMPACT_TRAUMA = 2.0f;
 
         // --- Beam Visuals ---
         public const float SPIRAL_RADIUS_RED_MULTIPLIER = 1.0f;

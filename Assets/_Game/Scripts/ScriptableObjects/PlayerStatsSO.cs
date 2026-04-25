@@ -29,6 +29,9 @@ namespace PrismPanic.ScriptableObjects
         [System.NonSerialized] public float currentEnergy;
         [System.NonSerialized] public bool isOverheated;
         [System.NonSerialized] public int placeableMirrorCount;
+        [System.NonSerialized] public int multishotCount;
+        [System.NonSerialized] public float beamGrowthSpeed;
+        [System.NonSerialized] public float energyDrainMultiplier;
 
         private void OnEnable()
         {
@@ -46,6 +49,9 @@ namespace PrismPanic.ScriptableObjects
             currentEnergy = maxEnergy;
             isOverheated = false;
             placeableMirrorCount = _basePlaceableMirrors;
+            multishotCount = 1;
+            beamGrowthSpeed = Constants.BEAM_GROWTH_SPEED;
+            energyDrainMultiplier = 1.0f;
         }
     }
 }

@@ -118,6 +118,13 @@ namespace PrismPanic.Core
             CurrentLevelIndex++;
             EventBus.FireLevelComplete();
 
+            // Replenish energy for the next room
+            if (_playerStats != null)
+            {
+                _playerStats.currentEnergy = _playerStats.maxEnergy;
+                _playerStats.isOverheated = false;
+            }
+
             LevelLayoutSO nextLayout = _levelManager.GetLayout(CurrentLevelIndex);
             if (nextLayout != null)
             {

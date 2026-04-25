@@ -37,7 +37,7 @@ namespace PrismPanic.Upgrades
                     break;
 
                 case UpgradeEffectType.FlashlightConeWidth:
-                    _playerStats.wideAngle += upgrade.effectValue;
+                    _playerStats.wideAngle *= 1.30f;
                     break;
 
                 case UpgradeEffectType.ExtraMirrorPlacement:
@@ -46,6 +46,17 @@ namespace PrismPanic.Upgrades
 
                 case UpgradeEffectType.BeamRangeBonus:
                     _playerStats.beamRange += upgrade.effectValue;
+                    _playerStats.beamGrowthSpeed *= 0.5f; 
+                    break;
+                    
+                case UpgradeEffectType.Multishot:
+                    _playerStats.multishotCount = 2;
+                    _playerStats.energyDrainMultiplier *= 1.5f; 
+                    break;
+
+                case UpgradeEffectType.ExtraEnergy:
+                    _playerStats.maxEnergy += upgrade.effectValue;
+                    _playerStats.currentEnergy += upgrade.effectValue;
                     break;
             }
         }

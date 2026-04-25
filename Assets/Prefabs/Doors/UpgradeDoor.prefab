@@ -471,7 +471,7 @@ MonoBehaviour:
   _closedSprite: {fileID: 48040056, guid: 18d1a8ee83e24b84b9ec3c735c0b48d0, type: 3}
   _openSprite: {fileID: -285241068, guid: 18d1a8ee83e24b84b9ec3c735c0b48d0, type: 3}
   _interactRadius: 1
-  _confirmRadius: 2.5
+  _confirmRadius: 1
 --- !u!212 &3150269045025742201
 SpriteRenderer:
   serializedVersion: 2

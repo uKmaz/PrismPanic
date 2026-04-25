@@ -109,7 +109,8 @@ namespace PrismPanic.Light
             if (_flashlightController.CurrentMode == FlashlightMode.Laser)
             {
                 float maxRange = _playerStats != null ? _playerStats.beamRange : Constants.DEFAULT_BEAM_RANGE;
-                _currentVisualRange += Constants.BEAM_GROWTH_SPEED * Time.deltaTime;
+                float growthSpeed = _playerStats != null ? _playerStats.beamGrowthSpeed : Constants.BEAM_GROWTH_SPEED;
+                _currentVisualRange += growthSpeed * Time.deltaTime;
                 if (_currentVisualRange > maxRange) _currentVisualRange = maxRange;
             }
             else
@@ -119,6 +120,14 @@ namespace PrismPanic.Light
 
             // --- LASER MODE ---
             CastBeam(origin, direction, 0, _currentVisualRange);
+
+            if (_playerStats != null && _playerStats.multishotCount > 1)
+            {
+                Vector3 leftDir = Quaternion.Euler(0, -15f, 0) * direction;
+                Vector3 rightDir = Quaternion.Euler(0, 15f, 0) * direction;
+                CastBeam(origin, leftDir, 0, _currentVisualRange);
+                CastBeam(origin, rightDir, 0, _currentVisualRange);
+            }
 
             // After casting, return any excess segments to the pool that were not used this frame
             while (_activeSegments.Count > _currentSegmentCount)

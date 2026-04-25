@@ -13,6 +13,7 @@ public class AdrenalineController : MonoBehaviour
     private Transform _mainCameraTransform;
     private Vector3 _currentShakeOffset = Vector3.zero;
     private Vector3 _targetShakeOffset = Vector3.zero;
+    private float _impactTrauma = 0f;
 
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class AdrenalineController : MonoBehaviour
     private void OnEnable()
     {
         EventBus.OnAdrenalineStateChanged += HandleAdrenalineState;
+        EventBus.OnAngelKilled += HandleAngelKilled;
         
         // Subscribe to URP rendering callbacks for non-destructive camera shake
         RenderPipelineManager.beginCameraRendering += OnBeginCameraRendering;
@@ -37,6 +39,7 @@ public class AdrenalineController : MonoBehaviour
     private void OnDisable()
     {
         EventBus.OnAdrenalineStateChanged -= HandleAdrenalineState;
+        EventBus.OnAngelKilled -= HandleAngelKilled;
         
         RenderPipelineManager.beginCameraRendering -= OnBeginCameraRendering;
         RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
@@ -45,6 +48,13 @@ public class AdrenalineController : MonoBehaviour
     private void HandleAdrenalineState(bool isActive)
     {
         _isActive = isActive;
+    }
+
+    private void HandleAngelKilled(GameObject angel)
+    {
+        _impactTrauma += Constants.IMPACT_SHAKE_MAGNITUDE;
+        if (_impactTrauma > Constants.MAX_IMPACT_TRAUMA) 
+            _impactTrauma = Constants.MAX_IMPACT_TRAUMA; 
     }
 
     private void Update()
@@ -76,8 +86,19 @@ public class AdrenalineController : MonoBehaviour
             _targetShakeOffset = Vector3.zero;
         }
 
-        // Smooth the shake offset
-        _currentShakeOffset = Vector3.Lerp(_currentShakeOffset, _targetShakeOffset, Time.deltaTime * 30f);
+        // Smooth the heartbeat pump offset, but NOT the impact trauma
+        _currentShakeOffset = Vector3.Lerp(_currentShakeOffset, _targetShakeOffset, Time.deltaTime * 15f);
+
+        // Add impact trauma directly (un-lerped) for a sharp, jagged shake
+        if (_impactTrauma > 0f)
+        {
+            Vector2 impactShake = Random.insideUnitCircle * _impactTrauma;
+            _currentShakeOffset += new Vector3(impactShake.x, impactShake.y, 0f);
+            
+            // Decay trauma over time
+            _impactTrauma -= Time.deltaTime * Constants.IMPACT_SHAKE_DECAY;
+            if (_impactTrauma < 0f) _impactTrauma = 0f;
+        }
 
         // Apply final weight (clamped between 0 and 1)
         _currentWeight = Mathf.Clamp01(_targetWeight + pumpOffset);

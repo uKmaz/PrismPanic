@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0dbe87749cddff9459487580b7aaad38, type: 3}
-  m_Name: ExtraMirror
+  m_Name: ExtraEnergy
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.ScriptableObjects.UpgradeDefinitionSO
-  upgradeID: extra_mir
-  displayName: Extra Mirror
-  icon: {fileID: -1944245272, guid: f6b2f624f8124aa4cb822c65ce5f3de6, type: 3}
-  description: ExtraMirrorPlacement
-  effectType: 3
-  effectValue: 1
+  upgradeID: extra_energy
+  displayName: Extra Energy
+  icon: {fileID: 526172713, guid: f6b2f624f8124aa4cb822c65ce5f3de6, type: 3}
+  description: Grants a permanent boost to your maximum flashlight energy.
+  effectType: 6
+  effectValue: 50

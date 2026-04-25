@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.ScriptableObjects.UpgradeDefinitionSO
   upgradeID: beam_rng
   displayName: "Beam Range+\t"
-  icon: {fileID: 0}
+  icon: {fileID: 908500089, guid: f6b2f624f8124aa4cb822c65ce5f3de6, type: 3}
   description: BeamRangeBonus
   effectType: 2
   effectValue: 5

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.ScriptableObjects.UpgradeDefinitionSO
   upgradeID: move_spd
   displayName: "Move Speed+\t"
-  icon: {fileID: 0}
+  icon: {fileID: -569012059, guid: f6b2f624f8124aa4cb822c65ce5f3de6, type: 3}
   description: MovementSpeedBonus
   effectType: 1
   effectValue: 0.5

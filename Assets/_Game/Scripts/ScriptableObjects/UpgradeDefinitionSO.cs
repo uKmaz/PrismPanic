@@ -23,6 +23,8 @@ namespace PrismPanic.ScriptableObjects
         MovementSpeedBonus,
         FlashlightConeWidth,
         ExtraMirrorPlacement,
-        BeamRangeBonus
+        BeamRangeBonus,
+        Multishot,
+        ExtraEnergy
     }
 }
