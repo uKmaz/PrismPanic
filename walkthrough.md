@@ -269,6 +269,31 @@ Create `Map1` through `Map4`. Here's **Map1** data to type in:
    - **Chromatic Aberration** (Intensity: 1.0)
 7. Add the `AdrenalineController` script to `Adrenaline_Volume`.
 
+### Step 13: Flashlight Energy UI
+**1. Unity Canvas Setup:**
+- Open your `Main` scene and locate your UI Canvas.
+- Right-click the Canvas and select **UI → Slider**. Name it `EnergyBar`.
+- Position it wherever you like (e.g., bottom left corner).
+- On the Slider component, **uncheck** the `Interactable` box so the player can't click it.
+- Set the **Transition** to `None`.
+
+**2. Visual Styling:**
+- Expand the `EnergyBar` in the hierarchy and **Delete** the `Handle Slide Area` object (we just want a flat bar, no handle).
+- Click the `Background` child object and change its Color to Dark Gray.
+- Expand `Fill Area` and click the `Fill` object. Change its Color to Bright Cyan or Yellow (representing energy).
+
+**3. Overheat Pointer Setup:**
+- Right-click your `EnergyBar` and select **UI → Image**. Name it `ThresholdPointer`.
+- Change its **Color** to White or Gray.
+- Change its **RectTransform**: Set width to `2`, height to `30` (or slightly taller than your bar).
+- In the RectTransform, set its Anchors to `Min X: 0.7`, `Max X: 0.7`. Set PosX to `0`. This forces the pointer to stay exactly at the 70% mark of the bar regardless of screen size!
+
+**4. Script Wiring:**
+- Add the `EnergyUI` script to your `EnergyBar` GameObject.
+- Drag your `DefaultPlayerStats` ScriptableObject into the `Player Stats` field.
+- Drag the Slider component itself into the `Energy Slider` field.
+- Drag the `Fill` child object (the one inside `Fill Area`) into the `Fill Image` field. This allows the script to turn the bar red when it overheats!
+
 ---
 
 ## Architecture Flow Recap
