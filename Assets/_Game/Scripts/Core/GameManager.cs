@@ -18,6 +18,7 @@ namespace PrismPanic.Core
         public GamePhase CurrentPhase { get; private set; } = GamePhase.Boot;
         public int CurrentLevelIndex { get; private set; } = 0;
         public int ActiveAngelCount { get; private set; } = 0;
+        public bool IsBossRoom { get; private set; } = false;
 
         private void Awake()
         {
@@ -167,6 +168,16 @@ namespace PrismPanic.Core
             // Refresh the per-room mirror budget
             if (_playerStats != null)
                 _playerStats.placeableMirrorCount = _playerStats.mirrorsPerRoom;
+
+            // Check if this is a boss room
+            LevelLayoutSO currentLayout = _levelManager.GetLayout(CurrentLevelIndex);
+            IsBossRoom = currentLayout != null && currentLayout.hasBoss;
+
+            if (IsBossRoom)
+            {
+                // Boss rooms have no regular angels — boss handles its own death → victory
+                ActiveAngelCount = 0;
+            }
 
             SetPhase(GamePhase.Combat);
             EventBus.FireLevelStart();

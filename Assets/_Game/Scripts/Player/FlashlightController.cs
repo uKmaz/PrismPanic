@@ -204,7 +204,7 @@ namespace PrismPanic.Player
 
             _roomConfigurator.PlaceExtraMirror(
                 _ghostMirror.transform.position,
-                _placementRotation
+                _ghostMirror.transform.rotation
             );
 
             _playerStats.placeableMirrorCount--;

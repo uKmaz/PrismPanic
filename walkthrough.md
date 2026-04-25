@@ -294,6 +294,43 @@ Create `Map1` through `Map4`. Here's **Map1** data to type in:
 - Drag the Slider component itself into the `Energy Slider` field.
 - Drag the `Fill` child object (the one inside `Fill Area`) into the `Fill Image` field. This allows the script to turn the bar red when it overheats!
 
+### Step 14: Boss Fight Setup
+
+**1. Boss Prefab (`Prefabs/Enemies/Boss`):**
+- Duplicate your Angel prefab (temporary placeholder).
+- **Remove** the `AngelController` component and `NavMeshAgent`.
+- **Add** the `BossController` component.
+- Ensure the `LineRenderer` component exists (for the boss laser visual).
+  - Set **Use World Space** = true, **Positions** = 2, **Width** = 0.1.
+  - Assign the Beam_Mat material (same as BeamSegment).
+- Set Layer to **Enemy** (7) so player beams can hit it.
+- Scale it up (e.g., 2x or 3x) to look like a boss.
+- Save as prefab.
+
+**2. BossRoomManager:**
+- Create an empty GameObject `BossRoomManager` in the Main scene hierarchy under `[ROOM]`.
+- Add the `BossRoomManager` script component.
+
+**3. Wire Inspector References:**
+- On `RoomConfigurator`:
+  - Drag the Boss prefab into the `Boss Prefab` field.
+  - Drag the `BossRoomManager` object into the `Boss Room Manager` field.
+
+**4. Create Map9_Boss ScriptableObject:**
+- Right-click `ScriptableObjects/LevelLayouts/` → Create → PrismPanic → LevelLayout → name: `Map9_Boss`
+- **`hasBoss`** = true
+- **`bossSpawnPoint`** = (0, 1, 0) — center of the room
+- **`pillarPositions`**: 8 positions evenly around center (e.g., at radius 5):
+  - (5,1.5,0), (3.5,1.5,3.5), (0,1.5,5), (-3.5,1.5,3.5), (-5,1.5,0), (-3.5,1.5,-3.5), (0,1.5,-5), (3.5,1.5,-3.5)
+- **`mirrorPlacements`**: 4 mirrors at 45° offsets:
+  - (4,1,2) rot=45°, (-4,1,2) rot=-45°, (-4,1,-2) rot=45°, (4,1,-2) rot=-45°
+- **`waves`**: Leave empty (no regular angels in boss room)
+- **`doorSpawnPoints`**: Leave empty (boss kill = victory, no doors)
+
+**5. Add Map9 to LevelManager:**
+- Select the `LevelManager` object in the Main scene.
+- Add `Map9_Boss` as the **last entry** in the Layouts array.
+
 ---
 
 ## Architecture Flow Recap

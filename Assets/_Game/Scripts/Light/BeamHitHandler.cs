@@ -27,8 +27,25 @@ namespace PrismPanic.Light
         {
             if (data.target == null) return;
 
+            // Check for Angel
             AngelController angel = data.target.GetComponent<AngelController>();
-            if (angel == null) return;
+            if (angel != null)
+            {
+                HandleAngelHit(angel, data);
+                return;
+            }
+
+            // Check for Boss — only reflected beams (bounceCount >= 1) damage the boss
+            BossController boss = data.target.GetComponent<BossController>();
+            if (boss != null && data.bounceCount >= 1)
+            {
+                boss.TakeDamage(data.bounceCount);
+                return;
+            }
+        }
+
+        private void HandleAngelHit(AngelController angel, BeamHitData data)
+        {
 
             switch (data.bounceCount)
             {

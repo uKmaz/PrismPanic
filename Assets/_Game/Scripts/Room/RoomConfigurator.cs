@@ -5,6 +5,7 @@ using Unity.AI.Navigation;
 using PrismPanic.Core;
 using PrismPanic.ScriptableObjects;
 using PrismPanic.Utilities;
+using PrismPanic.BOSS;
 
 namespace PrismPanic.Room
 {
@@ -17,6 +18,12 @@ namespace PrismPanic.Room
         [Header("References")]
         [SerializeField] private Transform _playerTransform;
         [SerializeField] private NavMeshSurface _navMeshSurface;
+
+        [Header("Boss")]
+        [SerializeField] private GameObject _bossPrefab;
+        [SerializeField] private BOSS.BossRoomManager _bossRoomManager;
+
+        private GameObject _activeBoss;
 
         // Track active pooled objects for return
         private readonly List<Transform> _activeWalls = new List<Transform>();
@@ -45,8 +52,16 @@ namespace PrismPanic.Room
             ClearRoom();
             BuildRoom(_currentLayout);
             MovePlayer(_currentLayout.playerSpawnPoint);
-            RebakeNavMesh();          // NavMesh MUST exist before spawning enemies
-            SpawnEnemies(_currentLayout); // Now agents can Warp onto valid NavMesh
+            RebakeNavMesh();
+
+            if (_currentLayout.hasBoss)
+            {
+                SpawnBoss(_currentLayout);
+            }
+            else
+            {
+                SpawnEnemies(_currentLayout);
+            }
 
             EventBus.FireRoomReconfigureComplete();
         }
@@ -60,6 +75,10 @@ namespace PrismPanic.Room
             pool.Floors?.ReturnAll(_activeFloors);
             pool.Mirrors?.ReturnAll(_activeMirrors);
             pool.Pillars?.ReturnAll(_activePillars);
+
+            // Deactivate boss if present
+            if (_activeBoss != null)
+                _activeBoss.SetActive(false);
 
             // Return enemies to their correct pools
             foreach (var enemy in _activeEnemies)
@@ -251,17 +270,67 @@ namespace PrismPanic.Room
         /// <summary>
         /// Called by FlashlightController to place a player-placed mirror.
         /// </summary>
-        public void PlaceExtraMirror(Vector3 position, float rotationY)
+        public void PlaceExtraMirror(Vector3 position, Quaternion rotation)
         {
             var pool = PoolManager.Instance;
             if (pool?.Mirrors == null) return;
 
             Transform mirror = pool.Mirrors.Get();
             mirror.position = position;
-            mirror.rotation = Quaternion.Euler(0f, rotationY, 0f);
+            mirror.rotation = rotation;
             _activeMirrors.Add(mirror);
+
+            // Rebake NavMesh so angels path around the new mirror
+            RebakeNavMesh();
         }
 
         public LevelLayoutSO CurrentLayout => _currentLayout;
+
+        private void SpawnBoss(LevelLayoutSO layout)
+        {
+            // Deactivate any old boss
+            if (_activeBoss != null)
+            {
+                _activeBoss.SetActive(false);
+            }
+
+            if (_bossPrefab != null)
+            {
+                if (_activeBoss == null)
+                {
+                    _activeBoss = Instantiate(_bossPrefab);
+                }
+                _activeBoss.transform.position = layout.bossSpawnPoint;
+                _activeBoss.transform.rotation = Quaternion.identity;
+                _activeBoss.SetActive(true);
+            }
+
+            // Initialize BossRoomManager for dynamic pillar/mirror shuffling
+            if (_bossRoomManager != null)
+            {
+                // Compute room bounds from wall positions
+                float minX = float.MaxValue, maxX = float.MinValue;
+                float minZ = float.MaxValue, maxZ = float.MinValue;
+
+                if (layout.wallPositions != null)
+                {
+                    foreach (Vector3 pos in layout.wallPositions)
+                    {
+                        if (pos.x < minX) minX = pos.x;
+                        if (pos.x > maxX) maxX = pos.x;
+                        if (pos.z < minZ) minZ = pos.z;
+                        if (pos.z > maxZ) maxZ = pos.z;
+                    }
+                }
+
+                _bossRoomManager.Initialize(
+                    _activePillars,
+                    _activeMirrors,
+                    layout.bossSpawnPoint,
+                    minX, maxX, minZ, maxZ,
+                    _navMeshSurface
+                );
+            }
+        }
     }
 }
