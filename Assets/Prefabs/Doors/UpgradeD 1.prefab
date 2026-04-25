@@ -429,7 +429,7 @@ GameObject:
   - component: {fileID: 3150269045025742201}
   - component: {fileID: 5571863832873383544}
   m_Layer: 12
-  m_Name: UpgradeDoor
+  m_Name: UpgradeD 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -465,13 +465,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.Doors.UpgradeDoor
   _nameLabel: {fileID: 2153696894807273843}
-  _iconImage: {fileID: 5473993488951813831}
+  _iconImage: {fileID: 3310347380100563495, guid: 520679093e3c7ce43a09fd6ded103839, type: 3}
   _promptUI: {fileID: 8763326369348113922}
   _doorSprite: {fileID: 3150269045025742201}
   _closedSprite: {fileID: 48040056, guid: 18d1a8ee83e24b84b9ec3c735c0b48d0, type: 3}
   _openSprite: {fileID: -285241068, guid: 18d1a8ee83e24b84b9ec3c735c0b48d0, type: 3}
   _interactRadius: 1
-  _confirmRadius: 1
+  _confirmRadius: 2.5
 --- !u!212 &3150269045025742201
 SpriteRenderer:
   serializedVersion: 2

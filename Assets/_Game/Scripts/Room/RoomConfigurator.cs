@@ -191,7 +191,12 @@ namespace PrismPanic.Room
         {
             if (_playerTransform != null)
             {
+                var cc = _playerTransform.GetComponent<CharacterController>();
+                if (cc != null) cc.enabled = false;
+                
                 _playerTransform.position = spawnPoint;
+                
+                if (cc != null) cc.enabled = true;
             }
         }
 
