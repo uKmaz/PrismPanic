@@ -25,6 +25,7 @@ namespace PrismPanic.Light
         // Active beam segments this frame
         private readonly List<Transform> _activeSegments = new List<Transform>();
         private int _currentSegmentCount = 0;
+        private float _currentVisualRange = Constants.BEAM_START_LENGTH;
 
         private void Update()
         {
@@ -33,8 +34,9 @@ namespace PrismPanic.Light
             
             _currentSegmentCount = 0;
 
-            if (_flashlightController == null || !_flashlightController.IsFlashlightActive)
+            if (_flashlightController == null || _flashlightController.CurrentMode == FlashlightMode.Closed)
             {
+                _currentVisualRange = Constants.BEAM_START_LENGTH; // Fix: Reset beam growth when flashlight is turned off!
                 ReturnSegments();
                 return;
             }
@@ -103,8 +105,20 @@ namespace PrismPanic.Light
                 return; // Wide mode does NOT draw physical laser segments or reflect!
             }
 
+            // Grow visual range for Laser Mode
+            if (_flashlightController.CurrentMode == FlashlightMode.Laser)
+            {
+                float maxRange = _playerStats != null ? _playerStats.beamRange : Constants.DEFAULT_BEAM_RANGE;
+                _currentVisualRange += Constants.BEAM_GROWTH_SPEED * Time.deltaTime;
+                if (_currentVisualRange > maxRange) _currentVisualRange = maxRange;
+            }
+            else
+            {
+                _currentVisualRange = Constants.BEAM_START_LENGTH;
+            }
+
             // --- LASER MODE ---
-            CastBeam(origin, direction, 0);
+            CastBeam(origin, direction, 0, _currentVisualRange);
 
             // After casting, return any excess segments to the pool that were not used this frame
             while (_activeSegments.Count > _currentSegmentCount)
@@ -122,18 +136,17 @@ namespace PrismPanic.Light
             }
         }
 
-        private void CastBeam(Vector3 origin, Vector3 direction, int bounceCount)
+        private void CastBeam(Vector3 origin, Vector3 direction, int bounceCount, float remainingRange)
         {
-            if (bounceCount > Constants.MAX_BOUNCES) return;
+            if (bounceCount > Constants.MAX_BOUNCES || remainingRange <= 0f) return;
 
-            float range = _playerStats != null ? _playerStats.beamRange : Constants.DEFAULT_BEAM_RANGE;
-
-            if (Physics.Raycast(origin, direction, out RaycastHit hit, range, Constants.BeamRaycastMask))
+            if (Physics.Raycast(origin, direction, out RaycastHit hit, remainingRange, Constants.BeamRaycastMask))
             {
                 // Draw beam segment to hit point
                 DrawSegment(origin, hit.point, bounceCount);
 
                 int hitLayer = hit.collider.gameObject.layer;
+                float distanceTraveled = hit.distance;
 
                 // Mirror — reflect and recurse
                 if (hitLayer == Constants.LayerMirror)
@@ -143,7 +156,7 @@ namespace PrismPanic.Light
                     reflectDir.y = 0f;
                     reflectDir.Normalize();
                     // Offset origin slightly to avoid re-hitting the same mirror
-                    CastBeam(hit.point + reflectDir * 0.05f, reflectDir, bounceCount + 1);
+                    CastBeam(hit.point + reflectDir * 0.05f, reflectDir, bounceCount + 1, remainingRange - distanceTraveled);
                 }
                 // Enemy — register illumination and fire hit event
                 else if (hitLayer == Constants.LayerEnemy)
@@ -164,8 +177,8 @@ namespace PrismPanic.Light
             }
             else
             {
-                // No hit — draw to max range
-                DrawSegment(origin, origin + direction * range, bounceCount);
+                // No hit — draw to remaining range
+                DrawSegment(origin, origin + direction * remainingRange, bounceCount);
             }
         }
 

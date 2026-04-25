@@ -16,6 +16,7 @@ namespace PrismPanic.ScriptableObjects
         [SerializeField] private float _baseWideAngle = Constants.BASE_WIDE_ANGLE;
         [SerializeField] private float _baseLaserAngle = Constants.BASE_LASER_ANGLE;
         [SerializeField] private float _baseBeamRange = Constants.BASE_BEAM_RANGE;
+        [SerializeField] private float _baseMaxEnergy = Constants.BASE_MAX_ENERGY;
         [SerializeField] private int _basePlaceableMirrors = 0;
 
         // --- Runtime values (modified by upgrades, reset each run) ---
@@ -24,6 +25,9 @@ namespace PrismPanic.ScriptableObjects
         [System.NonSerialized] public float wideAngle;
         [System.NonSerialized] public float laserAngle;
         [System.NonSerialized] public float beamRange;
+        [System.NonSerialized] public float maxEnergy;
+        [System.NonSerialized] public float currentEnergy;
+        [System.NonSerialized] public bool isOverheated;
         [System.NonSerialized] public int placeableMirrorCount;
 
         private void OnEnable()
@@ -38,6 +42,9 @@ namespace PrismPanic.ScriptableObjects
             wideAngle = _baseWideAngle;
             laserAngle = _baseLaserAngle;
             beamRange = _baseBeamRange;
+            maxEnergy = _baseMaxEnergy;
+            currentEnergy = maxEnergy;
+            isOverheated = false;
             placeableMirrorCount = _basePlaceableMirrors;
         }
     }

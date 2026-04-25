@@ -4,6 +4,7 @@ namespace PrismPanic.Core
 {
     public enum FlashlightMode
     {
+        Closed,
         Wide,
         Laser
     }
@@ -44,7 +45,14 @@ namespace PrismPanic.Core
         public const float BASE_WIDE_INTENSITY = 20f;
         public const float BASE_LASER_INTENSITY = 50f;
         public const float BASE_LASER_ANGLE = 10f;
-        public const float BASE_BEAM_RANGE = 20f;
+        public const float BASE_BEAM_RANGE = 40f; // Increased to 40 so it can bounce further
+        public const float BEAM_GROWTH_SPEED = 8f; // Units per second
+        public const float BEAM_START_LENGTH = 0f;
+        public const float BASE_MAX_ENERGY = 100f;
+        public const float ENERGY_REGEN_RATE = 20f; // per sec
+        public const float ENERGY_DRAIN_WIDE = 10f; // per sec
+        public const float ENERGY_DRAIN_LASER = 30f; // per sec
+        public const float ENERGY_OVERHEAT_THRESHOLD = 0.70f; // 70% before usable again
 
         // --- Angel Defaults ---
         public const float ANGEL_BASE_SPEED = 1.5f;

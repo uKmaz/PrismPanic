@@ -23,7 +23,6 @@ namespace PrismPanic.Player
 
         public FlashlightMode CurrentMode { get; private set; } = FlashlightMode.Wide;
 
-        private bool _isFlashlightActive = true; // ON by default
         private bool _isPlacementMode;
         private GameObject _ghostMirror;
         private float _placementRotation;
@@ -51,21 +50,56 @@ namespace PrismPanic.Player
                 }
             }
 
-            // Handle mode toggle via R key
-            if (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame)
+            // Handle Overheat Recovery
+            if (_playerStats.isOverheated)
             {
-                CurrentMode = CurrentMode == FlashlightMode.Wide ? FlashlightMode.Laser : FlashlightMode.Wide;
+                if (_playerStats.currentEnergy >= _playerStats.maxEnergy * Constants.ENERGY_OVERHEAT_THRESHOLD)
+                {
+                    _playerStats.isOverheated = false;
+                }
+                else
+                {
+                    CurrentMode = FlashlightMode.Closed; // Lock in closed state
+                }
+            }
+
+            // Handle mode toggle via R key
+            if (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame && !_playerStats.isOverheated)
+            {
+                if (CurrentMode == FlashlightMode.Closed) CurrentMode = FlashlightMode.Wide;
+                else if (CurrentMode == FlashlightMode.Wide) CurrentMode = FlashlightMode.Laser;
+                else CurrentMode = FlashlightMode.Closed;
+            }
+
+            // Energy Logic
+            if (CurrentMode == FlashlightMode.Closed)
+            {
+                _playerStats.currentEnergy += Constants.ENERGY_REGEN_RATE * Time.deltaTime;
+                if (_playerStats.currentEnergy > _playerStats.maxEnergy) 
+                    _playerStats.currentEnergy = _playerStats.maxEnergy;
+            }
+            else
+            {
+                float drain = CurrentMode == FlashlightMode.Wide ? Constants.ENERGY_DRAIN_WIDE : Constants.ENERGY_DRAIN_LASER;
+                _playerStats.currentEnergy -= drain * Time.deltaTime;
+
+                if (_playerStats.currentEnergy <= 0)
+                {
+                    _playerStats.currentEnergy = 0;
+                    _playerStats.isOverheated = true;
+                    CurrentMode = FlashlightMode.Closed; // Force close when out of energy
+                }
             }
 
             // Update spotlight cone angle and intensity smoothly
             if (_spotLight != null)
             {
-                _spotLight.enabled = _isFlashlightActive;
+                bool isActive = CurrentMode != FlashlightMode.Closed;
+                _spotLight.enabled = isActive;
                 
-                if (_isFlashlightActive)
+                if (isActive)
                 {
                     float targetAngle = CurrentMode == FlashlightMode.Wide ? _playerStats.wideAngle : _playerStats.laserAngle;
-                    // Wide = 10 intensity, Laser = 50 intensity
                     float targetIntensity = CurrentMode == FlashlightMode.Wide ? Constants.BASE_WIDE_INTENSITY : Constants.BASE_LASER_INTENSITY; 
 
                     _spotLight.spotAngle = Mathf.Lerp(_spotLight.spotAngle, targetAngle, Time.deltaTime * 15f);
@@ -83,10 +117,17 @@ namespace PrismPanic.Player
 
         public void OnFlashlight(InputValue value)
         {
-            _isFlashlightActive = value.isPressed;
-            if (!_isFlashlightActive)
+            if (value.isPressed)
             {
-                DeactivateFlashlight();
+                // Optionally let left-click force it on if it's closed and NOT overheated
+                if (CurrentMode == FlashlightMode.Closed && !_playerStats.isOverheated)
+                {
+                    CurrentMode = FlashlightMode.Wide;
+                }
+            }
+            else
+            {
+                CurrentMode = FlashlightMode.Closed;
             }
         }
 
@@ -166,11 +207,11 @@ namespace PrismPanic.Player
 
         private void DeactivateFlashlight()
         {
-            _isFlashlightActive = false;
+            CurrentMode = FlashlightMode.Closed;
             if (_spotLight != null)
                 _spotLight.enabled = false;
         }
 
-        public bool IsFlashlightActive => _isFlashlightActive;
+        public bool IsFlashlightActive => CurrentMode != FlashlightMode.Closed;
     }
 }
