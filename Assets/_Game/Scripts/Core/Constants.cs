@@ -76,6 +76,12 @@ namespace PrismPanic.Core
         // --- Door Icon Transform ---
         public const float DOOR_ICON_Z_OFFSET = -0.1f;  // How far in front of the door sprite the icon renders
 
+        // --- Angel Darkness Visibility ---
+        public const float ANGEL_HIDDEN_ALPHA    = 0f;    // Alpha when not illuminated
+        public const float ANGEL_VISIBLE_ALPHA   = 1f;    // Alpha when illuminated by flashlight
+        public const float ANGEL_FADE_IN_SPEED   = 8f;    // How fast angel appears when lit
+        public const float ANGEL_FADE_OUT_SPEED  = 3f;    // How fast angel disappears in darkness
+
         // --- Adrenaline Effect ---
         public const float ADRENALINE_TRIGGER_RADIUS = 2.5f;
         public const float ADRENALINE_FADE_IN_SPEED = 5.0f;
