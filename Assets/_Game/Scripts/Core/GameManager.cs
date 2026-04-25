@@ -56,14 +56,24 @@ namespace PrismPanic.Core
         {
             CurrentLevelIndex = 0;
             _playerStats.ResetToDefaults();
+            
+            // Give player some invulnerability or grace if needed
             SetPhase(GamePhase.RoomSetup);
-
-            LevelLayoutSO layout = _levelManager.GetLayout(CurrentLevelIndex);
-            if (layout != null)
+            
+            LevelLayoutSO firstLayout = _levelManager.GetLayout(CurrentLevelIndex);
+            if (firstLayout != null)
             {
-                EventBus.FireRoomReconfigure(layout);
+                EventBus.FireRoomReconfigure(firstLayout);
             }
         }
+
+        private void HandleRestart()
+        {
+            // Soft restart instead of scene reload to prevent Input System / physics breaks
+            StartNewRun();
+        }
+
+
 
         /// <summary>
         /// Called by RoomConfigurator when spawning enemies to register count.
@@ -91,10 +101,20 @@ namespace PrismPanic.Core
             if (ActiveAngelCount <= 0)
             {
                 ActiveAngelCount = 0;
-                Debug.Log("[GameManager] ALL ANGELS CLEARED! Firing DoorsOpen...");
-                SetPhase(GamePhase.DoorsOpen);
                 EventBus.FireAllAngelsCleared();
-                EventBus.FireDoorsOpen();
+
+                if (_levelManager != null && CurrentLevelIndex >= _levelManager.TotalLevels - 1)
+                {
+                    Debug.Log("[GameManager] FINAL LEVEL CLEARED! Firing Victory...");
+                    SetPhase(GamePhase.Victory);
+                    EventBus.FireVictory();
+                }
+                else
+                {
+                    Debug.Log("[GameManager] ALL ANGELS CLEARED! Firing DoorsOpen...");
+                    SetPhase(GamePhase.DoorsOpen);
+                    EventBus.FireDoorsOpen();
+                }
             }
         }
 
@@ -129,6 +149,7 @@ namespace PrismPanic.Core
             LevelLayoutSO nextLayout = _levelManager.GetLayout(CurrentLevelIndex);
             if (nextLayout != null)
             {
+                Debug.Log($"[DEEP LOG] GameManager sending RoomReconfigure for LevelIndex {CurrentLevelIndex}. Layout: {nextLayout.layoutID}");
                 SetPhase(GamePhase.RoomSetup);
                 EventBus.FireRoomReconfigure(nextLayout);
             }
@@ -156,10 +177,6 @@ namespace PrismPanic.Core
             SetPhase(GamePhase.GameOver);
         }
 
-        private void HandleRestart()
-        {
-            SceneController.LoadMain();
-        }
 
         private void SetPhase(GamePhase phase)
         {

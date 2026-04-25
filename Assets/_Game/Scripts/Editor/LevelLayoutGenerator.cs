@@ -188,7 +188,7 @@ namespace PrismPanic.Editor
             };
 
             layout.pillarPositions = new Vector3[] { new Vector3(2f, 1.5f, 2f), new Vector3(-2f, 1.5f, 2f), new Vector3(0f, 1.5f, -1f) };
-            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -3f);
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -4f);
             layout.enemySpawnPoints = new Vector3[] { new Vector3(-7f, 0.5f, 5f), new Vector3(7f, 0.5f, 5f), new Vector3(-4f, 0.5f, 2f), new Vector3(4f, 0.5f, 2f), new Vector3(0f, 0.5f, 5f) };
             layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 6f), new Vector3(-5f, 1.5f, 6f), new Vector3(5f, 1.5f, 6f) };
             layout.waves = new EnemyWaveData[] { new EnemyWaveData { enemyData = baseAngel, count = 3 }, new EnemyWaveData { enemyData = fastAngel, count = 3 } };
@@ -215,7 +215,7 @@ namespace PrismPanic.Editor
             };
 
             layout.pillarPositions = new Vector3[] { new Vector3(3f, 1.5f, 3f), new Vector3(-3f, 1.5f, -3f), new Vector3(-3f, 1.5f, 3f), new Vector3(3f, 1.5f, -3f) };
-            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -3f);
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -4f);
             layout.enemySpawnPoints = new Vector3[] { new Vector3(-6f, 0.5f, 6f), new Vector3(6f, 0.5f, 6f), new Vector3(-2f, 0.5f, 4f), new Vector3(2f, 0.5f, 4f), new Vector3(-6f, 0.5f, 0f), new Vector3(6f, 0.5f, 0f) };
             layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 8f), new Vector3(-4f, 1.5f, 8f), new Vector3(4f, 1.5f, 8f) };
             layout.waves = new EnemyWaveData[] { new EnemyWaveData { enemyData = baseAngel, count = 4 }, new EnemyWaveData { enemyData = fastAngel, count = 3 } };
@@ -243,7 +243,7 @@ namespace PrismPanic.Editor
             };
 
             layout.pillarPositions = new Vector3[] { new Vector3(5f, 1.5f, 0f), new Vector3(-5f, 1.5f, 0f), new Vector3(2f, 1.5f, 3f), new Vector3(-2f, 1.5f, 3f) };
-            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -3f);
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -4f);
             layout.enemySpawnPoints = new Vector3[] { new Vector3(-8f, 0.5f, 6f), new Vector3(8f, 0.5f, 6f), new Vector3(-4f, 0.5f, 6f), new Vector3(4f, 0.5f, 6f), new Vector3(-8f, 0.5f, -2f), new Vector3(8f, 0.5f, -2f) };
             layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 7f), new Vector3(-5f, 1.5f, 7f), new Vector3(5f, 1.5f, 7f) };
             layout.waves = new EnemyWaveData[] { new EnemyWaveData { enemyData = baseAngel, count = 3 }, new EnemyWaveData { enemyData = fastAngel, count = 5 } };
@@ -274,7 +274,7 @@ namespace PrismPanic.Editor
             };
 
             layout.pillarPositions = new Vector3[] { new Vector3(6f, 1.5f, 0f), new Vector3(-6f, 1.5f, 0f), new Vector3(0f, 1.5f, 4f), new Vector3(4f, 1.5f, -4f), new Vector3(-4f, 1.5f, -4f) };
-            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -3f);
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -4f);
             
             layout.enemySpawnPoints = new Vector3[] 
             { 

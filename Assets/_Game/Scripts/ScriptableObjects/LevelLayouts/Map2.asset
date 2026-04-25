@@ -285,3 +285,5 @@ MonoBehaviour:
   - enemyData: {fileID: 11400000, guid: 9c3a9b5b6ffda1a46a912012fe8b2ccd, type: 2}
     count: 3
     isShadowAngel: 0
+  hasBoss: 0
+  bossSpawnPoint: {x: 0, y: 0, z: 0}

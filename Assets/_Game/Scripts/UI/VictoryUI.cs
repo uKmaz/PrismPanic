@@ -79,7 +79,7 @@ namespace PrismPanic.UI
                 _panel.SetActive(false);
 
             Time.timeScale = 1f;
-            SceneController.LoadMain();
+            EventBus.FireGameRestart();
         }
 
         private void OnMenu()

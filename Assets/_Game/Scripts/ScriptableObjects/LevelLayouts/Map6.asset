@@ -464,7 +464,7 @@ MonoBehaviour:
   - {x: -3, y: 1.5, z: -3}
   - {x: -3, y: 1.5, z: 3}
   - {x: 3, y: 1.5, z: -3}
-  playerSpawnPoint: {x: 0, y: 0.5, z: -3}
+  playerSpawnPoint: {x: 0, y: 0.5, z: -4}
   enemySpawnPoints:
   - {x: -6, y: 0.5, z: 6}
   - {x: 6, y: 0.5, z: 6}
@@ -483,3 +483,5 @@ MonoBehaviour:
   - enemyData: {fileID: 11400000, guid: 0037c8b5ca85e354e8b352c5f41414fb, type: 2}
     count: 3
     isShadowAngel: 0
+  hasBoss: 0
+  bossSpawnPoint: {x: 0, y: 0, z: 0}

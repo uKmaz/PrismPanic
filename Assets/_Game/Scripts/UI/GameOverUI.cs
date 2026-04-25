@@ -123,7 +123,7 @@ namespace PrismPanic.UI
 
             Time.timeScale = 1f;
             Time.fixedDeltaTime = 0.02f;
-            SceneController.LoadMain();
+            EventBus.FireGameRestart();
         }
 
         private void OnMenu()

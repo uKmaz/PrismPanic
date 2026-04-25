@@ -30,6 +30,7 @@ public class AdrenalineController : MonoBehaviour
     {
         EventBus.OnAdrenalineStateChanged += HandleAdrenalineState;
         EventBus.OnAngelKilled += HandleAngelKilled;
+        EventBus.OnGameRestart += HandleRestart;
         
         // Subscribe to URP rendering callbacks for non-destructive camera shake
         RenderPipelineManager.beginCameraRendering += OnBeginCameraRendering;
@@ -40,9 +41,18 @@ public class AdrenalineController : MonoBehaviour
     {
         EventBus.OnAdrenalineStateChanged -= HandleAdrenalineState;
         EventBus.OnAngelKilled -= HandleAngelKilled;
+        EventBus.OnGameRestart -= HandleRestart;
         
         RenderPipelineManager.beginCameraRendering -= OnBeginCameraRendering;
         RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
+    }
+
+    private void HandleRestart()
+    {
+        _isActive = false;
+        _impactTrauma = 0f;
+        _adrenalineVolume.weight = 0f;
+        _currentWeight = 0f;
     }
 
     private void HandleAdrenalineState(bool isActive)

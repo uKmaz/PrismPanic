@@ -203,14 +203,36 @@ namespace PrismPanic.Room
 
         private void MovePlayer(Vector3 spawnPoint)
         {
+            // If reference is missing or doesn't have CC, find the true Player object dynamically!
+            if (_playerTransform == null || _playerTransform.GetComponent<CharacterController>() == null)
+            {
+                var playerObj = Object.FindObjectOfType<PrismPanic.Player.PlayerController>();
+                if (playerObj != null)
+                {
+                    _playerTransform = playerObj.transform;
+                    Debug.LogWarning($"[DEEP LOG] _playerTransform was invalid. Dynamically found true Player at: {_playerTransform.name}");
+                }
+            }
+
             if (_playerTransform != null)
             {
                 var cc = _playerTransform.GetComponent<CharacterController>();
+                
+                Debug.Log($"[DEEP LOG] MovePlayer STARTED. Frame: {Time.frameCount}. Current Player Pos: {_playerTransform.position}. Target Spawn: {spawnPoint}. CC Enabled: {(cc != null ? cc.enabled.ToString() : "NULL")}");
+
                 if (cc != null) cc.enabled = false;
                 
+                // Force spawn slightly higher so player doesn't clip into the floor on teleport
+                spawnPoint.y = 1.5f;
                 _playerTransform.position = spawnPoint;
                 
                 if (cc != null) cc.enabled = true;
+
+                Debug.Log($"[DEEP LOG] MovePlayer COMPLETED. Frame: {Time.frameCount}. New Player Pos: {_playerTransform.position}. CC Enabled: {(cc != null ? cc.enabled.ToString() : "NULL")}");
+            }
+            else
+            {
+                Debug.LogError("[DEEP LOG] MovePlayer FAILED: _playerTransform is absolutely NULL and couldn't find PlayerController!");
             }
         }
 
