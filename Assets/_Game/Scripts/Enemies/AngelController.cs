@@ -27,6 +27,10 @@ namespace PrismPanic.Enemies
         [SerializeField] private GameObject deathEffectPrefab;
         [SerializeField] private float _vibrateAmount = 0.15f;
 
+        [Header("Angel Type")]
+        [Tooltip("If true, angel is invisible in darkness and only revealed by the flashlight.")]
+        [SerializeField] private bool _isInvisibleType = false;
+
         private const float SPAWN_GRACE_DURATION = 1f; // seconds before angel starts moving
         private float _damageCooldownTimer;
         private float _vibrateTimer;
@@ -34,6 +38,7 @@ namespace PrismPanic.Enemies
         private Vector3 _basePosition;
         private Utilities.DirectionalSprite _directionalSprite;
         private SpriteRenderer _spriteRenderer;
+        private SpriteRenderer[] _allRenderers;
 
         private void Awake()
         {
@@ -42,8 +47,17 @@ namespace PrismPanic.Enemies
             if (_directionalSprite != null)
                 _spriteRenderer = _directionalSprite.GetComponent<SpriteRenderer>();
 
+            // Fallback: grab any SpriteRenderer in children if the above didn't find one
+            if (_spriteRenderer == null)
+                _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+            // Cache ALL renderers so we catch every sprite the DirectionalSprite might swap to
+            _allRenderers = GetComponentsInChildren<SpriteRenderer>(includeInactive: true);
+
+            // Shadow type starts invisible; normal type is always visible
+            SetRenderersEnabled(!_isInvisibleType);
+
             // Disable immediately — agent can't exist without NavMesh.
-            // It will be enabled in Initialize() after NavMesh is baked.
             if (_agent != null)
                 _agent.enabled = false;
         }
@@ -61,6 +75,8 @@ namespace PrismPanic.Enemies
             _flashTimer = 0f;
             _graceTimer = SPAWN_GRACE_DURATION;
             CurrentState = AngelState.Idle;
+            // Shadow angels start hidden; normal angels start visible
+            SetRenderersEnabled(!_isInvisibleType);
             UpdateColorByHP();
 
             if (_agent != null)
@@ -99,6 +115,7 @@ namespace PrismPanic.Enemies
             if (_damageCooldownTimer > 0f) _damageCooldownTimer -= Time.deltaTime;
             
             HandleVisualEffects();
+            UpdateVisibility(); // MUST run last — always applies correct alpha on top of HP tint
             
             if (_directionalSprite != null)
             {
@@ -190,12 +207,27 @@ namespace PrismPanic.Enemies
             }
         }
 
+        private void UpdateVisibility()
+        {
+            // Normal angels are always visible — skip
+            if (!_isInvisibleType) return;
+
+            bool illuminated = AngelIlluminationRegistry.IsIlluminated(this);
+            SetRenderersEnabled(illuminated);
+        }
+
+        private void SetRenderersEnabled(bool visible)
+        {
+            if (_allRenderers == null) return;
+            foreach (var sr in _allRenderers)
+                if (sr != null) sr.enabled = visible;
+        }
+
         private void UpdateColorByHP()
         {
             if (_spriteRenderer == null) return;
             float max = _data != null ? _data.maxHP : Constants.ANGEL_BASE_HP;
             float ratio = Mathf.Clamp01((float)_currentHP / max);
-            // Lerp from Red (0 HP) to White (Max HP)
             _spriteRenderer.color = Color.Lerp(Color.red, Color.white, ratio);
         }
 
