@@ -34,7 +34,7 @@ namespace PrismPanic.Core
             (1 << LayerWall) | (1 << LayerPillar) | (1 << 0); // Default layer for floor
 
         // --- Beam ---
-        public const int MAX_BOUNCES = 3;
+        public const int MAX_BOUNCES = 10;
         public const float DEFAULT_BEAM_RANGE = 20f;
         public const float BEAM_WIDTH = 0.06f;
 
@@ -45,7 +45,7 @@ namespace PrismPanic.Core
         public const float BASE_WIDE_INTENSITY = 20f;
         public const float BASE_LASER_INTENSITY = 50f;
         public const float BASE_LASER_ANGLE = 10f;
-        public const float BASE_BEAM_RANGE = 40f; // Increased to 40 so it can bounce further
+        public const float BASE_BEAM_RANGE = 999f; // Infinite range
         public const float BEAM_GROWTH_SPEED = 8f; // Units per second
         public const float BEAM_START_LENGTH = 0f;
         public const float BASE_MAX_ENERGY = 100f;

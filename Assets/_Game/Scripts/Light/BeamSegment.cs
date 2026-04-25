@@ -209,7 +209,7 @@ namespace PrismPanic.Light
                     _spiralRadius = width * PrismPanic.Core.Constants.SPIRAL_RADIUS_RED_MULTIPLIER;
                     _rotationSpeed = PrismPanic.Core.Constants.ROTATION_SPEED_RED; 
                     break;
-                case 3: // Purple, excessive particles + fast spiral
+                default: // 3+ Bounces (Purple)
                     color = new Color(0.8f, 0f, 1f); // Bright Purple
                     emissionRate = 250;
                     useSpiral = true;

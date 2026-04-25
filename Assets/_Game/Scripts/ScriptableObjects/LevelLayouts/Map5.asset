@@ -10,10 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b4b9f7a9fa802c41af03a24872f33a8, type: 3}
-  m_Name: Map3
+  m_Name: Map5
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.ScriptableObjects.LevelLayoutSO
-  layoutID: map3
+  layoutID: map5
   wallPositions:
+  - {x: -9, y: 0, z: -7}
+  - {x: -9, y: 0, z: 7}
+  - {x: -8, y: 0, z: -7}
+  - {x: -8, y: 0, z: 7}
   - {x: -7, y: 0, z: -7}
   - {x: -7, y: 0, z: 7}
   - {x: -6, y: 0, z: -7}
@@ -44,33 +48,67 @@ MonoBehaviour:
   - {x: 6, y: 0, z: 7}
   - {x: 7, y: 0, z: -7}
   - {x: 7, y: 0, z: 7}
-  - {x: -7, y: 0, z: -6}
-  - {x: 7, y: 0, z: -6}
-  - {x: -7, y: 0, z: -5}
-  - {x: 7, y: 0, z: -5}
-  - {x: -7, y: 0, z: -4}
-  - {x: 7, y: 0, z: -4}
-  - {x: -7, y: 0, z: -3}
-  - {x: 7, y: 0, z: -3}
-  - {x: -7, y: 0, z: -2}
-  - {x: 7, y: 0, z: -2}
-  - {x: -7, y: 0, z: -1}
-  - {x: 7, y: 0, z: -1}
-  - {x: -7, y: 0, z: 0}
-  - {x: 7, y: 0, z: 0}
-  - {x: -7, y: 0, z: 1}
-  - {x: 7, y: 0, z: 1}
-  - {x: -7, y: 0, z: 2}
-  - {x: 7, y: 0, z: 2}
-  - {x: -7, y: 0, z: 3}
-  - {x: 7, y: 0, z: 3}
-  - {x: -7, y: 0, z: 4}
-  - {x: 7, y: 0, z: 4}
-  - {x: -7, y: 0, z: 5}
-  - {x: 7, y: 0, z: 5}
-  - {x: -7, y: 0, z: 6}
-  - {x: 7, y: 0, z: 6}
+  - {x: 8, y: 0, z: -7}
+  - {x: 8, y: 0, z: 7}
+  - {x: 9, y: 0, z: -7}
+  - {x: 9, y: 0, z: 7}
+  - {x: -9, y: 0, z: -6}
+  - {x: 9, y: 0, z: -6}
+  - {x: -9, y: 0, z: -5}
+  - {x: 9, y: 0, z: -5}
+  - {x: -9, y: 0, z: -4}
+  - {x: 9, y: 0, z: -4}
+  - {x: -9, y: 0, z: -3}
+  - {x: 9, y: 0, z: -3}
+  - {x: -9, y: 0, z: -2}
+  - {x: 9, y: 0, z: -2}
+  - {x: -9, y: 0, z: -1}
+  - {x: 9, y: 0, z: -1}
+  - {x: -9, y: 0, z: 0}
+  - {x: 9, y: 0, z: 0}
+  - {x: -9, y: 0, z: 1}
+  - {x: 9, y: 0, z: 1}
+  - {x: -9, y: 0, z: 2}
+  - {x: 9, y: 0, z: 2}
+  - {x: -9, y: 0, z: 3}
+  - {x: 9, y: 0, z: 3}
+  - {x: -9, y: 0, z: 4}
+  - {x: 9, y: 0, z: 4}
+  - {x: -9, y: 0, z: 5}
+  - {x: 9, y: 0, z: 5}
+  - {x: -9, y: 0, z: 6}
+  - {x: 9, y: 0, z: 6}
   floorPositions:
+  - {x: -9, y: 0, z: -7}
+  - {x: -9, y: 0, z: -6}
+  - {x: -9, y: 0, z: -5}
+  - {x: -9, y: 0, z: -4}
+  - {x: -9, y: 0, z: -3}
+  - {x: -9, y: 0, z: -2}
+  - {x: -9, y: 0, z: -1}
+  - {x: -9, y: 0, z: 0}
+  - {x: -9, y: 0, z: 1}
+  - {x: -9, y: 0, z: 2}
+  - {x: -9, y: 0, z: 3}
+  - {x: -9, y: 0, z: 4}
+  - {x: -9, y: 0, z: 5}
+  - {x: -9, y: 0, z: 6}
+  - {x: -9, y: 0, z: 7}
+  - {x: -8, y: 0, z: -7}
+  - {x: -8, y: 0, z: -6}
+  - {x: -8, y: 0, z: -5}
+  - {x: -8, y: 0, z: -4}
+  - {x: -8, y: 0, z: -3}
+  - {x: -8, y: 0, z: -2}
+  - {x: -8, y: 0, z: -1}
+  - {x: -8, y: 0, z: 0}
+  - {x: -8, y: 0, z: 1}
+  - {x: -8, y: 0, z: 2}
+  - {x: -8, y: 0, z: 3}
+  - {x: -8, y: 0, z: 4}
+  - {x: -8, y: 0, z: 5}
+  - {x: -8, y: 0, z: 6}
+  - {x: -8, y: 0, z: 7}
   - {x: -7, y: 0, z: -7}
   - {x: -7, y: 0, z: -6}
   - {x: -7, y: 0, z: -5}
@@ -296,31 +334,64 @@ MonoBehaviour:
   - {x: 7, y: 0, z: 5}
   - {x: 7, y: 0, z: 6}
   - {x: 7, y: 0, z: 7}
+  - {x: 8, y: 0, z: -7}
+  - {x: 8, y: 0, z: -6}
+  - {x: 8, y: 0, z: -5}
+  - {x: 8, y: 0, z: -4}
+  - {x: 8, y: 0, z: -3}
+  - {x: 8, y: 0, z: -2}
+  - {x: 8, y: 0, z: -1}
+  - {x: 8, y: 0, z: 0}
+  - {x: 8, y: 0, z: 1}
+  - {x: 8, y: 0, z: 2}
+  - {x: 8, y: 0, z: 3}
+  - {x: 8, y: 0, z: 4}
+  - {x: 8, y: 0, z: 5}
+  - {x: 8, y: 0, z: 6}
+  - {x: 8, y: 0, z: 7}
+  - {x: 9, y: 0, z: -7}
+  - {x: 9, y: 0, z: -6}
+  - {x: 9, y: 0, z: -5}
+  - {x: 9, y: 0, z: -4}
+  - {x: 9, y: 0, z: -3}
+  - {x: 9, y: 0, z: -2}
+  - {x: 9, y: 0, z: -1}
+  - {x: 9, y: 0, z: 0}
+  - {x: 9, y: 0, z: 1}
+  - {x: 9, y: 0, z: 2}
+  - {x: 9, y: 0, z: 3}
+  - {x: 9, y: 0, z: 4}
+  - {x: 9, y: 0, z: 5}
+  - {x: 9, y: 0, z: 6}
+  - {x: 9, y: 0, z: 7}
   mirrorPlacements:
-  - position: {x: 4, y: 1, z: 0}
-    rotationY: 45
-  - position: {x: -4, y: 1, z: 3}
-    rotationY: -60
-  - position: {x: 0, y: 1, z: -2}
+  - position: {x: 6, y: 1, z: 4}
+    rotationY: -30
+  - position: {x: -6, y: 1, z: 4}
     rotationY: 30
-  - position: {x: 2, y: 1, z: 4}
-    rotationY: -45
+  - position: {x: 4, y: 1, z: -2}
+    rotationY: 60
+  - position: {x: -4, y: 1, z: -2}
+    rotationY: -60
+  - position: {x: 0, y: 1, z: 2}
+    rotationY: 90
   pillarPositions:
-  - {x: 3, y: 1.5, z: 2}
-  - {x: -3, y: 1.5, z: -1}
-  - {x: 0, y: 1.5, z: 1}
+  - {x: 2, y: 1.5, z: 2}
+  - {x: -2, y: 1.5, z: 2}
+  - {x: 0, y: 1.5, z: -1}
   playerSpawnPoint: {x: 0, y: 0.5, z: -5}
   enemySpawnPoints:
-  - {x: -5, y: 0.5, z: 4}
-  - {x: 5, y: 0.5, z: 4}
-  - {x: -2, y: 0.5, z: 2}
-  - {x: 2, y: 0.5, z: 2}
+  - {x: -7, y: 0.5, z: 5}
+  - {x: 7, y: 0.5, z: 5}
+  - {x: -4, y: 0.5, z: 2}
+  - {x: 4, y: 0.5, z: 2}
+  - {x: 0, y: 0.5, z: 5}
   doorSpawnPoints:
   - {x: 0, y: 1.5, z: 6}
-  - {x: -4, y: 1.5, z: 6}
-  - {x: 4, y: 1.5, z: 6}
+  - {x: -5, y: 1.5, z: 6}
+  - {x: 5, y: 1.5, z: 6}
   waves:
   - enemyData: {fileID: 11400000, guid: 9c3a9b5b6ffda1a46a912012fe8b2ccd, type: 2}
-    count: 2
+    count: 3
   - enemyData: {fileID: 11400000, guid: 0037c8b5ca85e354e8b352c5f41414fb, type: 2}
-    count: 2
+    count: 3
