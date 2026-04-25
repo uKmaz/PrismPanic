@@ -13,6 +13,7 @@ namespace PrismPanic.Utilities
 
         [Header("Prefabs")]
         [SerializeField] private Transform _angelPrefab;
+        [SerializeField] private Transform _shadowAngelPrefab;
         [SerializeField] private Transform _beamSegmentPrefab;
         [SerializeField] private Transform _mirrorPrefab;
         [SerializeField] private Transform _pillarPrefab;
@@ -31,6 +32,7 @@ namespace PrismPanic.Utilities
 
         // Public pool accessors
         public ObjectPool<Transform> Angels { get; private set; }
+        public ObjectPool<Transform> ShadowAngels { get; private set; }
         public ObjectPool<Transform> BeamSegments { get; private set; }
         public ObjectPool<Transform> Mirrors { get; private set; }
         public ObjectPool<Transform> Pillars { get; private set; }
@@ -54,6 +56,9 @@ namespace PrismPanic.Utilities
         {
             if (_angelPrefab != null)
                 Angels = new ObjectPool<Transform>(_angelPrefab, _enemiesContainer, Constants.POOL_ANGELS);
+
+            if (_shadowAngelPrefab != null)
+                ShadowAngels = new ObjectPool<Transform>(_shadowAngelPrefab, _enemiesContainer, Constants.POOL_SHADOW_ANGELS);
 
             if (_beamSegmentPrefab != null)
                 BeamSegments = new ObjectPool<Transform>(_beamSegmentPrefab, _beamContainer, Constants.POOL_BEAM_SEGMENTS);

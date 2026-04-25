@@ -50,13 +50,13 @@ The flashlight casts a primary ray. Each mirror it hits spawns a reflected ray. 
 ```csharp
 // Responsibilities:
 // - Cast primary ray from flashlight position in aim direction
-// - On mirror hit: recurse up to MAX_BOUNCES (2)
+// - On mirror hit: recurse up to MAX_BOUNCES (10)
 // - On angel hit: fire EventBus.OnBeamHit with bounce count
 // - Render beam using LineRenderer segments from pool
 
-private const int MAX_BOUNCES = 2;
+private const int MAX_BOUNCES = 10;
 
-// Use Physics2D.Raycast with layerMask combining Mirrors, Angels, Walls, Pillars
+// Use Physics.Raycast with layerMask combining Mirrors, Angels, Walls, Pillars
 // Layer priority: Wall/Pillar terminates beam. Mirror reflects. Angel triggers hit.
 ```
 
@@ -64,8 +64,11 @@ private const int MAX_BOUNCES = 2;
 ```csharp
 // Damage/stun rules:
 // bounceCount == 0 → Stun only (duration from PlayerStats.stunDuration)
-// bounceCount == 1 → Deal base damage (AngelDataSO.baseHealth * 1.0f)
-// bounceCount == 2 → Deal 2x damage (AngelDataSO.baseHealth * 2.0f)
+// bounceCount == 1 → Deal base damage (1)
+// bounceCount == 2 → Deal 2x damage (2)
+// bounceCount >= 3 → Deal 3x damage (3)
+
+// Special logic: if CurrentLevelIndex == 0 and bounceCount >= 3, instakill TutorialAngel.
 
 // Angels have HP. Stun does not deal damage. Kill fires OnAngelKilled.
 ```

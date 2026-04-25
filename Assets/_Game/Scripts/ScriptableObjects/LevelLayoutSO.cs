@@ -47,5 +47,7 @@ namespace PrismPanic.ScriptableObjects
     {
         public EnemyDataSO enemyData;
         public int count;
+        [Tooltip("If true, spawns from the ShadowAngel pool (invisible in darkness)")]
+        public bool isShadowAngel;
     }
 }

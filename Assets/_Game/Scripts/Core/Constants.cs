@@ -60,12 +60,13 @@ namespace PrismPanic.Core
 
         // --- Pool Sizes ---
         public const int POOL_ANGELS = 8;
-        public const int POOL_BEAM_SEGMENTS = 6;
+        public const int POOL_SHADOW_ANGELS = 4;
+        public const int POOL_BEAM_SEGMENTS = 33;
         public const int POOL_MIRRORS = 12;
         public const int POOL_PILLARS = 8;
         public const int POOL_DOORS = 3;
-        public const int POOL_WALLS = 60;
-        public const int POOL_FLOORS = 60;
+        public const int POOL_WALLS = 100;
+        public const int POOL_FLOORS = 550;
 
         // --- Gameplay ---
         public const int DOORS_PER_LEVEL = 3;

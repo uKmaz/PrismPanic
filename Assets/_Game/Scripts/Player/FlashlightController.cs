@@ -69,6 +69,9 @@ namespace PrismPanic.Player
                 if (CurrentMode == FlashlightMode.Closed) CurrentMode = FlashlightMode.Wide;
                 else if (CurrentMode == FlashlightMode.Wide) CurrentMode = FlashlightMode.Laser;
                 else CurrentMode = FlashlightMode.Closed;
+
+                // Notify audio system of mode change
+                Audio.AudioEffectHandler.Instance?.SetFlashlightMode(CurrentMode);
             }
 
             // Handle Mirror Placement via T key
@@ -99,6 +102,7 @@ namespace PrismPanic.Player
                     _playerStats.currentEnergy = 0;
                     _playerStats.isOverheated = true;
                     CurrentMode = FlashlightMode.Closed; // Force close when out of energy
+                    Audio.AudioEffectHandler.Instance?.SetFlashlightMode(CurrentMode);
                 }
             }
 
@@ -139,6 +143,7 @@ namespace PrismPanic.Player
             else
             {
                 CurrentMode = FlashlightMode.Closed;
+                Audio.AudioEffectHandler.Instance?.SetFlashlightMode(CurrentMode);
             }
         }
 
@@ -221,6 +226,7 @@ namespace PrismPanic.Player
             CurrentMode = FlashlightMode.Closed;
             if (_spotLight != null)
                 _spotLight.enabled = false;
+            Audio.AudioEffectHandler.Instance?.SetFlashlightMode(FlashlightMode.Closed);
         }
 
         public bool IsFlashlightActive => CurrentMode != FlashlightMode.Closed;

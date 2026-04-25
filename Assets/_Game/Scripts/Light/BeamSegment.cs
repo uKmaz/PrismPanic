@@ -196,9 +196,11 @@ namespace PrismPanic.Light
                     useSpiral = false;
                     break;
                 case 1: // Blue, little particles
-                    color = Color.cyan; 
-                    emissionRate = 40;
-                    useSpiral = false;
+                    color = Color.blue; 
+                    emissionRate = 50;
+                    useSpiral = true;
+                    _spiralRadius = width * PrismPanic.Core.Constants.SPIRAL_RADIUS_BLUE_MULTIPLIER;
+                    _rotationSpeed = PrismPanic.Core.Constants.ROTATION_SPEED_BLUE; 
                     break;
                 case 2: // Red, particles + rotating spiral
                     color = Color.red;
@@ -207,7 +209,7 @@ namespace PrismPanic.Light
                     _spiralRadius = width * PrismPanic.Core.Constants.SPIRAL_RADIUS_RED_MULTIPLIER;
                     _rotationSpeed = PrismPanic.Core.Constants.ROTATION_SPEED_RED; 
                     break;
-                case 3: // Purple, excessive particles + fast spiral
+                default: // 3+ Bounces (Purple)
                     color = new Color(0.8f, 0f, 1f); // Bright Purple
                     emissionRate = 250;
                     useSpiral = true;

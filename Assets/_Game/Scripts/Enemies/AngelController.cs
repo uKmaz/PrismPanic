@@ -167,6 +167,7 @@ namespace PrismPanic.Enemies
             if (deathEffectPrefab != null)
             {
                 GameObject effect = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+                Destroy(effect, 3f);
             }
 
             // Fire event before returning to pool
@@ -220,6 +221,7 @@ namespace PrismPanic.Enemies
         }
 
         public int CurrentHP => _currentHP;
+        public bool IsInvisibleType => _isInvisibleType;
     }
 
     public enum AngelState

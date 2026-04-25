@@ -1,36 +1,39 @@
 using UnityEngine;
 using PrismPanic.Core;
 
-public class DangerDetector : MonoBehaviour
+namespace PrismPanic.Player
 {
-    private bool _isAdrenalineActive = false;
-
-    private void Update()
+    public class DangerDetector : MonoBehaviour
     {
-        bool hasThreat = false;
-        
-        // We use OverlapSphere instead of triggers to guarantee it detects the angel
-        // even if rigidbodies are missing or the sphere collider radius was forgotten.
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, Constants.ADRENALINE_TRIGGER_RADIUS, 1 << Constants.LayerEnemy);
-        
-        foreach (var col in hitColliders)
+        private bool _isAdrenalineActive = false;
+
+        private void Update()
         {
-            // As long as there is an enemy in radius, we have a threat
-            hasThreat = true;
-            break;
+            bool hasThreat = false;
+            
+            // We use OverlapSphere instead of triggers to guarantee it detects the angel
+            // even if rigidbodies are missing or the sphere collider radius was forgotten.
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, Constants.ADRENALINE_TRIGGER_RADIUS, 1 << Constants.LayerEnemy);
+            
+            foreach (var col in hitColliders)
+            {
+                // As long as there is an enemy in radius, we have a threat
+                hasThreat = true;
+                break;
+            }
+
+            if (hasThreat != _isAdrenalineActive)
+            {
+                _isAdrenalineActive = hasThreat;
+                EventBus.FireAdrenalineStateChanged(_isAdrenalineActive);
+            }
         }
 
-        if (hasThreat != _isAdrenalineActive)
+        private void OnDrawGizmosSelected()
         {
-            _isAdrenalineActive = hasThreat;
-            EventBus.FireAdrenalineStateChanged(_isAdrenalineActive);
+            // Draws a red sphere in the Scene view so you can visually see the danger zone!
+            Gizmos.color = new Color(1, 0, 0, 0.3f);
+            Gizmos.DrawWireSphere(transform.position, Constants.ADRENALINE_TRIGGER_RADIUS);
         }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        // Draws a red sphere in the Scene view so you can visually see the danger zone!
-        Gizmos.color = new Color(1, 0, 0, 0.3f);
-        Gizmos.DrawWireSphere(transform.position, Constants.ADRENALINE_TRIGGER_RADIUS);
     }
 }

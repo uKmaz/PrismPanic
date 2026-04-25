@@ -194,3 +194,4 @@ MonoBehaviour:
   waves:
   - enemyData: {fileID: 11400000, guid: 9c3a9b5b6ffda1a46a912012fe8b2ccd, type: 2}
     count: 2
+    isShadowAngel: 0

@@ -6,128 +6,99 @@ using System.Collections.Generic;
 
 namespace PrismPanic.Editor
 {
-    /// <summary>
-    /// Editor utility to auto-generate LevelLayoutSO data.
-    /// Use from menu: PrismPanic → Generate Map1
-    /// </summary>
     public static class LevelLayoutGenerator
     {
-        [MenuItem("PrismPanic/Generate Map1 (Tutorial)")]
-        public static void GenerateMap1()
+        [MenuItem("PrismPanic/Generate ALL Maps (0 to 8)")]
+        public static void GenerateAll()
         {
-            var layout = GetOrCreateLayout("Map1", "map1_tutorial");
+            GenerateMap0(); // Tutorial Menu
+            GenerateMap1();
+            GenerateMap2();
+            GenerateMap3();
+            GenerateMap4();
+            GenerateMap5();
+            GenerateMap6();
+            GenerateMap7();
+            GenerateMap8();
+            Debug.Log("[PrismPanic] All 9 maps generated (including Tutorial)!");
+        }
 
-            layout.layoutID = "map1_tutorial";
+        [MenuItem("PrismPanic/Maps/Generate Map0 (Tutorial Menu)")]
+        public static void GenerateMap0()
+        {
+            var layout = GetOrCreateLayout("Map0", "map0_tutorial");
+            var baseAngel = FindEnemyData("BaseAngel"); // User will rename or create a "TutorialAngel" if they want, but base works since it takes 999 dmg
 
-            // --- WALLS (perimeter of 10x10 room) ---
-            // Room: X from -5 to 5, Z from -5 to 5
-            // Wall cube = 1x3x1, center at Y=1.5
-            List<Vector3> walls = new List<Vector3>();
+            layout.wallPositions = BuildPerimeterWalls(5);
+            layout.floorPositions = BuildFloorGrid(5);
 
-            // Bottom wall (Z = -5)
-            for (int x = -5; x <= 5; x++)
-                walls.Add(new Vector3(x, 0f, -5));
-
-            // Top wall (Z = 5)
-            for (int x = -5; x <= 5; x++)
-                walls.Add(new Vector3(x, 0f, 5));
-
-            // Left wall (X = -5), skip corners
-            for (int z = -4; z <= 4; z++)
-                walls.Add(new Vector3(-5, 0f, z));
-
-            // Right wall (X = 5), skip corners
-            for (int z = -4; z <= 4; z++)
-                walls.Add(new Vector3(5, 0f, z));
-
-            layout.wallPositions = walls.ToArray();
-
-            // --- FLOOR (10x10 grid inside walls) ---
-            List<Vector3> floors = new List<Vector3>();
-            for (int x = -4; x <= 4; x++)
-            {
-                for (int z = -4; z <= 4; z++)
-                {
-                    floors.Add(new Vector3(x, 0f, z));
-                }
-            }
-            // Fill under walls too for seamless look
-            for (int x = -5; x <= 5; x++)
-            {
-                floors.Add(new Vector3(x, 0f, -5));
-                floors.Add(new Vector3(x, 0f, 5));
-            }
-            for (int z = -4; z <= 4; z++)
-            {
-                floors.Add(new Vector3(-5, 0f, z));
-                floors.Add(new Vector3(5, 0f, z));
-            }
-            layout.floorPositions = floors.ToArray();
-
-            // --- MIRRORS (2 mirrors for easy 1-bounce path) ---
+            // 3 Mirrors for the Purple Beam puzzle
             layout.mirrorPlacements = new MirrorPlacement[]
             {
-                new MirrorPlacement
-                {
-                    position = new Vector3(2f, 1f, 0f),
-                    rotationY = 45f  // angled to bounce beam from player toward enemy area
-                },
-                new MirrorPlacement
-                {
-                    position = new Vector3(-2f, 1f, 3f),
-                    rotationY = -30f  // second bounce option
-                }
+                new MirrorPlacement { position = new Vector3(3f, 1f, -3f), rotationY = -45f },  // Bounces UP (+Z)
+                new MirrorPlacement { position = new Vector3(3f, 1f, 3f), rotationY = -135f },  // Bounces LEFT (-X)
+                new MirrorPlacement { position = new Vector3(0f, 1f, 3f), rotationY = 135f }    // Bounces DOWN (-Z) to Angel
             };
 
-            // --- PILLARS (1 pillar for cover) ---
             layout.pillarPositions = new Vector3[]
             {
-                new Vector3(0f, 1.5f, -2f)
+                new Vector3(0f, 1.5f, -1.5f) // Blocks direct shot from player to angel
             };
 
-            // --- PLAYER SPAWN ---
             layout.playerSpawnPoint = new Vector3(0f, 0.5f, -3f);
-
-            // --- ENEMY SPAWNS (2 angels) ---
+            
             layout.enemySpawnPoints = new Vector3[]
             {
-                new Vector3(-3f, 0.5f, 3f),
-                new Vector3(3f, 0.5f, 3f)
+                new Vector3(0f, 0.5f, 0f) // The target angel
             };
 
-            // --- DOOR SPAWNS (3 doors along top wall) ---
             layout.doorSpawnPoints = new Vector3[]
             {
                 new Vector3(0f, 1.5f, 4f),
-                new Vector3(-3f, 1.5f, 4f),
-                new Vector3(3f, 1.5f, 4f)
+                new Vector3(-2f, 1.5f, 4f),
+                new Vector3(2f, 1.5f, 4f)
             };
 
-            // --- WAVES ---
-            // You need to assign the EnemyDataSO reference manually after generation
-            // because we can't guarantee the BaseAngel asset exists yet
-            EnemyDataSO baseAngel = FindEnemyData("BaseAngel");
             layout.waves = new EnemyWaveData[]
             {
-                new EnemyWaveData
-                {
-                    enemyData = baseAngel, // may be null — assign manually if so
-                    count = 2
-                }
+                new EnemyWaveData { enemyData = baseAngel, count = 1 }
             };
 
+            SaveLayout(layout, "Map0");
+        }
+
+        [MenuItem("PrismPanic/Maps/Generate Map1")]
+        public static void GenerateMap1()
+        {
+            var layout = GetOrCreateLayout("Map1", "map1");
+            var baseAngel = FindEnemyData("BaseAngel");
+
+            layout.wallPositions = BuildPerimeterWalls(6);
+            layout.floorPositions = BuildFloorGrid(6);
+
+            layout.mirrorPlacements = new MirrorPlacement[]
+            {
+                new MirrorPlacement { position = new Vector3(2f, 1f, 0f), rotationY = 45f },
+                new MirrorPlacement { position = new Vector3(-2f, 1f, 3f), rotationY = -30f }
+            };
+
+            layout.pillarPositions = new Vector3[] { new Vector3(0f, 1.5f, -2f) };
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -4f);
+            
+            layout.enemySpawnPoints = new Vector3[] { new Vector3(-3f, 0.5f, 3f), new Vector3(3f, 0.5f, 3f) };
+            layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 5f), new Vector3(-3f, 1.5f, 5f), new Vector3(3f, 1.5f, 5f) };
+            layout.waves = new EnemyWaveData[] { new EnemyWaveData { enemyData = baseAngel, count = 2 } };
             SaveLayout(layout, "Map1");
         }
 
-        [MenuItem("PrismPanic/Generate Map2 (Intermediate)")]
+        [MenuItem("PrismPanic/Maps/Generate Map2")]
         public static void GenerateMap2()
         {
-            var layout = GetOrCreateLayout("Map2", "map2_intermediate");
+            var layout = GetOrCreateLayout("Map2", "map2");
             var baseAngel = FindEnemyData("BaseAngel");
 
-            // 12x12 room
-            layout.wallPositions = BuildPerimeterWalls(6);
-            layout.floorPositions = BuildFloorGrid(6);
+            layout.wallPositions = BuildPerimeterWallsRect(7, 6);
+            layout.floorPositions = BuildFloorGridRect(7, 6);
 
             layout.mirrorPlacements = new MirrorPlacement[]
             {
@@ -136,46 +107,23 @@ namespace PrismPanic.Editor
                 new MirrorPlacement { position = new Vector3(0f, 1f, 4f), rotationY = 20f }
             };
 
-            layout.pillarPositions = new Vector3[]
-            {
-                new Vector3(2f, 1.5f, -2f),
-                new Vector3(-2f, 1.5f, 2f)
-            };
-
+            layout.pillarPositions = new Vector3[] { new Vector3(2f, 1.5f, -2f), new Vector3(-2f, 1.5f, 2f) };
             layout.playerSpawnPoint = new Vector3(0f, 0.5f, -4f);
-
-            layout.enemySpawnPoints = new Vector3[]
-            {
-                new Vector3(-4f, 0.5f, 4f),
-                new Vector3(4f, 0.5f, 4f),
-                new Vector3(0f, 0.5f, 3f)
-            };
-
-            layout.doorSpawnPoints = new Vector3[]
-            {
-                new Vector3(0f, 1.5f, 5f),
-                new Vector3(-3f, 1.5f, 5f),
-                new Vector3(3f, 1.5f, 5f)
-            };
-
-            layout.waves = new EnemyWaveData[]
-            {
-                new EnemyWaveData { enemyData = baseAngel, count = 3 }
-            };
-
+            layout.enemySpawnPoints = new Vector3[] { new Vector3(-4f, 0.5f, 4f), new Vector3(4f, 0.5f, 4f), new Vector3(0f, 0.5f, 3f) };
+            layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 5f), new Vector3(-3f, 1.5f, 5f), new Vector3(3f, 1.5f, 5f) };
+            layout.waves = new EnemyWaveData[] { new EnemyWaveData { enemyData = baseAngel, count = 3 } };
             SaveLayout(layout, "Map2");
         }
 
-        [MenuItem("PrismPanic/Generate Map3 (Advanced)")]
+        [MenuItem("PrismPanic/Maps/Generate Map3")]
         public static void GenerateMap3()
         {
-            var layout = GetOrCreateLayout("Map3", "map3_advanced");
+            var layout = GetOrCreateLayout("Map3", "map3");
             var baseAngel = FindEnemyData("BaseAngel");
-            var fastAngel = FindEnemyData("FastAngel");
+            var fastAngel = FindEnemyData("FastAngel") ?? baseAngel;
 
-            // 14x12 room (wider)
-            layout.wallPositions = BuildPerimeterWallsRect(7, 6);
-            layout.floorPositions = BuildFloorGridRect(7, 6);
+            layout.wallPositions = BuildPerimeterWallsRect(7, 7);
+            layout.floorPositions = BuildFloorGridRect(7, 7);
 
             layout.mirrorPlacements = new MirrorPlacement[]
             {
@@ -185,49 +133,23 @@ namespace PrismPanic.Editor
                 new MirrorPlacement { position = new Vector3(2f, 1f, 4f), rotationY = -45f }
             };
 
-            layout.pillarPositions = new Vector3[]
-            {
-                new Vector3(3f, 1.5f, 2f),
-                new Vector3(-3f, 1.5f, -1f),
-                new Vector3(0f, 1.5f, 1f)
-            };
-
-            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -4f);
-
-            layout.enemySpawnPoints = new Vector3[]
-            {
-                new Vector3(-5f, 0.5f, 4f),
-                new Vector3(5f, 0.5f, 4f),
-                new Vector3(-2f, 0.5f, 2f),
-                new Vector3(2f, 0.5f, 2f)
-            };
-
-            layout.doorSpawnPoints = new Vector3[]
-            {
-                new Vector3(0f, 1.5f, 5f),
-                new Vector3(-4f, 1.5f, 5f),
-                new Vector3(4f, 1.5f, 5f)
-            };
-
-            layout.waves = new EnemyWaveData[]
-            {
-                new EnemyWaveData { enemyData = baseAngel, count = 2 },
-                new EnemyWaveData { enemyData = fastAngel != null ? fastAngel : baseAngel, count = 2 }
-            };
-
+            layout.pillarPositions = new Vector3[] { new Vector3(3f, 1.5f, 2f), new Vector3(-3f, 1.5f, -1f), new Vector3(0f, 1.5f, 1f) };
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -5f);
+            layout.enemySpawnPoints = new Vector3[] { new Vector3(-5f, 0.5f, 4f), new Vector3(5f, 0.5f, 4f), new Vector3(-2f, 0.5f, 2f), new Vector3(2f, 0.5f, 2f) };
+            layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 6f), new Vector3(-4f, 1.5f, 6f), new Vector3(4f, 1.5f, 6f) };
+            layout.waves = new EnemyWaveData[] { new EnemyWaveData { enemyData = baseAngel, count = 2 }, new EnemyWaveData { enemyData = fastAngel, count = 2 } };
             SaveLayout(layout, "Map3");
         }
 
-        [MenuItem("PrismPanic/Generate Map4 (Hard)")]
+        [MenuItem("PrismPanic/Maps/Generate Map4")]
         public static void GenerateMap4()
         {
-            var layout = GetOrCreateLayout("Map4", "map4_hard");
+            var layout = GetOrCreateLayout("Map4", "map4");
             var baseAngel = FindEnemyData("BaseAngel");
-            var fastAngel = FindEnemyData("FastAngel");
+            var fastAngel = FindEnemyData("FastAngel") ?? baseAngel;
 
-            // 14x14 room
-            layout.wallPositions = BuildPerimeterWalls(7);
-            layout.floorPositions = BuildFloorGrid(7);
+            layout.wallPositions = BuildPerimeterWalls(8);
+            layout.floorPositions = BuildFloorGrid(8);
 
             layout.mirrorPlacements = new MirrorPlacement[]
             {
@@ -238,50 +160,161 @@ namespace PrismPanic.Editor
                 new MirrorPlacement { position = new Vector3(0f, 1f, 0f), rotationY = 45f }
             };
 
-            layout.pillarPositions = new Vector3[]
-            {
-                new Vector3(3f, 1.5f, 0f),
-                new Vector3(-3f, 1.5f, 0f),
-                new Vector3(0f, 1.5f, 3f),
-                new Vector3(0f, 1.5f, -3f)
-            };
-
-            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -5f);
-
-            layout.enemySpawnPoints = new Vector3[]
-            {
-                new Vector3(-5f, 0.5f, 5f),
-                new Vector3(5f, 0.5f, 5f),
-                new Vector3(-3f, 0.5f, 3f),
-                new Vector3(3f, 0.5f, 3f),
-                new Vector3(0f, 0.5f, 5f),
-                new Vector3(0f, 0.5f, 0f)
-            };
-
-            layout.doorSpawnPoints = new Vector3[]
-            {
-                new Vector3(0f, 1.5f, 6f),
-                new Vector3(-4f, 1.5f, 6f),
-                new Vector3(4f, 1.5f, 6f)
-            };
-
-            layout.waves = new EnemyWaveData[]
-            {
-                new EnemyWaveData { enemyData = baseAngel, count = 2 },
-                new EnemyWaveData { enemyData = fastAngel != null ? fastAngel : baseAngel, count = 4 }
-            };
-
+            layout.pillarPositions = new Vector3[] { new Vector3(3f, 1.5f, 0f), new Vector3(-3f, 1.5f, 0f), new Vector3(0f, 1.5f, 3f), new Vector3(0f, 1.5f, -3f) };
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -6f);
+            layout.enemySpawnPoints = new Vector3[] { new Vector3(-5f, 0.5f, 5f), new Vector3(5f, 0.5f, 5f), new Vector3(-3f, 0.5f, 3f), new Vector3(3f, 0.5f, 3f), new Vector3(0f, 0.5f, 5f) };
+            layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 7f), new Vector3(-4f, 1.5f, 7f), new Vector3(4f, 1.5f, 7f) };
+            layout.waves = new EnemyWaveData[] { new EnemyWaveData { enemyData = baseAngel, count = 2 }, new EnemyWaveData { enemyData = fastAngel, count = 3 } };
             SaveLayout(layout, "Map4");
         }
 
-        [MenuItem("PrismPanic/Generate ALL Maps")]
-        public static void GenerateAll()
+        [MenuItem("PrismPanic/Maps/Generate Map5")]
+        public static void GenerateMap5()
         {
-            GenerateMap1();
-            GenerateMap2();
-            GenerateMap3();
-            GenerateMap4();
-            Debug.Log("[PrismPanic] All 4 maps generated!");
+            var layout = GetOrCreateLayout("Map5", "map5");
+            var baseAngel = FindEnemyData("BaseAngel");
+            var fastAngel = FindEnemyData("FastAngel") ?? baseAngel;
+            var shadowAngel = FindEnemyData("ShadowAngel") ?? fastAngel;
+
+            layout.wallPositions = BuildPerimeterWallsRect(9, 7);
+            layout.floorPositions = BuildFloorGridRect(9, 7);
+
+            layout.mirrorPlacements = new MirrorPlacement[]
+            {
+                new MirrorPlacement { position = new Vector3(6f, 1f, 4f), rotationY = -30f },
+                new MirrorPlacement { position = new Vector3(-6f, 1f, 4f), rotationY = 30f },
+                new MirrorPlacement { position = new Vector3(4f, 1f, -2f), rotationY = 60f },
+                new MirrorPlacement { position = new Vector3(-4f, 1f, -2f), rotationY = -60f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, 2f), rotationY = 90f }
+            };
+
+            layout.pillarPositions = new Vector3[] { new Vector3(2f, 1.5f, 2f), new Vector3(-2f, 1.5f, 2f), new Vector3(0f, 1.5f, -1f) };
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -5f);
+            layout.enemySpawnPoints = new Vector3[] { new Vector3(-7f, 0.5f, 5f), new Vector3(7f, 0.5f, 5f), new Vector3(-4f, 0.5f, 2f), new Vector3(4f, 0.5f, 2f), new Vector3(0f, 0.5f, 5f) };
+            layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 6f), new Vector3(-5f, 1.5f, 6f), new Vector3(5f, 1.5f, 6f) };
+            layout.waves = new EnemyWaveData[]
+            {
+                new EnemyWaveData { enemyData = baseAngel, count = 2 },
+                new EnemyWaveData { enemyData = fastAngel, count = 2 },
+                new EnemyWaveData { enemyData = shadowAngel, count = 1, isShadowAngel = true }
+            };
+            SaveLayout(layout, "Map5");
+        }
+
+        [MenuItem("PrismPanic/Maps/Generate Map6")]
+        public static void GenerateMap6()
+        {
+            var layout = GetOrCreateLayout("Map6", "map6");
+            var baseAngel = FindEnemyData("BaseAngel");
+            var fastAngel = FindEnemyData("FastAngel") ?? baseAngel;
+            var shadowAngel = FindEnemyData("ShadowAngel") ?? fastAngel;
+
+            layout.wallPositions = BuildPerimeterWalls(9);
+            layout.floorPositions = BuildFloorGrid(9);
+
+            layout.mirrorPlacements = new MirrorPlacement[]
+            {
+                new MirrorPlacement { position = new Vector3(5f, 1f, 5f), rotationY = 45f },
+                new MirrorPlacement { position = new Vector3(-5f, 1f, -5f), rotationY = 45f },
+                new MirrorPlacement { position = new Vector3(-5f, 1f, 5f), rotationY = -45f },
+                new MirrorPlacement { position = new Vector3(5f, 1f, -5f), rotationY = -45f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, 0f), rotationY = 22.5f }
+            };
+
+            layout.pillarPositions = new Vector3[] { new Vector3(3f, 1.5f, 3f), new Vector3(-3f, 1.5f, -3f), new Vector3(-3f, 1.5f, 3f), new Vector3(3f, 1.5f, -3f) };
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -7f);
+            layout.enemySpawnPoints = new Vector3[] { new Vector3(-6f, 0.5f, 6f), new Vector3(6f, 0.5f, 6f), new Vector3(-2f, 0.5f, 4f), new Vector3(2f, 0.5f, 4f), new Vector3(-6f, 0.5f, 0f), new Vector3(6f, 0.5f, 0f) };
+            layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 8f), new Vector3(-4f, 1.5f, 8f), new Vector3(4f, 1.5f, 8f) };
+            layout.waves = new EnemyWaveData[]
+            {
+                new EnemyWaveData { enemyData = baseAngel, count = 2 },
+                new EnemyWaveData { enemyData = fastAngel, count = 2 },
+                new EnemyWaveData { enemyData = shadowAngel, count = 2, isShadowAngel = true }
+            };
+            SaveLayout(layout, "Map6");
+        }
+
+        [MenuItem("PrismPanic/Maps/Generate Map7")]
+        public static void GenerateMap7()
+        {
+            var layout = GetOrCreateLayout("Map7", "map7");
+            var baseAngel = FindEnemyData("BaseAngel");
+            var fastAngel = FindEnemyData("FastAngel") ?? baseAngel;
+            var shadowAngel = FindEnemyData("ShadowAngel") ?? fastAngel;
+
+            layout.wallPositions = BuildPerimeterWallsRect(10, 8);
+            layout.floorPositions = BuildFloorGridRect(10, 8);
+
+            layout.mirrorPlacements = new MirrorPlacement[]
+            {
+                new MirrorPlacement { position = new Vector3(7f, 1f, 4f), rotationY = 15f },
+                new MirrorPlacement { position = new Vector3(-7f, 1f, 4f), rotationY = -15f },
+                new MirrorPlacement { position = new Vector3(3f, 1f, -2f), rotationY = 75f },
+                new MirrorPlacement { position = new Vector3(-3f, 1f, -2f), rotationY = -75f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, 5f), rotationY = 90f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, 2f), rotationY = 0f }
+            };
+
+            layout.pillarPositions = new Vector3[] { new Vector3(5f, 1.5f, 0f), new Vector3(-5f, 1.5f, 0f), new Vector3(2f, 1.5f, 3f), new Vector3(-2f, 1.5f, 3f) };
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -6f);
+            layout.enemySpawnPoints = new Vector3[] { new Vector3(-8f, 0.5f, 6f), new Vector3(8f, 0.5f, 6f), new Vector3(-4f, 0.5f, 6f), new Vector3(4f, 0.5f, 6f), new Vector3(-8f, 0.5f, -2f), new Vector3(8f, 0.5f, -2f), new Vector3(0f, 0.5f, 5f) };
+            layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 7f), new Vector3(-5f, 1.5f, 7f), new Vector3(5f, 1.5f, 7f) };
+            layout.waves = new EnemyWaveData[]
+            {
+                new EnemyWaveData { enemyData = baseAngel, count = 2 },
+                new EnemyWaveData { enemyData = fastAngel, count = 3 },
+                new EnemyWaveData { enemyData = shadowAngel, count = 2, isShadowAngel = true }
+            };
+            SaveLayout(layout, "Map7");
+        }
+
+        [MenuItem("PrismPanic/Maps/Generate Map8")]
+        public static void GenerateMap8()
+        {
+            var layout = GetOrCreateLayout("Map8", "map8");
+            var baseAngel = FindEnemyData("BaseAngel");
+            var fastAngel = FindEnemyData("FastAngel") ?? baseAngel;
+            var shadowAngel = FindEnemyData("ShadowAngel") ?? fastAngel;
+
+            // Huge boss-like room
+            layout.wallPositions = BuildPerimeterWalls(11);
+            layout.floorPositions = BuildFloorGrid(11);
+
+            layout.mirrorPlacements = new MirrorPlacement[]
+            {
+                new MirrorPlacement { position = new Vector3(8f, 1f, 8f), rotationY = 45f },
+                new MirrorPlacement { position = new Vector3(-8f, 1f, -8f), rotationY = 45f },
+                new MirrorPlacement { position = new Vector3(-8f, 1f, 8f), rotationY = -45f },
+                new MirrorPlacement { position = new Vector3(8f, 1f, -8f), rotationY = -45f },
+                new MirrorPlacement { position = new Vector3(4f, 1f, 4f), rotationY = 15f },
+                new MirrorPlacement { position = new Vector3(-4f, 1f, 4f), rotationY = -15f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, 0f), rotationY = 90f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, 7f), rotationY = 0f }
+            };
+
+            layout.pillarPositions = new Vector3[] { new Vector3(6f, 1.5f, 0f), new Vector3(-6f, 1.5f, 0f), new Vector3(0f, 1.5f, 4f), new Vector3(4f, 1.5f, -4f), new Vector3(-4f, 1.5f, -4f) };
+            layout.playerSpawnPoint = new Vector3(0f, 0.5f, -9f);
+            
+            layout.enemySpawnPoints = new Vector3[] 
+            { 
+                new Vector3(-9f, 0.5f, 9f), new Vector3(9f, 0.5f, 9f), 
+                new Vector3(-5f, 0.5f, 8f), new Vector3(5f, 0.5f, 8f), 
+                new Vector3(-9f, 0.5f, 0f), new Vector3(9f, 0.5f, 0f),
+                new Vector3(-4f, 0.5f, 2f), new Vector3(4f, 0.5f, 2f),
+                new Vector3(-7f, 0.5f, 4f), new Vector3(7f, 0.5f, 4f),
+                new Vector3(0f, 0.5f, 6f)
+            };
+            
+            layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 10f), new Vector3(-6f, 1.5f, 10f), new Vector3(6f, 1.5f, 10f) };
+            
+            // Final map: mixed waves including shadow angels
+            layout.waves = new EnemyWaveData[] 
+            { 
+                new EnemyWaveData { enemyData = baseAngel, count = 3 }, 
+                new EnemyWaveData { enemyData = fastAngel, count = 4 },
+                new EnemyWaveData { enemyData = shadowAngel, count = 3, isShadowAngel = true }
+            };
+            SaveLayout(layout, "Map8");
         }
 
         // --- Helpers ---

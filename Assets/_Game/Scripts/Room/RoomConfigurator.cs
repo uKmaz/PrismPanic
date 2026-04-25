@@ -61,11 +61,17 @@ namespace PrismPanic.Room
             pool.Mirrors?.ReturnAll(_activeMirrors);
             pool.Pillars?.ReturnAll(_activePillars);
 
-            // Return enemies
-            if (pool.Angels != null)
+            // Return enemies to their correct pools
+            foreach (var enemy in _activeEnemies)
             {
-                pool.Angels.ReturnAll(_activeEnemies);
+                if (enemy == null) continue;
+                var angel = enemy.GetComponent<Enemies.AngelController>();
+                // Check if it's a shadow angel — if so, return to shadow pool
+                bool isShadow = angel != null && angel.IsInvisibleType;
+                var targetPool = isShadow ? pool.ShadowAngels : pool.Angels;
+                targetPool?.Return(enemy);
             }
+            _activeEnemies.Clear();
         }
 
         private void BuildRoom(LevelLayoutSO layout)
@@ -151,16 +157,24 @@ namespace PrismPanic.Room
         private void SpawnEnemies(LevelLayoutSO layout)
         {
             var pool = PoolManager.Instance;
-            if (pool?.Angels == null || layout.waves == null) return;
+            if (pool == null || layout.waves == null) return;
 
             int spawnIndex = 0;
             int totalAngels = 0;
 
             foreach (EnemyWaveData wave in layout.waves)
             {
+                // Pick pool based on angel type
+                var angelPool = wave.isShadowAngel ? pool.ShadowAngels : pool.Angels;
+                if (angelPool == null)
+                {
+                    Debug.LogWarning($"[RoomConfigurator] {(wave.isShadowAngel ? "ShadowAngels" : "Angels")} pool is null! Skipping wave.");
+                    continue;
+                }
+
                 for (int i = 0; i < wave.count; i++)
                 {
-                    Transform angel = pool.Angels.Get();
+                    Transform angel = angelPool.Get();
                     Vector3 spawnPos = layout.enemySpawnPoints != null && spawnIndex < layout.enemySpawnPoints.Length
                         ? layout.enemySpawnPoints[spawnIndex % layout.enemySpawnPoints.Length]
                         : Vector3.zero;

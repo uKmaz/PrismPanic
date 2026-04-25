@@ -32,7 +32,8 @@ No downtime between combat and progression. Doors open the moment the last Angel
 
 - There is **one scene** and **one room**.
 - The room is reconfigured between levels strictly by loading handcrafted map data. There is NO procedural generation.
-- Progression is linear: Level 1 loads Map1, Level 2 loads Map2, etc. 
+- Progression is linear: Tutorial loads Map0, Level 1 loads Map1, Level 8 loads Map8 (Boss room). 
+- There is NO traditional UI main menu. Map0 acts as an interactive, physical tutorial menu.
 - Each handcrafted configuration is stored as a `LevelLayoutSO` (ScriptableObject).
 - Room reconfiguration is instant — no loading screen, no transition pause beyond a brief VFX flash. The `RoomConfigurator` simply reads the active `LevelLayoutSO` and moves the pooled 3D environment pieces, mirrors, and pillars into their exact authored coordinates.
 
@@ -40,16 +41,17 @@ No downtime between combat and progression. Doors open the moment the last Angel
 
 ## The Flashlight — Beam Tiers
 
-| Tier | Bounces Required | Effect |
-|------|-----------------|--------|
-| Basic | 0 (direct) | Stun only — 3 seconds base duration, no damage |
-| 1-Bounce | 1 mirror | Base damage |
-| 2-Bounce | 2 mirrors | 2× base damage |
+| Tier | Bounces Required | Color | Effect |
+|------|-----------------|-------|--------|
+| Basic | 0 (direct) | White | Stun only — 3 seconds base duration, no damage |
+| 1-Bounce | 1 mirror | Blue | Base damage (1 hit) |
+| 2-Bounce | 2 mirrors | Red | 2× base damage (2 hits) |
+| 3+-Bounce| 3+ mirrors | Purple| 3× base damage (3 hits) |
 
 - Beams terminate on walls and pillars
-- Beams reflect off mirrors (max 2 reflections tracked)
-- A beam hitting an Angel beyond 2 bounces does nothing (out of scope — do not implement)
-- The flashlight is always active while the input is held — there is no cooldown or battery
+- Beams reflect off mirrors (up to 10 bounces tracked for puzzle freedom)
+- The flashlight is always active while the input is held, but draws energy. Overheating forces a cooldown.
+- Beam range is virtually infinite, allowing complex cross-map bounces.
 
 ---
 
@@ -57,8 +59,9 @@ No downtime between combat and progression. Doors open the moment the last Angel
 
 - Inspired by Weeping Angels — freeze when illuminated by the player's flashlight beam
 - Move slowly toward the player when **not** illuminated
-- An Angel touching the player = **instant death** (no HP for player)
-- Angels have HP; only 1-bounce and 2-bounce beams deal damage
+- An Angel touching the player deals 1 damage. The player has 3 HP and receives brief invincibility upon hit.
+- Angels have HP; 1-bounce, 2-bounce, and 3-bounce beams deal 1, 2, and 3 damage respectively (every 0.3 seconds to prevent frame-rate instakills).
+- Angels visually tint from white to red based on their remaining HP percentage.
 - Angels do not interact with each other — no flocking, no collision avoidance between Angels
 - On death: play death VFX, return to pool, decrement active angel count
 
@@ -120,10 +123,10 @@ There is **no exit puzzle phase**. The original design included a switch/button 
 
 ## Death & Restart
 
-- Player has no HP — one Angel touch = death
-- On death: show game over screen, offer restart from Level 1
+- Player has 3 HP. Touching an angel deals 1 damage.
+- When player HP reaches 0: slow motion death sequence plays (timeScale = 0.3, camera shakes for 1.5s), then time freezes and Game Over UI appears.
+- On Game Over: offer restart from Map 0 (Tutorial Menu)
 - All runtime stats reset to base values (`PlayerStatsSO.ResetToDefaults()`)
-- No permadeath unlocks at jam scope — future feature
 
 ---
 
@@ -143,12 +146,8 @@ No dynamic difficulty adjustment — difficulty is authored per layout.
 
 - Exit puzzle / switch mechanic (cut)
 - Angel-to-Angel interactions
-- Beam damage beyond 2 bounces
-- Multiple scenes or level select
+- Multiple scenes (the game has one single scene, Main.unity)
 - Save/load system
-- Sound design implementation (placeholder only)
 - Dialogue or narrative text
-- Boss enemies
-- Player HP / health pickups
-- Beam cooldown or battery mechanic
+- Beam cooldown (uses energy/overheat system instead)
 - Any feature not described in this document

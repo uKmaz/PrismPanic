@@ -43,21 +43,24 @@ namespace PrismPanic.Player
 
             HandleMovement();
             HandleAim();
+
+            // Notify audio system of walking state
+            bool isMoving = _moveInput.sqrMagnitude > 0.01f;
+            Audio.AudioEffectHandler.Instance?.SetWalking(isMoving);
         }
 
         private void HandleMovement()
         {
-            // Convert 2D input to XZ movement
+            // Convert 2D input to XZ movement (top-down — no gravity needed)
             Vector3 move = new Vector3(_moveInput.x, 0f, _moveInput.y);
             move = move.normalized * _playerStats.moveSpeed * Time.deltaTime;
 
-            // Apply gravity
-            if (!_characterController.isGrounded)
-            {
-                move.y -= 9.81f * Time.deltaTime;
-            }
-
             _characterController.Move(move);
+
+            // Safety: lock Y position to prevent any accidental falling
+            Vector3 pos = transform.position;
+            pos.y = 0.5f;
+            transform.position = pos;
         }
 
         private void HandleAim()
