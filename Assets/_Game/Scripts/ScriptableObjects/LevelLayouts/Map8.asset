@@ -672,7 +672,10 @@ MonoBehaviour:
   waves:
   - enemyData: {fileID: 11400000, guid: 9c3a9b5b6ffda1a46a912012fe8b2ccd, type: 2}
     count: 4
+    isShadowAngel: 0
   - enemyData: {fileID: 11400000, guid: 0037c8b5ca85e354e8b352c5f41414fb, type: 2}
     count: 6
+    isShadowAngel: 0
   - enemyData: {fileID: 11400000, guid: 0037c8b5ca85e354e8b352c5f41414fb, type: 2}
     count: 4
+    isShadowAngel: 0

@@ -78,11 +78,6 @@ namespace PrismPanic.Player
             move = move.normalized * _playerStats.moveSpeed * Time.deltaTime;
 
             _characterController.Move(move);
-
-            // Safety: lock Y position to prevent any accidental falling
-            Vector3 pos = transform.position;
-            pos.y = 0.5f;
-            transform.position = pos;
         }
 
         private void HandleAim()
