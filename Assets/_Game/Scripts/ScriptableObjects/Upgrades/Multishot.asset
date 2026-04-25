@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.ScriptableObjects.UpgradeDefinitionSO
   upgradeID: multishot
   displayName: Multi Shot
-  icon: {fileID: 891607834, guid: 6f364858257666f4497d8c472ba07394, type: 3}
+  icon: {fileID: 21300000, guid: 405995e82905ae549bfc6250740a1869, type: 3}
   description: Fires a spread of 3 beams but drains energy much faster.
   effectType: 5
   effectValue: 2

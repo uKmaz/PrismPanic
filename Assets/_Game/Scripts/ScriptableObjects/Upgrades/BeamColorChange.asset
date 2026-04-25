@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dbe87749cddff9459487580b7aaad38, type: 3}
   m_Name: BeamColorChange
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.ScriptableObjects.UpgradeDefinitionSO
-  upgradeID: cone_wid
-  displayName: "Flashlight Cone+\t"
-  icon: {fileID: 891607834, guid: 6f364858257666f4497d8c472ba07394, type: 3}
-  description: FlashlightConeWidth
+  upgradeID: beam_color_change
+  displayName: "Cone Color Change\t"
+  icon: {fileID: 21300000, guid: 578d36f4b321e4145ab95fd6872a3441, type: 3}
+  description: 'Cone Color Change
+
+    Starts the color of the flashlight from blue
+    which amages'
   effectType: 4
-  effectValue: 5
+  effectValue: 1

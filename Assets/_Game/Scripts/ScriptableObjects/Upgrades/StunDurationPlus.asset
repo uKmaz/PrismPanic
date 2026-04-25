@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.ScriptableObjects.UpgradeDefinitionSO
   upgradeID: stun_dur
   displayName: Stun Duration+
-  icon: {fileID: -867353944, guid: 6f364858257666f4497d8c472ba07394, type: 3}
+  icon: {fileID: 891607834, guid: 6f364858257666f4497d8c472ba07394, type: 3}
   description: StunDurationBonus
   effectType: 0
   effectValue: 1

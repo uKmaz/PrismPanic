@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1a70b4608ba70bc4684898d1e8d95f77
+guid: d5cebfe45beedef4bab8763ae3dc8ff8
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: running_wind_0
+      name: energy_bar_0
       rect:
         serializedVersion: 2
         x: 0
@@ -112,14 +112,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dbc327be99dd7b544b39cced8f34b979
-      internalID: -822235556
+      spriteID: d7a5e1bd93d89464a97741c73d04dee9
+      internalID: -1272700575
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: running_wind_1
+      name: energy_bar_1
       rect:
         serializedVersion: 2
         x: 32
@@ -134,14 +134,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d7b229d4d184bc945a5316e93401f54f
-      internalID: -1596581922
+      spriteID: c972168f5904af44c8fccadd6e35b334
+      internalID: 1691632755
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: running_wind_2
+      name: energy_bar_2
       rect:
         serializedVersion: 2
         x: 0
@@ -156,30 +156,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a1802515095551343b34bc741e82e6ae
-      internalID: 336957492
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: running_wind_3
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a07454f0addd1d94b8ab8c1075f2d518
-      internalID: -392748416
+      spriteID: 5d9ac9a57315c174c88003f8565fa93d
+      internalID: -526495137
       vertices: []
       indices: 
       edges: []
@@ -188,7 +166,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 0672d5d703611ea46a22c03dccdb04fc
+    spriteID: ca12911a6799e014f9e1fc673c5a4239
     internalID: 0
     vertices: []
     indices: 
@@ -200,10 +178,9 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      running_wind_0: -822235556
-      running_wind_1: -1596581922
-      running_wind_2: 336957492
-      running_wind_3: -392748416
+      energy_bar_0: -1272700575
+      energy_bar_1: 1691632755
+      energy_bar_2: -526495137
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
