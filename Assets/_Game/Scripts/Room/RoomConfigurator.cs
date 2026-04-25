@@ -171,10 +171,14 @@ namespace PrismPanic.Room
 
         private void RebakeNavMesh()
         {
-            if (_navMeshSurface != null)
+            if (_navMeshSurface == null)
             {
-                _navMeshSurface.BuildNavMesh();
+                Debug.LogError("[RoomConfigurator] _navMeshSurface is NULL! Assign NavMeshSurface in Inspector. Angels won't move.");
+                return;
             }
+
+            _navMeshSurface.BuildNavMesh();
+            Debug.Log("[RoomConfigurator] NavMesh baked.");
         }
 
         /// <summary>

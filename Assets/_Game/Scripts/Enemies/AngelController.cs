@@ -43,15 +43,28 @@ namespace PrismPanic.Enemies
             _currentHP = data != null ? data.maxHP : Constants.ANGEL_BASE_HP;
             _stunTimer = 0f;
             _graceTimer = SPAWN_GRACE_DURATION;
-            CurrentState = AngelState.Idle; // start idle during grace period
+            CurrentState = AngelState.Idle;
 
             if (_agent != null)
             {
                 _agent.speed = data != null ? data.moveSpeed : Constants.ANGEL_BASE_SPEED;
-                // Warp places the agent on the NavMesh at current position without errors
-                _agent.enabled = true;
-                _agent.Warp(transform.position);
-                _agent.isStopped = true; // don't move during grace
+
+                // Find nearest valid NavMesh point — spawn positions may not be exactly on mesh
+                NavMeshHit navHit;
+                Vector3 targetPos = transform.position;
+                if (NavMesh.SamplePosition(targetPos, out navHit, 5f, NavMesh.AllAreas))
+                {
+                    transform.position = navHit.position;
+                    _agent.enabled = true;
+                    _agent.Warp(navHit.position);
+                    _agent.isStopped = true;
+                }
+                else
+                {
+                    // No NavMesh nearby — keep agent disabled, angel won't move but won't crash
+                    Debug.LogWarning($"[Angel] No NavMesh within 5m of {targetPos}. Agent disabled.");
+                    _agent.enabled = false;
+                }
             }
 
             // Cache player reference
@@ -96,7 +109,7 @@ namespace PrismPanic.Enemies
 
         private void HandlePursuing()
         {
-            if (_playerTransform == null || _agent == null || !_agent.enabled) return;
+            if (_playerTransform == null || _agent == null || !_agent.enabled || !_agent.isOnNavMesh) return;
 
             _agent.isStopped = false;
             _agent.SetDestination(_playerTransform.position);
@@ -162,7 +175,7 @@ namespace PrismPanic.Enemies
 
         private void StopMovement()
         {
-            if (_agent != null && _agent.enabled)
+            if (_agent != null && _agent.enabled && _agent.isOnNavMesh)
             {
                 _agent.isStopped = true;
                 _agent.velocity = Vector3.zero;
