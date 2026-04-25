@@ -22,6 +22,9 @@ namespace PrismPanic.Enemies
         private int _currentHP;
         private float _stunTimer;
         private float _graceTimer; // brief invulnerability/idle after spawn
+        
+        [Header("VFX Settings")]
+        [SerializeField] private GameObject deathEffectPrefab;
 
         private const float SPAWN_GRACE_DURATION = 1f; // seconds before angel starts moving
 
@@ -161,6 +164,10 @@ namespace PrismPanic.Enemies
             StopMovement();
 
             // TODO: Play death VFX (particle burst) — Phase 8
+            if (deathEffectPrefab != null)
+            {
+                GameObject effect = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+            }
 
             // Fire event before returning to pool
             EventBus.FireAngelKilled(gameObject);

@@ -231,3 +231,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bda2082ff404b644b23b76d5bf7b7e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.Enemies.AngelController
+  deathEffectPrefab: {fileID: 8740750738931868432, guid: e61731ee35b2c3545a970a2dc1bb8b83, type: 3}
