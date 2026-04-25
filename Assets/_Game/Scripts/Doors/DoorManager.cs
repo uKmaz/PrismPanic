@@ -93,8 +93,6 @@ namespace PrismPanic.Doors
                     ? _currentLayout.doorSpawnPoints[i]
                     : Vector3.zero;
 
-                // Force Y to ground level so trigger collider overlaps with player
-                spawnPos.y = 0f;
                 doorTransform.position = spawnPos;
 
                 UpgradeDoor door = doorTransform.GetComponent<UpgradeDoor>();

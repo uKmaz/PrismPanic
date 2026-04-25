@@ -76,12 +76,38 @@ namespace PrismPanic.Room
             // Place walls
             if (layout.wallPositions != null && pool.Walls != null)
             {
+                // First pass: find room boundaries
+                float minX = float.MaxValue, maxX = float.MinValue;
+                float minZ = float.MaxValue, maxZ = float.MinValue;
+
+                foreach (Vector3 pos in layout.wallPositions)
+                {
+                    if (pos.x < minX) minX = pos.x;
+                    if (pos.x > maxX) maxX = pos.x;
+                    if (pos.z < minZ) minZ = pos.z;
+                    if (pos.z > maxZ) maxZ = pos.z;
+                }
+
+                // Second pass: spawn and configure
                 foreach (Vector3 pos in layout.wallPositions)
                 {
                     Transform wall = pool.Walls.Get();
                     wall.position = pos;
                     wall.rotation = Quaternion.identity;
                     _activeWalls.Add(wall);
+
+                    // Configure sprite appearance based on position
+                    WallAppearance appearance = wall.GetComponent<WallAppearance>();
+                    if (appearance != null)
+                    {
+                        // Use small tolerance for float comparison
+                        bool isLeft = Mathf.Abs(pos.x - minX) < 0.1f;
+                        bool isRight = Mathf.Abs(pos.x - maxX) < 0.1f;
+                        bool isBottom = Mathf.Abs(pos.z - minZ) < 0.1f;
+                        bool isTop = Mathf.Abs(pos.z - maxZ) < 0.1f;
+
+                        appearance.Setup(isTop, isBottom, isLeft, isRight);
+                    }
                 }
             }
 

@@ -26,19 +26,19 @@ namespace PrismPanic.Editor
 
             // Bottom wall (Z = -5)
             for (int x = -5; x <= 5; x++)
-                walls.Add(new Vector3(x, 1.5f, -5));
+                walls.Add(new Vector3(x, 0f, -5));
 
             // Top wall (Z = 5)
             for (int x = -5; x <= 5; x++)
-                walls.Add(new Vector3(x, 1.5f, 5));
+                walls.Add(new Vector3(x, 0f, 5));
 
             // Left wall (X = -5), skip corners
             for (int z = -4; z <= 4; z++)
-                walls.Add(new Vector3(-5, 1.5f, z));
+                walls.Add(new Vector3(-5, 0f, z));
 
             // Right wall (X = 5), skip corners
             for (int z = -4; z <= 4; z++)
-                walls.Add(new Vector3(5, 1.5f, z));
+                walls.Add(new Vector3(5, 0f, z));
 
             layout.wallPositions = walls.ToArray();
 
@@ -324,13 +324,13 @@ namespace PrismPanic.Editor
             List<Vector3> walls = new List<Vector3>();
             for (int x = -halfX; x <= halfX; x++)
             {
-                walls.Add(new Vector3(x, 1.5f, -halfZ));
-                walls.Add(new Vector3(x, 1.5f, halfZ));
+                walls.Add(new Vector3(x, 0f, -halfZ));
+                walls.Add(new Vector3(x, 0f, halfZ));
             }
             for (int z = -halfZ + 1; z <= halfZ - 1; z++)
             {
-                walls.Add(new Vector3(-halfX, 1.5f, z));
-                walls.Add(new Vector3(halfX, 1.5f, z));
+                walls.Add(new Vector3(-halfX, 0f, z));
+                walls.Add(new Vector3(halfX, 0f, z));
             }
             return walls.ToArray();
         }
