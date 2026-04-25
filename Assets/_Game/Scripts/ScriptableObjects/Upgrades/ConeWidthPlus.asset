@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.ScriptableObjects.UpgradeDefinitionSO
   upgradeID: cone_wid
   displayName: "Flashlight Cone+\t"
-  icon: {fileID: -2074139484, guid: f6b2f624f8124aa4cb822c65ce5f3de6, type: 3}
+  icon: {fileID: 891607834, guid: 6f364858257666f4497d8c472ba07394, type: 3}
   description: FlashlightConeWidth
   effectType: 2
   effectValue: 5

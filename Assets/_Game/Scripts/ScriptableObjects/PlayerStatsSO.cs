@@ -28,7 +28,8 @@ namespace PrismPanic.ScriptableObjects
         [System.NonSerialized] public float maxEnergy;
         [System.NonSerialized] public float currentEnergy;
         [System.NonSerialized] public bool isOverheated;
-        [System.NonSerialized] public int placeableMirrorCount;
+        [System.NonSerialized] public int placeableMirrorCount; // Current room budget — resets each room
+        [System.NonSerialized] public int mirrorsPerRoom;        // Permanent upgrade count — accumulates
         
         [System.NonSerialized] public int maxHP;
         [System.NonSerialized] public int currentHP;
@@ -52,7 +53,8 @@ namespace PrismPanic.ScriptableObjects
             maxEnergy = _baseMaxEnergy;
             currentEnergy = maxEnergy;
             isOverheated = false;
-            placeableMirrorCount = _basePlaceableMirrors;
+            mirrorsPerRoom = _basePlaceableMirrors;
+            placeableMirrorCount = mirrorsPerRoom;
 
             // Player starts with 3 HP
             maxHP = 3;

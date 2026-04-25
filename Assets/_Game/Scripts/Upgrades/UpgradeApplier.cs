@@ -41,7 +41,9 @@ namespace PrismPanic.Upgrades
                     break;
 
                 case UpgradeEffectType.ExtraMirrorPlacement:
-                    _playerStats.placeableMirrorCount += (int)upgrade.effectValue;
+                    _playerStats.mirrorsPerRoom += (int)upgrade.effectValue;
+                    // Also top up the current room's budget immediately
+                    _playerStats.placeableMirrorCount = _playerStats.mirrorsPerRoom;
                     break;
 
                 case UpgradeEffectType.BeamRangeBonus:

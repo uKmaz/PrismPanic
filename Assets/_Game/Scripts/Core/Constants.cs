@@ -70,6 +70,11 @@ namespace PrismPanic.Core
         // --- Gameplay ---
         public const int DOORS_PER_LEVEL = 3;
         public const float ROOM_TRANSITION_DELAY = 0.5f;
+        public const float DOOR_INTERACT_RADIUS = 1.5f;   // Distance to show prompt
+        public const float DOOR_CONFIRM_RADIUS = 1.0f;    // Distance to accept F key press
+
+        // --- Door Icon Transform ---
+        public const float DOOR_ICON_Z_OFFSET = -0.1f;  // How far in front of the door sprite the icon renders
 
         // --- Adrenaline Effect ---
         public const float ADRENALINE_TRIGGER_RADIUS = 2.5f;
