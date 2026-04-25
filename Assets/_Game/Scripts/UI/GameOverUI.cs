@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
+using System.Collections;
 using PrismPanic.Core;
 
 namespace PrismPanic.UI
@@ -69,7 +70,40 @@ namespace PrismPanic.UI
 
         private void HandlePlayerDeath()
         {
+            StartCoroutine(DeathSequenceRoutine());
+        }
+
+        private IEnumerator DeathSequenceRoutine()
+        {
             _isShowing = true;
+            
+            // Start dramatic slow motion
+            Time.timeScale = 0.3f;
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+            
+            // Camera Shake
+            Camera mainCam = Camera.main;
+            if (mainCam != null)
+            {
+                Vector3 originalPos = mainCam.transform.localPosition;
+                float shakeDuration = 1.5f; // Will be scaled by timescale, so feels longer
+                
+                while (shakeDuration > 0)
+                {
+                    mainCam.transform.localPosition = originalPos + (Vector3)Random.insideUnitCircle * 0.3f;
+                    shakeDuration -= Time.unscaledDeltaTime;
+                    yield return null;
+                }
+                mainCam.transform.localPosition = originalPos;
+            }
+            else
+            {
+                yield return new WaitForSecondsRealtime(1.5f);
+            }
+
+            // Stop time completely and show UI
+            Time.timeScale = 0f;
+            Time.fixedDeltaTime = 0.02f;
 
             if (_panel != null)
                 _panel.SetActive(true);
@@ -77,7 +111,6 @@ namespace PrismPanic.UI
             if (_levelReachedText != null && GameManager.Instance != null)
                 _levelReachedText.text = $"You reached Level {GameManager.Instance.CurrentLevelIndex + 1}";
 
-            Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
@@ -89,6 +122,7 @@ namespace PrismPanic.UI
                 _panel.SetActive(false);
 
             Time.timeScale = 1f;
+            Time.fixedDeltaTime = 0.02f;
             SceneController.LoadMain();
         }
 
@@ -99,6 +133,7 @@ namespace PrismPanic.UI
                 _panel.SetActive(false);
 
             Time.timeScale = 1f;
+            Time.fixedDeltaTime = 0.02f;
             SceneController.LoadMenu();
         }
     }

@@ -29,6 +29,10 @@ namespace PrismPanic.ScriptableObjects
         [System.NonSerialized] public float currentEnergy;
         [System.NonSerialized] public bool isOverheated;
         [System.NonSerialized] public int placeableMirrorCount;
+        
+        [System.NonSerialized] public int maxHP;
+        [System.NonSerialized] public int currentHP;
+
         [System.NonSerialized] public int multishotCount;
         [System.NonSerialized] public float beamGrowthSpeed;
         [System.NonSerialized] public float energyDrainMultiplier;
@@ -49,6 +53,11 @@ namespace PrismPanic.ScriptableObjects
             currentEnergy = maxEnergy;
             isOverheated = false;
             placeableMirrorCount = _basePlaceableMirrors;
+
+            // Player starts with 3 HP
+            maxHP = 3;
+            currentHP = maxHP;
+
             multishotCount = 1;
             beamGrowthSpeed = Constants.BEAM_GROWTH_SPEED;
             energyDrainMultiplier = 1.0f;
