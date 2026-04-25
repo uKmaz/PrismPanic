@@ -28,10 +28,17 @@ namespace PrismPanic.ScriptableObjects
         [System.NonSerialized] public float maxEnergy;
         [System.NonSerialized] public float currentEnergy;
         [System.NonSerialized] public bool isOverheated;
-        [System.NonSerialized] public int placeableMirrorCount;
+        [System.NonSerialized] public int placeableMirrorCount; // Current room budget — resets each room
+        [System.NonSerialized] public int mirrorsPerRoom;        // Permanent upgrade count — accumulates
+        
+        [System.NonSerialized] public int maxHP;
+        [System.NonSerialized] public int currentHP;
+
         [System.NonSerialized] public int multishotCount;
         [System.NonSerialized] public float beamGrowthSpeed;
         [System.NonSerialized] public float energyDrainMultiplier;
+        [System.NonSerialized] public float beamRadius;  // SphereCast radius for laser
+        [System.NonSerialized] public bool hasBlueBeam;  // First beam turns blue when true
 
         private void OnEnable()
         {
@@ -48,10 +55,18 @@ namespace PrismPanic.ScriptableObjects
             maxEnergy = _baseMaxEnergy;
             currentEnergy = maxEnergy;
             isOverheated = false;
-            placeableMirrorCount = _basePlaceableMirrors;
+            mirrorsPerRoom = _basePlaceableMirrors;
+            placeableMirrorCount = mirrorsPerRoom;
+
+            // Player starts with 3 HP
+            maxHP = 3;
+            currentHP = maxHP;
+
             multishotCount = 1;
             beamGrowthSpeed = Constants.BEAM_GROWTH_SPEED;
             energyDrainMultiplier = 1.0f;
+            beamRadius = Constants.BASE_BEAM_RADIUS;
+            hasBlueBeam = false;
         }
     }
 }

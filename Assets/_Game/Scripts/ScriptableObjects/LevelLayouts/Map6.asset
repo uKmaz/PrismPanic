@@ -478,11 +478,6 @@ MonoBehaviour:
   - {x: 4, y: 1.5, z: 8}
   waves:
   - enemyData: {fileID: 11400000, guid: 9c3a9b5b6ffda1a46a912012fe8b2ccd, type: 2}
-    count: 2
-    isShadowAngel: 0
+    count: 4
   - enemyData: {fileID: 11400000, guid: 0037c8b5ca85e354e8b352c5f41414fb, type: 2}
-    count: 2
-    isShadowAngel: 0
-  - enemyData: {fileID: 11400000, guid: 504c78bea3d2b2a45b51bc5063cdbdb4, type: 2}
-    count: 2
-    isShadowAngel: 1
+    count: 3

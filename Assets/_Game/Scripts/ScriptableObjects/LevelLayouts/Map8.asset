@@ -665,20 +665,14 @@ MonoBehaviour:
   - {x: 9, y: 0.5, z: 0}
   - {x: -4, y: 0.5, z: 2}
   - {x: 4, y: 0.5, z: 2}
-  - {x: -7, y: 0.5, z: 4}
-  - {x: 7, y: 0.5, z: 4}
-  - {x: 0, y: 0.5, z: 6}
   doorSpawnPoints:
   - {x: 0, y: 1.5, z: 10}
   - {x: -6, y: 1.5, z: 10}
   - {x: 6, y: 1.5, z: 10}
   waves:
   - enemyData: {fileID: 11400000, guid: 9c3a9b5b6ffda1a46a912012fe8b2ccd, type: 2}
-    count: 3
-    isShadowAngel: 0
+    count: 4
+  - enemyData: {fileID: 11400000, guid: 0037c8b5ca85e354e8b352c5f41414fb, type: 2}
+    count: 6
   - enemyData: {fileID: 11400000, guid: 0037c8b5ca85e354e8b352c5f41414fb, type: 2}
     count: 4
-    isShadowAngel: 0
-  - enemyData: {fileID: 11400000, guid: 504c78bea3d2b2a45b51bc5063cdbdb4, type: 2}
-    count: 3
-    isShadowAngel: 1

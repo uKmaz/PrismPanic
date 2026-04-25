@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
-using UnityEngine.UI;
 using PrismPanic.Core;
 using PrismPanic.ScriptableObjects;
 
@@ -10,13 +9,15 @@ namespace PrismPanic.Doors
     /// <summary>
     /// Individual upgrade door. Shows upgrade info and triggers upgrade on F key press.
     /// Uses distance check for reliable CharacterController detection.
-    /// When player is nearby: shows "F" prompt, changes sprite to open door.
+    /// Icon is displayed via a child SpriteRenderer — no Canvas needed.
     /// </summary>
     public class UpgradeDoor : MonoBehaviour
     {
-        [Header("UI Elements (World Space Canvas child)")]
+        [Header("Icon (SpriteRenderer child)")]
+        [SerializeField] private SpriteRenderer _iconRenderer;
+
+        [Header("Name Label (optional TMP in world space)")]
         [SerializeField] private TMP_Text _nameLabel;
-        [SerializeField] private Image _iconImage;
 
         [Header("Prompt")]
         [SerializeField] private GameObject _promptUI;        // "F" icon/text — child GO, toggled on/off
@@ -27,8 +28,9 @@ namespace PrismPanic.Doors
         [SerializeField] private Sprite _openSprite;
 
         [Header("Settings")]
-        [SerializeField] private float _interactRadius = 1.5f;  // Show prompt radius
-        [SerializeField] private float _confirmRadius = 1.0f;   // Must be within this to confirm
+        // Radii are driven by Constants — edit them there, not per-instance
+        private readonly float _interactRadius = Constants.DOOR_INTERACT_RADIUS;
+        private readonly float _confirmRadius  = Constants.DOOR_CONFIRM_RADIUS;
 
         private UpgradeDefinitionSO _upgrade;
         private bool _triggered;
@@ -41,11 +43,15 @@ namespace PrismPanic.Doors
             _triggered = false;
             _playerInRange = false;
 
+            // Assign icon sprite directly to SpriteRenderer
+            if (_iconRenderer != null)
+            {
+                _iconRenderer.sprite = upgrade.icon; // null is fine — hides icon if no sprite assigned
+                _iconRenderer.gameObject.SetActive(upgrade.icon != null);
+            }
+
             if (_nameLabel != null)
                 _nameLabel.text = upgrade.displayName;
-
-            if (_iconImage != null && upgrade.icon != null)
-                _iconImage.sprite = upgrade.icon;
 
             // Reset door visual
             if (_doorSprite != null && _closedSprite != null)
@@ -76,7 +82,7 @@ namespace PrismPanic.Doors
             bool wasInRange = _playerInRange;
             _playerInRange = dist <= _interactRadius;
 
-            // --- Enter range: show prompt, open door sprite ---
+            // --- Enter range: show prompt, open door sprite, hide icon ---
             if (_playerInRange && !wasInRange)
             {
                 if (_promptUI != null)
@@ -84,8 +90,11 @@ namespace PrismPanic.Doors
 
                 if (_doorSprite != null && _openSprite != null)
                     _doorSprite.sprite = _openSprite;
+
+                if (_iconRenderer != null)
+                    _iconRenderer.gameObject.SetActive(false);
             }
-            // --- Exit range: hide prompt, close door sprite ---
+            // --- Exit range: hide prompt, close door sprite, show icon ---
             else if (!_playerInRange && wasInRange)
             {
                 if (_promptUI != null)
@@ -93,6 +102,9 @@ namespace PrismPanic.Doors
 
                 if (_doorSprite != null && _closedSprite != null)
                     _doorSprite.sprite = _closedSprite;
+
+                if (_iconRenderer != null)
+                    _iconRenderer.gameObject.SetActive(true);
             }
 
             // --- F key to confirm ---

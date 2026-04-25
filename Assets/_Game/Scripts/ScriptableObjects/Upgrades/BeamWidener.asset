@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0dbe87749cddff9459487580b7aaad38, type: 3}
-  m_Name: ExtraMir
+  m_Name: BeamWidener
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.ScriptableObjects.UpgradeDefinitionSO
-  upgradeID: 
-  displayName: 
-  icon: {fileID: 0}
-  description: 
-  effectType: 0
-  effectValue: 0
+  upgradeID: beam_rng
+  displayName: "Beam Range+\t"
+  icon: {fileID: -867353944, guid: 6f364858257666f4497d8c472ba07394, type: 3}
+  description: BeamRangeBonus
+  effectType: 2
+  effectValue: 5

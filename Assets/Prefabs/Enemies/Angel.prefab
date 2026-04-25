@@ -59,7 +59,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 95824dbf69f3ce2429a9298e554e8579, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -117,6 +117,16 @@ MonoBehaviour:
   _frameRate: 8
   _animateOnlyWhenMoving: 1
   _billboardToCamera: 1
+  _evilFront:
+  - {fileID: 2005336563, guid: ca0e83db426cd92499459b5593a832de, type: 3}
+  _evilFrontRight:
+  - {fileID: -1710612080, guid: ca0e83db426cd92499459b5593a832de, type: 3}
+  _evilRight:
+  - {fileID: 1007073418, guid: ca0e83db426cd92499459b5593a832de, type: 3}
+  _evilBackRight:
+  - {fileID: 516471090, guid: ca0e83db426cd92499459b5593a832de, type: 3}
+  _evilBack:
+  - {fileID: 1759935126, guid: ca0e83db426cd92499459b5593a832de, type: 3}
 --- !u!1 &7637345538177893846
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,3 +242,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.Enemies.AngelController
   deathEffectPrefab: {fileID: 8740750738931868432, guid: e61731ee35b2c3545a970a2dc1bb8b83, type: 3}
+  _vibrateAmount: 0.15

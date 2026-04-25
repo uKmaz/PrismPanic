@@ -25,14 +25,39 @@ namespace PrismPanic.Enemies
         
         [Header("VFX Settings")]
         [SerializeField] private GameObject deathEffectPrefab;
+        [SerializeField] private float _vibrateAmount = 0.15f;
+
+        [Header("Angel Type")]
+        [Tooltip("If true, angel is invisible in darkness and only revealed by the flashlight.")]
+        [SerializeField] private bool _isInvisibleType = false;
 
         private const float SPAWN_GRACE_DURATION = 1f; // seconds before angel starts moving
+        private float _damageCooldownTimer;
+        private float _vibrateTimer;
+        private float _flashTimer; // Momentary flash when hitting player
+        private Vector3 _basePosition;
+        private Utilities.DirectionalSprite _directionalSprite;
+        private SpriteRenderer _spriteRenderer;
+        private SpriteRenderer[] _allRenderers;
 
         private void Awake()
         {
             _agent = GetComponent<NavMeshAgent>();
+            _directionalSprite = GetComponentInChildren<Utilities.DirectionalSprite>();
+            if (_directionalSprite != null)
+                _spriteRenderer = _directionalSprite.GetComponent<SpriteRenderer>();
+
+            // Fallback: grab any SpriteRenderer in children if the above didn't find one
+            if (_spriteRenderer == null)
+                _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+            // Cache ALL renderers so we catch every sprite the DirectionalSprite might swap to
+            _allRenderers = GetComponentsInChildren<SpriteRenderer>(includeInactive: true);
+
+            // Shadow type starts invisible; normal type is always visible
+            SetRenderersEnabled(!_isInvisibleType);
+
             // Disable immediately — agent can't exist without NavMesh.
-            // It will be enabled in Initialize() after NavMesh is baked.
             if (_agent != null)
                 _agent.enabled = false;
         }
@@ -45,8 +70,14 @@ namespace PrismPanic.Enemies
             _data = data;
             _currentHP = data != null ? data.maxHP : Constants.ANGEL_BASE_HP;
             _stunTimer = 0f;
+            _damageCooldownTimer = 0f;
+            _vibrateTimer = 0f;
+            _flashTimer = 0f;
             _graceTimer = SPAWN_GRACE_DURATION;
             CurrentState = AngelState.Idle;
+            // Shadow angels start hidden; normal angels start visible
+            SetRenderersEnabled(!_isInvisibleType);
+            UpdateColorByHP();
 
             if (_agent != null)
             {
@@ -79,6 +110,17 @@ namespace PrismPanic.Enemies
         private void Update()
         {
             if (CurrentState == AngelState.Dead) return;
+
+            // Handle Timers and Visuals
+            if (_damageCooldownTimer > 0f) _damageCooldownTimer -= Time.deltaTime;
+            
+            HandleVisualEffects();
+            UpdateVisibility(); // MUST run last — always applies correct alpha on top of HP tint
+            
+            if (_directionalSprite != null)
+            {
+                _directionalSprite.SetEvilState(CurrentState == AngelState.Pursuing);
+            }
 
             // Grace period — angel waits before pursuing
             if (_graceTimer > 0f)
@@ -149,12 +191,76 @@ namespace PrismPanic.Enemies
         /// </summary>
         public void TakeDamage(int amount)
         {
-            if (CurrentState == AngelState.Dead) return;
+            if (CurrentState == AngelState.Dead || _damageCooldownTimer > 0f) return;
 
             _currentHP -= amount;
+            _damageCooldownTimer = 0.3f; // 0.3s cooldown
+            _vibrateTimer = 0.2f;
+
             if (_currentHP <= 0)
             {
                 Die();
+            }
+            else
+            {
+                UpdateColorByHP();
+            }
+        }
+
+        private void UpdateVisibility()
+        {
+            // Normal angels are always visible — skip
+            if (!_isInvisibleType) return;
+
+            bool illuminated = AngelIlluminationRegistry.IsIlluminated(this);
+            SetRenderersEnabled(illuminated);
+        }
+
+        private void SetRenderersEnabled(bool visible)
+        {
+            if (_allRenderers == null) return;
+            foreach (var sr in _allRenderers)
+                if (sr != null) sr.enabled = visible;
+        }
+
+        private void UpdateColorByHP()
+        {
+            if (_spriteRenderer == null) return;
+            float max = _data != null ? _data.maxHP : Constants.ANGEL_BASE_HP;
+            float ratio = Mathf.Clamp01((float)_currentHP / max);
+            _spriteRenderer.color = Color.Lerp(Color.red, Color.white, ratio);
+        }
+
+        private void HandleVisualEffects()
+        {
+            // Vibrate
+            if (_vibrateTimer > 0f)
+            {
+                _vibrateTimer -= Time.deltaTime;
+                Vector3 randomOffset = new Vector3(Random.Range(-_vibrateAmount, _vibrateAmount), 0, Random.Range(-_vibrateAmount, _vibrateAmount));
+                
+                // We vibrate the sprite child so we don't mess with the NavMeshAgent's transform
+                if (_spriteRenderer != null)
+                    _spriteRenderer.transform.localPosition = randomOffset;
+            }
+            else if (_spriteRenderer != null && _spriteRenderer.transform.localPosition != Vector3.zero)
+            {
+                _spriteRenderer.transform.localPosition = Vector3.zero;
+            }
+
+            // Momentary Flash when hitting player
+            if (_flashTimer > 0f)
+            {
+                _flashTimer -= Time.deltaTime;
+                if (_spriteRenderer != null)
+                {
+                    _spriteRenderer.color = Color.Lerp(Color.red, Color.white, Random.value);
+                }
+            }
+            else if (_spriteRenderer != null && _flashTimer <= 0f && _flashTimer > -1f)
+            {
+                _flashTimer = -2f; // mark as done
+                UpdateColorByHP(); // restore normal HP tint
             }
         }
 
@@ -191,32 +297,36 @@ namespace PrismPanic.Enemies
         }
 
         /// <summary>
-        /// Player contact = instant death. Using trigger collider.
+        /// Player contact deals damage. Using trigger collider.
         /// </summary>
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerStay(Collider other)
         {
             if (CurrentState == AngelState.Dead || _graceTimer > 0f) return;
 
-            bool isPlayer = other.gameObject.layer == Constants.LayerPlayer
-                         || other.CompareTag("Player");
-
-            if (isPlayer)
+            if (other.CompareTag("Player") || other.gameObject.layer == Constants.LayerPlayer)
             {
-                EventBus.FirePlayerDeath();
+                var player = other.GetComponent<PrismPanic.Player.PlayerController>();
+                if (player != null && player.TakeDamage(1))
+                {
+                    // Player took damage (was not invincible) -> Angel visual feedback
+                    _vibrateTimer = 0.2f;
+                    _flashTimer = 0.2f;
+                }
             }
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnCollisionStay(Collision collision)
         {
             if (CurrentState == AngelState.Dead || _graceTimer > 0f) return;
 
-            bool isPlayer = collision.gameObject.layer == Constants.LayerPlayer
-                         || collision.gameObject.CompareTag("Player");
-
-            if (isPlayer)
+            if (collision.gameObject.CompareTag("Player") || collision.gameObject.layer == Constants.LayerPlayer)
             {
-                Debug.Log("[Angel] Player collision! Firing PlayerDeath.");
-                EventBus.FirePlayerDeath();
+                var player = collision.gameObject.GetComponent<PrismPanic.Player.PlayerController>();
+                if (player != null && player.TakeDamage(1))
+                {
+                    _vibrateTimer = 0.2f;
+                    _flashTimer = 0.2f;
+                }
             }
         }
 

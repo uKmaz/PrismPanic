@@ -34,9 +34,10 @@ namespace PrismPanic.Core
             (1 << LayerWall) | (1 << LayerPillar) | (1 << 0); // Default layer for floor
 
         // --- Beam ---
-        public const int MAX_BOUNCES = 3;
+        public const int MAX_BOUNCES = 10;
         public const float DEFAULT_BEAM_RANGE = 20f;
         public const float BEAM_WIDTH = 0.06f;
+        public const float BASE_BEAM_RADIUS = 0.05f; // SphereCast radius — grows with BeamRadiusWidener upgrade
 
         // --- Player Defaults ---
         public const float BASE_MOVE_SPEED = 5f;
@@ -45,7 +46,7 @@ namespace PrismPanic.Core
         public const float BASE_WIDE_INTENSITY = 20f;
         public const float BASE_LASER_INTENSITY = 50f;
         public const float BASE_LASER_ANGLE = 10f;
-        public const float BASE_BEAM_RANGE = 40f; // Increased to 40 so it can bounce further
+        public const float BASE_BEAM_RANGE = 999f; // Infinite range
         public const float BEAM_GROWTH_SPEED = 8f; // Units per second
         public const float BEAM_START_LENGTH = 0f;
         public const float BASE_MAX_ENERGY = 100f;
@@ -71,6 +72,17 @@ namespace PrismPanic.Core
         // --- Gameplay ---
         public const int DOORS_PER_LEVEL = 3;
         public const float ROOM_TRANSITION_DELAY = 0.5f;
+        public const float DOOR_INTERACT_RADIUS = 1.5f;   // Distance to show prompt
+        public const float DOOR_CONFIRM_RADIUS = 1.0f;    // Distance to accept F key press
+
+        // --- Door Icon Transform ---
+        public const float DOOR_ICON_Z_OFFSET = -0.1f;  // How far in front of the door sprite the icon renders
+
+        // --- Angel Darkness Visibility ---
+        public const float ANGEL_HIDDEN_ALPHA    = 0f;    // Alpha when not illuminated
+        public const float ANGEL_VISIBLE_ALPHA   = 1f;    // Alpha when illuminated by flashlight
+        public const float ANGEL_FADE_IN_SPEED   = 8f;    // How fast angel appears when lit
+        public const float ANGEL_FADE_OUT_SPEED  = 3f;    // How fast angel disappears in darkness
 
         // --- Adrenaline Effect ---
         public const float ADRENALINE_TRIGGER_RADIUS = 2.5f;
@@ -85,10 +97,12 @@ namespace PrismPanic.Core
         public const float MAX_IMPACT_TRAUMA = 2.0f;
 
         // --- Beam Visuals ---
+        public const float SPIRAL_RADIUS_BLUE_MULTIPLIER = 0.7f;
         public const float SPIRAL_RADIUS_RED_MULTIPLIER = 1.0f;
         public const float SPIRAL_RADIUS_PURPLE_MULTIPLIER = 1.8f;
         public const float SPIRAL_WIDTH_MULTIPLIER = 0.4f;
         public const float SPIRAL_FREQUENCY = 1.5f;
+        public const float ROTATION_SPEED_BLUE = 300f;
         public const float ROTATION_SPEED_RED = 600f;
         public const float ROTATION_SPEED_PURPLE = 1500f;
         public const float BEAM_PARTICLE_SIZE = 0.05f;

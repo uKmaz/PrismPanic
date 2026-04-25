@@ -179,7 +179,7 @@ namespace PrismPanic.Light
             }
         }
 
-        public void ApplyStyle(int bounceCount, float width)
+        public void ApplyStyle(int bounceCount, float width, bool forceBlue = false)
         {
             _lineRenderer.startWidth = width;
             _lineRenderer.endWidth = width;
@@ -190,17 +190,28 @@ namespace PrismPanic.Light
             
             switch (bounceCount)
             {
-                case 0: // White, normal
-                    color = Color.white;
-                    emissionRate = 0;
-                    useSpiral = false;
+                case 0: // White normally, Blue if upgraded
+                    if (forceBlue)
+                    {
+                        color = new Color(0.2f, 0.4f, 1f); // Vivid blue
+                        emissionRate = 40;
+                        useSpiral = true;
+                        _spiralRadius = width * PrismPanic.Core.Constants.SPIRAL_RADIUS_BLUE_MULTIPLIER;
+                        _rotationSpeed = PrismPanic.Core.Constants.ROTATION_SPEED_BLUE;
+                    }
+                    else
+                    {
+                        color = Color.white;
+                        emissionRate = 0;
+                        useSpiral = false;
+                    }
                     break;
                 case 1: // Blue, little particles
                     color = Color.blue; 
                     emissionRate = 50;
                     useSpiral = true;
-                    _spiralRadius = width * PrismPanic.Core.Constants.SPIRAL_RADIUS_BLUE_MULTIPLIER;
-                    _rotationSpeed = PrismPanic.Core.Constants.ROTATION_SPEED_BLUE; 
+                    _spiralRadius = width * PrismPanic.Core.Constants.SPIRAL_RADIUS_RED_MULTIPLIER;
+                    _rotationSpeed = PrismPanic.Core.Constants.ROTATION_SPEED_RED; 
                     break;
                 case 2: // Red, particles + rotating spiral
                     color = Color.red;

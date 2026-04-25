@@ -46,13 +46,33 @@ namespace PrismPanic.Light
                     break;
 
                 case 2:
-                    // 2-bounce — 2x damage (instant kill on 2HP angel)
+                    // 2-bounce — 2x damage
                     angel.TakeDamage(2);
                     break;
 
                 case 3:
-                    // 3-bounce — 3x damage (heavy hit)
-                    angel.TakeDamage(3);
+                    // 3-bounce — 3x damage or Tutorial Kill
+                    if (GameManager.Instance != null && GameManager.Instance.CurrentLevelIndex == 0)
+                    {
+                        angel.TakeDamage(999);
+                    }
+                    else
+                    {
+                        angel.TakeDamage(3);
+                    }
+                    break;
+                    
+                default:
+                    // 4+ bounces
+                    if (GameManager.Instance != null && GameManager.Instance.CurrentLevelIndex == 0)
+                    {
+                        // Tutorial Start condition — instant kill the tutorial angel
+                        angel.TakeDamage(999);
+                    }
+                    else
+                    {
+                        angel.TakeDamage(data.bounceCount);
+                    }
                     break;
             }
         }

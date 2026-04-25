@@ -128,6 +128,25 @@ namespace PrismPanic.Utilities
             }
         }
 
+        [Header("Evil Sprites (Optional)")]
+        [Tooltip("Kameraya bakıyor (aşağı yürüme)")]
+        [SerializeField] private Sprite[] _evilFront;
+        [Tooltip("Sağ-öne bakıyor")]
+        [SerializeField] private Sprite[] _evilFrontRight;
+        [Tooltip("Sağa bakıyor")]
+        [SerializeField] private Sprite[] _evilRight;
+        [Tooltip("Sağ-arkaya bakıyor")]
+        [SerializeField] private Sprite[] _evilBackRight;
+        [Tooltip("Kameradan uzağa bakıyor (yukarı yürüme)")]
+        [SerializeField] private Sprite[] _evilBack;
+
+        private bool _isEvil = false;
+
+        public void SetEvilState(bool isEvil)
+        {
+            _isEvil = isEvil;
+        }
+
         /// <summary>
         /// Returns the sprite array for a given direction index.
         /// Left-side directions (5,6,7) return the mirrored right-side sprites + flip=true.
@@ -136,26 +155,32 @@ namespace PrismPanic.Utilities
         {
             flip = false;
 
+            Sprite[] front = _isEvil && _evilFront != null && _evilFront.Length > 0 ? _evilFront : _front;
+            Sprite[] frontRight = _isEvil && _evilFrontRight != null && _evilFrontRight.Length > 0 ? _evilFrontRight : _frontRight;
+            Sprite[] right = _isEvil && _evilRight != null && _evilRight.Length > 0 ? _evilRight : _right;
+            Sprite[] backRight = _isEvil && _evilBackRight != null && _evilBackRight.Length > 0 ? _evilBackRight : _backRight;
+            Sprite[] back = _isEvil && _evilBack != null && _evilBack.Length > 0 ? _evilBack : _back;
+
             switch (dir)
             {
-                case 0: return _front;
-                case 1: return _frontRight;
-                case 2: return _right;
-                case 3: return _backRight;
-                case 4: return _back;
+                case 0: return front;
+                case 1: return frontRight;
+                case 2: return right;
+                case 3: return backRight;
+                case 4: return back;
 
                 // Left-side: use right counterpart + flip
                 case 5: // backLeft → backRight flipped
                     flip = true;
-                    return _backRight;
+                    return backRight;
                 case 6: // left → right flipped
                     flip = true;
-                    return _right;
+                    return right;
                 case 7: // frontLeft → frontRight flipped
                     flip = true;
-                    return _frontRight;
+                    return frontRight;
 
-                default: return _front;
+                default: return front;
             }
         }
     }

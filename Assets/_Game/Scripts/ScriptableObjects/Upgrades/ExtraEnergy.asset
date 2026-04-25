@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.ScriptableObjects.UpgradeDefinitionSO
   upgradeID: extra_energy
   displayName: Extra Energy
-  icon: {fileID: 526172713, guid: f6b2f624f8124aa4cb822c65ce5f3de6, type: 3}
+  icon: {fileID: -1353132621, guid: 6f364858257666f4497d8c472ba07394, type: 3}
   description: Grants a permanent boost to your maximum flashlight energy.
   effectType: 6
   effectValue: 50

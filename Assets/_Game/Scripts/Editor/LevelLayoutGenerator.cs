@@ -174,7 +174,6 @@ namespace PrismPanic.Editor
             var layout = GetOrCreateLayout("Map5", "map5");
             var baseAngel = FindEnemyData("BaseAngel");
             var fastAngel = FindEnemyData("FastAngel") ?? baseAngel;
-            var shadowAngel = FindEnemyData("ShadowAngel") ?? fastAngel;
 
             layout.wallPositions = BuildPerimeterWallsRect(9, 7);
             layout.floorPositions = BuildFloorGridRect(9, 7);
@@ -192,12 +191,7 @@ namespace PrismPanic.Editor
             layout.playerSpawnPoint = new Vector3(0f, 0.5f, -5f);
             layout.enemySpawnPoints = new Vector3[] { new Vector3(-7f, 0.5f, 5f), new Vector3(7f, 0.5f, 5f), new Vector3(-4f, 0.5f, 2f), new Vector3(4f, 0.5f, 2f), new Vector3(0f, 0.5f, 5f) };
             layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 6f), new Vector3(-5f, 1.5f, 6f), new Vector3(5f, 1.5f, 6f) };
-            layout.waves = new EnemyWaveData[]
-            {
-                new EnemyWaveData { enemyData = baseAngel, count = 2 },
-                new EnemyWaveData { enemyData = fastAngel, count = 2 },
-                new EnemyWaveData { enemyData = shadowAngel, count = 1, isShadowAngel = true }
-            };
+            layout.waves = new EnemyWaveData[] { new EnemyWaveData { enemyData = baseAngel, count = 3 }, new EnemyWaveData { enemyData = fastAngel, count = 3 } };
             SaveLayout(layout, "Map5");
         }
 
@@ -207,7 +201,6 @@ namespace PrismPanic.Editor
             var layout = GetOrCreateLayout("Map6", "map6");
             var baseAngel = FindEnemyData("BaseAngel");
             var fastAngel = FindEnemyData("FastAngel") ?? baseAngel;
-            var shadowAngel = FindEnemyData("ShadowAngel") ?? fastAngel;
 
             layout.wallPositions = BuildPerimeterWalls(9);
             layout.floorPositions = BuildFloorGrid(9);
@@ -225,12 +218,7 @@ namespace PrismPanic.Editor
             layout.playerSpawnPoint = new Vector3(0f, 0.5f, -7f);
             layout.enemySpawnPoints = new Vector3[] { new Vector3(-6f, 0.5f, 6f), new Vector3(6f, 0.5f, 6f), new Vector3(-2f, 0.5f, 4f), new Vector3(2f, 0.5f, 4f), new Vector3(-6f, 0.5f, 0f), new Vector3(6f, 0.5f, 0f) };
             layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 8f), new Vector3(-4f, 1.5f, 8f), new Vector3(4f, 1.5f, 8f) };
-            layout.waves = new EnemyWaveData[]
-            {
-                new EnemyWaveData { enemyData = baseAngel, count = 2 },
-                new EnemyWaveData { enemyData = fastAngel, count = 2 },
-                new EnemyWaveData { enemyData = shadowAngel, count = 2, isShadowAngel = true }
-            };
+            layout.waves = new EnemyWaveData[] { new EnemyWaveData { enemyData = baseAngel, count = 4 }, new EnemyWaveData { enemyData = fastAngel, count = 3 } };
             SaveLayout(layout, "Map6");
         }
 
@@ -240,7 +228,6 @@ namespace PrismPanic.Editor
             var layout = GetOrCreateLayout("Map7", "map7");
             var baseAngel = FindEnemyData("BaseAngel");
             var fastAngel = FindEnemyData("FastAngel") ?? baseAngel;
-            var shadowAngel = FindEnemyData("ShadowAngel") ?? fastAngel;
 
             layout.wallPositions = BuildPerimeterWallsRect(10, 8);
             layout.floorPositions = BuildFloorGridRect(10, 8);
@@ -257,14 +244,9 @@ namespace PrismPanic.Editor
 
             layout.pillarPositions = new Vector3[] { new Vector3(5f, 1.5f, 0f), new Vector3(-5f, 1.5f, 0f), new Vector3(2f, 1.5f, 3f), new Vector3(-2f, 1.5f, 3f) };
             layout.playerSpawnPoint = new Vector3(0f, 0.5f, -6f);
-            layout.enemySpawnPoints = new Vector3[] { new Vector3(-8f, 0.5f, 6f), new Vector3(8f, 0.5f, 6f), new Vector3(-4f, 0.5f, 6f), new Vector3(4f, 0.5f, 6f), new Vector3(-8f, 0.5f, -2f), new Vector3(8f, 0.5f, -2f), new Vector3(0f, 0.5f, 5f) };
+            layout.enemySpawnPoints = new Vector3[] { new Vector3(-8f, 0.5f, 6f), new Vector3(8f, 0.5f, 6f), new Vector3(-4f, 0.5f, 6f), new Vector3(4f, 0.5f, 6f), new Vector3(-8f, 0.5f, -2f), new Vector3(8f, 0.5f, -2f) };
             layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 7f), new Vector3(-5f, 1.5f, 7f), new Vector3(5f, 1.5f, 7f) };
-            layout.waves = new EnemyWaveData[]
-            {
-                new EnemyWaveData { enemyData = baseAngel, count = 2 },
-                new EnemyWaveData { enemyData = fastAngel, count = 3 },
-                new EnemyWaveData { enemyData = shadowAngel, count = 2, isShadowAngel = true }
-            };
+            layout.waves = new EnemyWaveData[] { new EnemyWaveData { enemyData = baseAngel, count = 3 }, new EnemyWaveData { enemyData = fastAngel, count = 5 } };
             SaveLayout(layout, "Map7");
         }
 
@@ -274,7 +256,6 @@ namespace PrismPanic.Editor
             var layout = GetOrCreateLayout("Map8", "map8");
             var baseAngel = FindEnemyData("BaseAngel");
             var fastAngel = FindEnemyData("FastAngel") ?? baseAngel;
-            var shadowAngel = FindEnemyData("ShadowAngel") ?? fastAngel;
 
             // Huge boss-like room
             layout.wallPositions = BuildPerimeterWalls(11);
@@ -300,19 +281,17 @@ namespace PrismPanic.Editor
                 new Vector3(-9f, 0.5f, 9f), new Vector3(9f, 0.5f, 9f), 
                 new Vector3(-5f, 0.5f, 8f), new Vector3(5f, 0.5f, 8f), 
                 new Vector3(-9f, 0.5f, 0f), new Vector3(9f, 0.5f, 0f),
-                new Vector3(-4f, 0.5f, 2f), new Vector3(4f, 0.5f, 2f),
-                new Vector3(-7f, 0.5f, 4f), new Vector3(7f, 0.5f, 4f),
-                new Vector3(0f, 0.5f, 6f)
+                new Vector3(-4f, 0.5f, 2f), new Vector3(4f, 0.5f, 2f) 
             };
             
             layout.doorSpawnPoints = new Vector3[] { new Vector3(0f, 1.5f, 10f), new Vector3(-6f, 1.5f, 10f), new Vector3(6f, 1.5f, 10f) };
             
-            // Final map: mixed waves including shadow angels
+            // 3 Waves for the final map
             layout.waves = new EnemyWaveData[] 
             { 
-                new EnemyWaveData { enemyData = baseAngel, count = 3 }, 
-                new EnemyWaveData { enemyData = fastAngel, count = 4 },
-                new EnemyWaveData { enemyData = shadowAngel, count = 3, isShadowAngel = true }
+                new EnemyWaveData { enemyData = baseAngel, count = 4 }, 
+                new EnemyWaveData { enemyData = fastAngel, count = 6 },
+                new EnemyWaveData { enemyData = fastAngel, count = 4 }
             };
             SaveLayout(layout, "Map8");
         }

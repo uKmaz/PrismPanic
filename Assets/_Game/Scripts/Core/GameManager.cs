@@ -143,6 +143,10 @@ namespace PrismPanic.Core
 
         private void HandleRoomReady()
         {
+            // Refresh the per-room mirror budget
+            if (_playerStats != null)
+                _playerStats.placeableMirrorCount = _playerStats.mirrorsPerRoom;
+
             SetPhase(GamePhase.Combat);
             EventBus.FireLevelStart();
         }

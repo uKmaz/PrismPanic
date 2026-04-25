@@ -31,8 +31,15 @@ namespace PrismPanic.Player
             _mainCamera = Camera.main;
         }
 
+        private float _invincibilityTimer;
+
         private void Update()
         {
+            if (_invincibilityTimer > 0f)
+            {
+                _invincibilityTimer -= Time.deltaTime;
+            }
+
             if (GameManager.Instance != null)
             {
                 var phase = GameManager.Instance.CurrentPhase;
@@ -47,6 +54,21 @@ namespace PrismPanic.Player
             // Notify audio system of walking state
             bool isMoving = _moveInput.sqrMagnitude > 0.01f;
             Audio.AudioEffectHandler.Instance?.SetWalking(isMoving);
+        }
+
+        public bool TakeDamage(int amount)
+        {
+            if (_invincibilityTimer > 0f) return false;
+
+            _playerStats.currentHP -= amount;
+            _invincibilityTimer = 1.5f; // 1.5 seconds of invincibility
+
+            if (_playerStats.currentHP <= 0)
+            {
+                EventBus.FirePlayerDeath();
+            }
+            
+            return true;
         }
 
         private void HandleMovement()
