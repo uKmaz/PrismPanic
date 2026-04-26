@@ -44,8 +44,11 @@ namespace PrismPanic.Enemies
 
         private void OnEnable()
         {
+            // Always read from Constants to avoid stale serialized values in the prefab
+            _maxHealth = Constants.BOSS_MAX_HP;
             _currentHealth = _maxHealth;
             _isDead = false;
+            _damageCooldownTimer = 0f;
             _currentRayCount = 1;
             _totalCombatTime = 0f;
             _escalationTimer = Constants.BOSS_RAY_ESCALATION_INTERVAL;
