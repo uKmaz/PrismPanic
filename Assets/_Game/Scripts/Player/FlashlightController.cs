@@ -176,18 +176,35 @@ namespace PrismPanic.Player
 
         // --- Shield System (Toggle Mirror) ---
 
-        private void ActivateShield()
+        public void ActivateShield()
         {
             _isShieldActive = true;
             _shieldRotation = 0f;
 
+            // Shield layer ignores physical collisions with Player and Enemy
+            Physics.IgnoreLayerCollision(Constants.LayerShield, Constants.LayerPlayer, true);
+            Physics.IgnoreLayerCollision(Constants.LayerShield, Constants.LayerEnemy, true);
+            Physics.IgnoreLayerCollision(Constants.LayerShield, Constants.LayerDoor, true);
+
             if (_ghostMirrorPrefab != null && _shieldMirror == null)
             {
                 _shieldMirror = Instantiate(_ghostMirrorPrefab);
+
+                // Set shield to its own layer so it won't collide but beams still reflect
+                SetLayerRecursive(_shieldMirror, Constants.LayerShield);
             }
 
             if (_shieldMirror != null)
                 _shieldMirror.SetActive(true);
+        }
+
+        private void SetLayerRecursive(GameObject obj, int layer)
+        {
+            obj.layer = layer;
+            foreach (Transform child in obj.transform)
+            {
+                SetLayerRecursive(child.gameObject, layer);
+            }
         }
 
         private void UpdateShieldMirror()
