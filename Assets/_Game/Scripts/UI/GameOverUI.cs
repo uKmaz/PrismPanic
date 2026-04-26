@@ -23,15 +23,21 @@ namespace PrismPanic.UI
 
         private void Awake()
         {
-            if (_panel != null)
-                _panel.SetActive(false);
+            HidePanel();
+        }
 
-            _isShowing = false;
+        private void Start()
+        {
+            // Failsafe: Ensure it's hidden when the scene fully starts
+            HidePanel();
         }
 
         private void OnEnable()
         {
             EventBus.OnPlayerDeath += HandlePlayerDeath;
+            EventBus.OnGameRestart += HidePanel;
+            EventBus.OnRoomReconfigureComplete += HidePanel;
+            EventBus.OnLevelStart += HidePanel;
 
             if (_restartButton != null)
                 _restartButton.onClick.AddListener(OnRestart);
@@ -43,6 +49,9 @@ namespace PrismPanic.UI
         private void OnDisable()
         {
             EventBus.OnPlayerDeath -= HandlePlayerDeath;
+            EventBus.OnGameRestart -= HidePanel;
+            EventBus.OnRoomReconfigureComplete -= HidePanel;
+            EventBus.OnLevelStart -= HidePanel;
 
             if (_restartButton != null)
                 _restartButton.onClick.RemoveListener(OnRestart);
@@ -115,26 +124,38 @@ namespace PrismPanic.UI
             Cursor.visible = true;
         }
 
-        private void OnRestart()
+        public void OnRestart()
         {
-            _isShowing = false;
-            if (_panel != null)
-                _panel.SetActive(false);
-
+            HidePanel();
             Time.timeScale = 1f;
             Time.fixedDeltaTime = 0.02f;
             EventBus.FireGameRestart();
         }
 
-        private void OnMenu()
+        public void OnMenu()
         {
-            _isShowing = false;
-            if (_panel != null)
-                _panel.SetActive(false);
-
+            HidePanel();
             Time.timeScale = 1f;
             Time.fixedDeltaTime = 0.02f;
             SceneController.LoadMenu();
+        }
+
+        private void HidePanel()
+        {
+            _isShowing = false;
+
+            if (_panel != null)
+            {
+                _panel.SetActive(false);
+            }
+            else
+            {
+                // Fallback: disable ALL children if panel ref is missing
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    transform.GetChild(i).gameObject.SetActive(false);
+                }
+            }
         }
     }
 }
