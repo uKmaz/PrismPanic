@@ -755,9 +755,26 @@ MonoBehaviour:
   - {x: 6, y: 1.5, z: 0}
   - {x: -6, y: 1.5, z: 0}
   playerSpawnPoint: {x: 0, y: 0.5, z: -9}
-  enemySpawnPoints: []
+  enemySpawnPoints:
+  - {x: -9, y: 0.5, z: 9}
+  - {x: 9, y: 0.5, z: 9}
+  - {x: -5, y: 0.5, z: 8}
+  - {x: 5, y: 0.5, z: 8}
+  - {x: -9, y: 0.5, z: 0}
+  - {x: 9, y: 0.5, z: 0}
+  - {x: -4, y: 0.5, z: 2}
+  - {x: 4, y: 0.5, z: 2}
   doorSpawnPoints:
   - {x: 0, y: 1.5, z: 10}
-  waves: []
+  waves:
+  - enemyData: {fileID: 11400000, guid: 9c3a9b5b6ffda1a46a912012fe8b2ccd, type: 2}
+    count: 5
+    isShadowAngel: 0
+  - enemyData: {fileID: 11400000, guid: 0037c8b5ca85e354e8b352c5f41414fb, type: 2}
+    count: 5
+    isShadowAngel: 0
+  - enemyData: {fileID: 11400000, guid: 504c78bea3d2b2a45b51bc5063cdbdb4, type: 2}
+    count: 5
+    isShadowAngel: 1
   hasBoss: 1
   bossSpawnPoint: {x: 0, y: 1.5, z: 0}

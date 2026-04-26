@@ -39,7 +39,7 @@ namespace PrismPanic.Light
             BossController boss = data.target.GetComponent<BossController>();
             if (boss != null && data.bounceCount >= 1)
             {
-                boss.TakeDamage(data.bounceCount);
+                boss.TakeDamage(data.bounceCount * 15);
                 return;
             }
         }
@@ -58,24 +58,24 @@ namespace PrismPanic.Light
                     break;
 
                 case 1:
-                    // 1-bounce — base damage (1 hit)
-                    angel.TakeDamage(1);
+                    // 1-bounce — base damage
+                    angel.TakeDamage(10);
                     break;
 
                 case 2:
-                    // 2-bounce — 2x damage
-                    angel.TakeDamage(2);
+                    // 2-bounce — 2.5x damage
+                    angel.TakeDamage(25);
                     break;
 
                 case 3:
-                    // 3-bounce — 3x damage or Tutorial Kill
+                    // 3-bounce — 5x damage or Tutorial Kill
                     if (GameManager.Instance != null && GameManager.Instance.CurrentLevelIndex == 0)
                     {
-                        angel.TakeDamage(999);
+                        angel.TakeDamage(9999);
                     }
                     else
                     {
-                        angel.TakeDamage(3);
+                        angel.TakeDamage(50);
                     }
                     break;
                     
@@ -84,11 +84,11 @@ namespace PrismPanic.Light
                     if (GameManager.Instance != null && GameManager.Instance.CurrentLevelIndex == 0)
                     {
                         // Tutorial Start condition — instant kill the tutorial angel
-                        angel.TakeDamage(999);
+                        angel.TakeDamage(9999);
                     }
                     else
                     {
-                        angel.TakeDamage(data.bounceCount);
+                        angel.TakeDamage(data.bounceCount * 15);
                     }
                     break;
             }
