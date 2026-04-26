@@ -39,6 +39,7 @@ namespace PrismPanic.ScriptableObjects
         [System.NonSerialized] public float energyDrainMultiplier;
         [System.NonSerialized] public float beamRadius;  // SphereCast radius for laser
         [System.NonSerialized] public bool hasBlueBeam;  // First beam turns blue when true
+        [System.NonSerialized] public bool hasShield;    // Shield mirror toggle unlocked
 
         private void OnEnable()
         {
@@ -67,6 +68,7 @@ namespace PrismPanic.ScriptableObjects
             energyDrainMultiplier = 1.0f;
             beamRadius = Constants.BASE_BEAM_RADIUS;
             hasBlueBeam = false;
+            hasShield = false;
         }
     }
 }
