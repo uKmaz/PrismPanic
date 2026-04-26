@@ -181,7 +181,11 @@ namespace PrismPanic.Player
             _isShieldActive = true;
             _shieldRotation = 0f;
 
+<<<<<<< Updated upstream
             // Shield layer ignores physical collisions with Player and Enemy
+=======
+            // Shield layer ignores physical collisions
+>>>>>>> Stashed changes
             Physics.IgnoreLayerCollision(Constants.LayerShield, Constants.LayerPlayer, true);
             Physics.IgnoreLayerCollision(Constants.LayerShield, Constants.LayerEnemy, true);
             Physics.IgnoreLayerCollision(Constants.LayerShield, Constants.LayerDoor, true);
@@ -189,8 +193,11 @@ namespace PrismPanic.Player
             if (_ghostMirrorPrefab != null && _shieldMirror == null)
             {
                 _shieldMirror = Instantiate(_ghostMirrorPrefab);
+<<<<<<< Updated upstream
 
                 // Set shield to its own layer so it won't collide but beams still reflect
+=======
+>>>>>>> Stashed changes
                 SetLayerRecursive(_shieldMirror, Constants.LayerShield);
             }
 
@@ -202,9 +209,13 @@ namespace PrismPanic.Player
         {
             obj.layer = layer;
             foreach (Transform child in obj.transform)
+<<<<<<< Updated upstream
             {
                 SetLayerRecursive(child.gameObject, layer);
             }
+=======
+                SetLayerRecursive(child.gameObject, layer);
+>>>>>>> Stashed changes
         }
 
         private void UpdateShieldMirror()

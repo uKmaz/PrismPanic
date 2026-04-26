@@ -10,7 +10,11 @@ namespace PrismPanic.Upgrades
     public class UpgradeApplier : MonoBehaviour
     {
         [SerializeField] private PlayerStatsSO _playerStats;
+<<<<<<< Updated upstream
         [SerializeField] private GameObject _shieldUI; // Drag the ShieldUI GameObject here
+=======
+        [SerializeField] private GameObject _shieldUI;
+>>>>>>> Stashed changes
 
         private void OnEnable()
         {
@@ -50,9 +54,13 @@ namespace PrismPanic.Upgrades
 
                 case UpgradeEffectType.ExtraMirrorPlacement:
                     _playerStats.hasShield = true;
+<<<<<<< Updated upstream
                     // Enable ShieldUI GameObject
                     if (_shieldUI != null) _shieldUI.SetActive(true);
                     // Auto-activate shield
+=======
+                    if (_shieldUI != null) _shieldUI.SetActive(true);
+>>>>>>> Stashed changes
                     var flashlight = FindObjectOfType<Player.FlashlightController>();
                     if (flashlight != null) flashlight.ActivateShield();
                     break;
