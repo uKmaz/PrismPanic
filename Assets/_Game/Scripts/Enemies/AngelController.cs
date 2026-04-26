@@ -25,6 +25,10 @@ namespace PrismPanic.Enemies
         
         [Header("VFX Settings")]
         [SerializeField] private GameObject deathEffectPrefab;
+        [Tooltip("Child GameObject containing particle systems/trails for Fast variants")]
+        [SerializeField] private GameObject _fastEffectObj;
+        [Tooltip("Child GameObject for Stun Effect. Enabled only when Stunned.")]
+        [SerializeField] private GameObject _stunEffectObj;
         [SerializeField] private float _vibrateAmount = 0.15f;
 
         [Header("Angel Type")]
@@ -93,6 +97,13 @@ namespace PrismPanic.Enemies
             SetRenderersEnabled(!_isInvisibleType);
             UpdateColorByHP();
 
+            // Toggle fast variant visual effects
+            if (_fastEffectObj != null)
+            {
+                bool isFast = data != null && data.isFastVariant;
+                _fastEffectObj.SetActive(isFast);
+            }
+
             if (_agent != null)
             {
                 _agent.speed = data != null ? data.moveSpeed : Constants.ANGEL_BASE_SPEED;
@@ -130,6 +141,11 @@ namespace PrismPanic.Enemies
             
             HandleVisualEffects();
             UpdateVisibility(); // MUST run last — always applies correct alpha on top of HP tint
+
+            if (_stunEffectObj != null)
+            {
+                _stunEffectObj.SetActive(CurrentState == AngelState.Stunned);
+            }
             
             if (_directionalSprite != null)
             {

@@ -18,5 +18,8 @@ namespace PrismPanic.ScriptableObjects
 
         [Tooltip("Multiplier applied to stun duration (1 = normal)")]
         public float stunDurationModifier = 1f;
+
+        [Tooltip("If true, activates the 'FastEffect' child object on the Angel prefab (e.g. speed trails).")]
+        public bool isFastVariant = false;
     }
 }
