@@ -129,7 +129,7 @@ namespace PrismPanic.Audio
         {
             float time = 0;
             fadeIn.volume = 0;
-            float maxVolume = 1f;
+            float maxVolume = 0.7f;
 
             while (time < duration)
             {
