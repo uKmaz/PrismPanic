@@ -153,7 +153,7 @@ namespace PrismPanic.Light
 
             float radius = _playerStats != null ? _playerStats.beamRadius : Constants.BASE_BEAM_RADIUS;
 
-            if (Physics.SphereCast(origin, radius, direction, out RaycastHit hit, remainingRange, Constants.BeamRaycastMask))
+            if (Physics.SphereCast(origin, radius, direction, out RaycastHit hit, remainingRange, Constants.BeamRaycastMask, QueryTriggerInteraction.Collide))
             {
                 // Draw beam segment to hit point
                 DrawSegment(origin, hit.point, bounceCount);
@@ -162,7 +162,7 @@ namespace PrismPanic.Light
                 float distanceTraveled = hit.distance;
 
                 // Mirror — reflect and recurse
-                if (hitLayer == Constants.LayerMirror)
+                if (hitLayer == Constants.LayerMirror || hitLayer == Constants.LayerShield)
                 {
                     Vector3 reflectDir = Vector3.Reflect(direction, hit.normal);
                     // Keep reflection on XZ plane

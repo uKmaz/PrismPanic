@@ -22,10 +22,11 @@ namespace PrismPanic.Core
         public static readonly int LayerPillar = 10;
         public static readonly int LayerBeam = 11;
         public static readonly int LayerDoor = 12;
+        public static readonly int LayerShield = 13;
 
         // --- Layer Masks (for raycasting) ---
         public static readonly int BeamRaycastMask =
-            (1 << LayerMirror) | (1 << LayerWall) | (1 << LayerPillar) | (1 << LayerEnemy);
+            (1 << LayerMirror) | (1 << LayerWall) | (1 << LayerPillar) | (1 << LayerEnemy) | (1 << LayerShield);
 
         public static readonly int EnemyMovementMask =
             (1 << LayerWall) | (1 << LayerPillar);

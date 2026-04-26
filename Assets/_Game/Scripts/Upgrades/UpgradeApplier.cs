@@ -10,15 +10,23 @@ namespace PrismPanic.Upgrades
     public class UpgradeApplier : MonoBehaviour
     {
         [SerializeField] private PlayerStatsSO _playerStats;
+        [SerializeField] private GameObject _shieldUI; // Drag the ShieldUI GameObject here
 
         private void OnEnable()
         {
             EventBus.OnUpgradeSelected += HandleUpgradeSelected;
+            EventBus.OnGameRestart += HandleRestart;
         }
 
         private void OnDisable()
         {
             EventBus.OnUpgradeSelected -= HandleUpgradeSelected;
+            EventBus.OnGameRestart -= HandleRestart;
+        }
+
+        private void HandleRestart()
+        {
+            if (_shieldUI != null) _shieldUI.SetActive(false);
         }
 
         private void HandleUpgradeSelected(ScriptableObject upgradeSO)
@@ -42,6 +50,11 @@ namespace PrismPanic.Upgrades
 
                 case UpgradeEffectType.ExtraMirrorPlacement:
                     _playerStats.hasShield = true;
+                    // Enable ShieldUI GameObject
+                    if (_shieldUI != null) _shieldUI.SetActive(true);
+                    // Auto-activate shield
+                    var flashlight = FindObjectOfType<Player.FlashlightController>();
+                    if (flashlight != null) flashlight.ActivateShield();
                     break;
 
                 case UpgradeEffectType.BeamColorChangeBonus:

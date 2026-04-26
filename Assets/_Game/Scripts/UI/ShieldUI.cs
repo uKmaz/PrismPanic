@@ -8,6 +8,7 @@ namespace PrismPanic.UI
     /// Shows shield on/off icon below the energy bar.
     /// Swaps between two sprites based on whether the shield mirror is deployed.
     /// Only visible once the player has the shield upgrade.
+    /// Uses Image.enabled instead of SetActive to keep the script alive.
     /// </summary>
     public class ShieldUI : MonoBehaviour
     {
@@ -23,9 +24,9 @@ namespace PrismPanic.UI
 
         private void Start()
         {
-            // Hide until player gets the shield upgrade
+            // Hide icon until player gets the shield upgrade
             if (_shieldIcon != null)
-                _shieldIcon.gameObject.SetActive(false);
+                _shieldIcon.enabled = false;
         }
 
         private void Update()
@@ -35,13 +36,11 @@ namespace PrismPanic.UI
             // Only show icon if player has the shield upgrade
             if (!_playerStats.hasShield)
             {
-                if (_shieldIcon.gameObject.activeSelf)
-                    _shieldIcon.gameObject.SetActive(false);
+                _shieldIcon.enabled = false;
                 return;
             }
 
-            if (!_shieldIcon.gameObject.activeSelf)
-                _shieldIcon.gameObject.SetActive(true);
+            _shieldIcon.enabled = true;
 
             // Cache FlashlightController reference
             if (_flashlightController == null)
