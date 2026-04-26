@@ -964,10 +964,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.Audio.AudioManager
   _musicSource1: {fileID: 1951124691}
   _musicSource2: {fileID: 827556612}
-  _mainScreenMusic: {fileID: 0}
-  _endGameMusic: {fileID: 0}
-  _actionMusic: {fileID: 0}
-  _thrillingMusic: {fileID: 0}
+  _mainScreenMusic: {fileID: 8300000, guid: 1e4e657c1957bcc4cb77a9315acd82a3, type: 3}
+  _endGameMusic: {fileID: 8300000, guid: aaccdbb25e6bead479179e5ad830bfd5, type: 3}
+  _actionMusic: {fileID: 8300000, guid: 598bf950d26ae8a46aa45b924356752a, type: 3}
+  _thrillingMusic: {fileID: 8300000, guid: 93b208f21ae4d174ea70a0d4bbdeb1c2, type: 3}
+  _roomClearedMusic: {fileID: 8300000, guid: 5525567fd1c846e428967c15f44665de, type: 3}
   _crossfadeDuration: 2
 --- !u!4 &386190622
 Transform:
@@ -1666,16 +1667,16 @@ RectTransform:
   m_GameObject: {fileID: 645215710}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.8113, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1817266918}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 19.85}
   m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 1}
 --- !u!114 &645215712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2386,7 +2387,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.723
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2573,6 +2574,7 @@ Transform:
   - {fileID: 1694419012}
   - {fileID: 1588580986}
   - {fileID: 1051682733}
+  - {fileID: 912049858}
   m_Father: {fileID: 490658066}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &876406930
@@ -2618,6 +2620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.Player.PlayerController
   _playerStats: {fileID: 11400000, guid: d2df445314ec1514e91f9820335d0d1c, type: 2}
+  _fastEffectObj: {fileID: 912049857}
 --- !u!143 &876406932
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2699,6 +2702,118 @@ CapsuleCollider:
   m_Height: 0.95484614
   m_Direction: 1
   m_Center: {x: -0.003336668, y: -0.02368939, z: -0.026215792}
+--- !u!1 &912049857
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 912049858}
+  - component: {fileID: 912049860}
+  - component: {fileID: 912049859}
+  m_Layer: 0
+  m_Name: FastEffect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &912049858
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912049857}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.075, y: 0.319, z: 0.452}
+  m_LocalScale: {x: 2.0657911, y: 2.0657911, z: 2.0657911}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 876406929}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &912049859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912049857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ccd475c70d33344b82cdd8a96a0aac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.Utilities.SimpleSpriteAnimator
+  _frames:
+  - {fileID: -822235556, guid: 1a70b4608ba70bc4684898d1e8d95f77, type: 3}
+  - {fileID: -1596581922, guid: 1a70b4608ba70bc4684898d1e8d95f77, type: 3}
+  - {fileID: 336957492, guid: 1a70b4608ba70bc4684898d1e8d95f77, type: 3}
+  - {fileID: -392748416, guid: 1a70b4608ba70bc4684898d1e8d95f77, type: 3}
+  _framesPerSecond: 12
+  _loop: 1
+  _disableOnFinish: 0
+--- !u!212 &912049860
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912049857}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: -1596581922, guid: 1a70b4608ba70bc4684898d1e8d95f77, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
 --- !u!1 &913784101
 GameObject:
   m_ObjectHideFlags: 0
@@ -5245,7 +5360,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.723
   m_Pitch: 1
   Loop: 0
   Mute: 0

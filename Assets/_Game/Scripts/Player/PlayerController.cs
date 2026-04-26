@@ -14,6 +14,8 @@ namespace PrismPanic.Player
     {
         [Header("References")]
         [SerializeField] private PlayerStatsSO _playerStats;
+        [Tooltip("Child GameObject containing speed trail/effect. Activates when player has move speed upgrade and is moving.")]
+        [SerializeField] private GameObject _fastEffectObj;
 
         private CharacterController _characterController;
         private Camera _mainCamera;
@@ -131,6 +133,13 @@ namespace PrismPanic.Player
             // Notify audio system of walking state
             bool isMoving = _moveInput.sqrMagnitude > 0.01f;
             Audio.AudioEffectHandler.Instance?.SetWalking(isMoving);
+
+            // Toggle fast effect if player has speed upgrades and is moving
+            if (_fastEffectObj != null)
+            {
+                bool hasSpeedUpgrade = _playerStats != null && _playerStats.moveSpeed > Constants.BASE_MOVE_SPEED;
+                _fastEffectObj.SetActive(isMoving && hasSpeedUpgrade);
+            }
         }
 
         public bool TakeDamage(int amount)
