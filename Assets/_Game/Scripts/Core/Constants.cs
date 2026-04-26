@@ -125,6 +125,6 @@ namespace PrismPanic.Core
         public const float BOSS_MIN_DISTANCE_BETWEEN_OBJECTS = 0.5f; // Objects can't be closer than this to each other
 
         // --- UI ---
-        public const float HEART_BREAK_FRAME_DURATION = 0.4f;   // Seconds each break sprite is shown
+        public const float HEART_BREAK_FRAME_DURATION = 1.0f;   // Seconds each break sprite is shown
     }
 }

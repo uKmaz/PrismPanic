@@ -23,9 +23,16 @@ namespace PrismPanic.Player
 
         public FlashlightMode CurrentMode { get; private set; } = FlashlightMode.Wide;
 
-        private bool _isPlacementMode;
-        private GameObject _ghostMirror;
-        private float _placementRotation;
+        // Shield state (replaces old placement mode)
+        private bool _isShieldActive;
+        private GameObject _shieldMirror;
+        private float _shieldRotation;
+
+        /// <summary>
+        /// True when the shield mirror is currently deployed.
+        /// Read by ShieldUI to show on/off icon.
+        /// </summary>
+        public bool IsShieldActive => _isShieldActive;
 
         // Cached
         private PlayerController _playerController;
@@ -46,6 +53,7 @@ namespace PrismPanic.Player
                 if (phase != GamePhase.Combat && phase != GamePhase.DoorsOpen)
                 {
                     DeactivateFlashlight();
+                    DeactivateShield();
                     return;
                 }
             }
@@ -74,13 +82,13 @@ namespace PrismPanic.Player
                 Audio.AudioEffectHandler.Instance?.SetFlashlightMode(CurrentMode);
             }
 
-            // Handle Mirror Placement via T key
+            // Handle Shield Toggle via T key (requires hasShield upgrade)
             if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
             {
-                if (_playerStats.placeableMirrorCount > 0)
+                if (_playerStats.hasShield)
                 {
-                    if (!_isPlacementMode) EnterPlacementMode();
-                    else ConfirmPlacement();
+                    if (!_isShieldActive) ActivateShield();
+                    else DeactivateShield();
                 }
             }
 
@@ -122,9 +130,10 @@ namespace PrismPanic.Player
                 }
             }
 
-            if (_isPlacementMode)
+            // Update shield mirror position if active
+            if (_isShieldActive)
             {
-                UpdateGhostMirror();
+                UpdateShieldMirror();
             }
         }
 
@@ -150,74 +159,58 @@ namespace PrismPanic.Player
         public void OnPlaceMirror(InputValue value)
         {
             if (!value.isPressed) return;
+            if (!_playerStats.hasShield) return;
 
-            if (_playerStats.placeableMirrorCount <= 0) return;
-
-            if (!_isPlacementMode)
-            {
-                EnterPlacementMode();
-            }
+            if (!_isShieldActive)
+                ActivateShield();
             else
-            {
-                ConfirmPlacement();
-            }
+                DeactivateShield();
         }
 
-        // --- Placement Mode ---
+        // --- Shield System (Toggle Mirror) ---
 
-        private void EnterPlacementMode()
+        private void ActivateShield()
         {
-            _isPlacementMode = true;
-            _placementRotation = 0f;
+            _isShieldActive = true;
+            _shieldRotation = 0f;
 
-            if (_ghostMirrorPrefab != null && _ghostMirror == null)
+            if (_ghostMirrorPrefab != null && _shieldMirror == null)
             {
-                _ghostMirror = Instantiate(_ghostMirrorPrefab);
-                // Make it semi-transparent (handled by ghost material)
+                _shieldMirror = Instantiate(_ghostMirrorPrefab);
             }
+
+            if (_shieldMirror != null)
+                _shieldMirror.SetActive(true);
         }
 
-        private void UpdateGhostMirror()
+        private void UpdateShieldMirror()
         {
-            if (_ghostMirror == null || _mainCamera == null) return;
+            if (_shieldMirror == null || _mainCamera == null) return;
 
             Ray ray = _mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
             if (_groundPlane.Raycast(ray, out float distance))
             {
                 Vector3 pos = ray.GetPoint(distance);
                 pos.y = 0.5f; // Mirror height
-                _ghostMirror.transform.position = pos;
-                _ghostMirror.transform.rotation = Quaternion.Euler(0f, _placementRotation, 0f);
+                _shieldMirror.transform.position = pos;
+                _shieldMirror.transform.rotation = Quaternion.Euler(0f, _shieldRotation, 0f);
             }
 
-            // Scroll wheel to rotate ghost mirror
+            // Scroll wheel to rotate shield mirror
             float scroll = Mouse.current.scroll.ReadValue().y;
             if (Mathf.Abs(scroll) > 0.01f)
             {
-                _placementRotation += scroll > 0 ? 15f : -15f;
+                _shieldRotation += scroll > 0 ? 15f : -15f;
             }
         }
 
-        private void ConfirmPlacement()
+        private void DeactivateShield()
         {
-            if (_ghostMirror == null || _roomConfigurator == null) return;
-
-            _roomConfigurator.PlaceExtraMirror(
-                _ghostMirror.transform.position,
-                _ghostMirror.transform.rotation
-            );
-
-            _playerStats.placeableMirrorCount--;
-            ExitPlacementMode();
-        }
-
-        private void ExitPlacementMode()
-        {
-            _isPlacementMode = false;
-            if (_ghostMirror != null)
+            _isShieldActive = false;
+            if (_shieldMirror != null)
             {
-                Destroy(_ghostMirror);
-                _ghostMirror = null;
+                Destroy(_shieldMirror);
+                _shieldMirror = null;
             }
         }
 
