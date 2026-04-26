@@ -204,7 +204,7 @@ namespace PrismPanic.Room
                     var controller = angel.GetComponent<Enemies.AngelController>();
                     if (controller != null)
                     {
-                        controller.Initialize(wave.enemyData);
+                        controller.Initialize(wave.enemyData, wave.isShadowAngel);
                     }
 
                     _activeEnemies.Add(angel);

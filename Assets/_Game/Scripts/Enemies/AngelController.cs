@@ -64,10 +64,12 @@ namespace PrismPanic.Enemies
 
         /// <summary>
         /// Called by RoomConfigurator AFTER NavMesh is baked.
+        /// isShadow overrides _isInvisibleType at runtime (pool-safe).
         /// </summary>
-        public void Initialize(EnemyDataSO data)
+        public void Initialize(EnemyDataSO data, bool isShadow = false)
         {
             _data = data;
+            _isInvisibleType = isShadow; // Set at runtime so it works regardless of prefab state
             _currentHP = data != null ? data.maxHP : Constants.ANGEL_BASE_HP;
             _stunTimer = 0f;
             _damageCooldownTimer = 0f;
@@ -75,6 +77,16 @@ namespace PrismPanic.Enemies
             _flashTimer = 0f;
             _graceTimer = SPAWN_GRACE_DURATION;
             CurrentState = AngelState.Idle;
+
+            // Re-cache renderers on pool reuse (Awake only runs once)
+            _allRenderers = GetComponentsInChildren<SpriteRenderer>(includeInactive: true);
+            if (_directionalSprite == null)
+                _directionalSprite = GetComponentInChildren<Utilities.DirectionalSprite>();
+            if (_directionalSprite != null)
+                _spriteRenderer = _directionalSprite.GetComponent<SpriteRenderer>();
+            if (_spriteRenderer == null)
+                _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
             // Shadow angels start hidden; normal angels start visible
             SetRenderersEnabled(!_isInvisibleType);
             UpdateColorByHP();
@@ -280,10 +292,13 @@ namespace PrismPanic.Enemies
             EventBus.FireAngelKilled(gameObject);
 
             // Return to pool
-            if (Utilities.PoolManager.Instance?.Angels != null)
+            _agent.enabled = false;
+            var poolMgr = Utilities.PoolManager.Instance;
+            if (poolMgr != null)
             {
-                _agent.enabled = false;
-                Utilities.PoolManager.Instance.Angels.Return(transform);
+                // Return to the correct pool based on angel type
+                var targetPool = _isInvisibleType ? poolMgr.ShadowAngels : poolMgr.Angels;
+                targetPool?.Return(transform);
             }
         }
 
