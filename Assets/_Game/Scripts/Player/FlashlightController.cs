@@ -21,7 +21,7 @@ namespace PrismPanic.Player
         [Header("Settings")]
         [SerializeField] private float _placementDistance = 3f;
 
-        public FlashlightMode CurrentMode { get; private set; } = FlashlightMode.Wide;
+        public FlashlightMode CurrentMode { get; private set; } = FlashlightMode.Closed;
 
         private bool _isPlacementMode;
         private GameObject _ghostMirror;
@@ -36,6 +36,13 @@ namespace PrismPanic.Player
         {
             _playerController = GetComponentInParent<PlayerController>();
             _mainCamera = Camera.main;
+        }
+
+        private void OnEnable()
+        {
+            CurrentMode = FlashlightMode.Closed;
+            if (_spotLight != null)
+                _spotLight.enabled = false;
         }
 
         private void Update()

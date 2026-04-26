@@ -7,7 +7,7 @@ namespace PrismPanic.Light
 {
     /// <summary>
     /// Listens to OnBeamHit and applies stun or damage based on bounce count.
-    /// bounceCount 0 = stun only, 1 = 1 damage, 2 = 2 damage (instant kill).
+    /// All damage values are defined in Constants.cs — no magic numbers here.
     /// </summary>
     public class BeamHitHandler : MonoBehaviour
     {
@@ -39,13 +39,14 @@ namespace PrismPanic.Light
             BossController boss = data.target.GetComponent<BossController>();
             if (boss != null && data.bounceCount >= 1)
             {
-                boss.TakeDamage(data.bounceCount * 15);
+                boss.TakeDamage(data.bounceCount * Constants.BEAM_DMG_MULTIPLIER);
                 return;
             }
         }
 
         private void HandleAngelHit(AngelController angel, BeamHitData data)
         {
+            bool isTutorial = GameManager.Instance != null && GameManager.Instance.CurrentLevelIndex == 0;
 
             switch (data.bounceCount)
             {
@@ -58,40 +59,23 @@ namespace PrismPanic.Light
                     break;
 
                 case 1:
-                    // 1-bounce — base damage
-                    angel.TakeDamage(10);
+                    angel.TakeDamage(Constants.BEAM_DMG_1_BOUNCE);
                     break;
 
                 case 2:
-                    // 2-bounce — 2.5x damage
-                    angel.TakeDamage(25);
+                    angel.TakeDamage(Constants.BEAM_DMG_2_BOUNCE);
                     break;
 
                 case 3:
-                    // 3-bounce — 5x damage or Tutorial Kill
-                    if (GameManager.Instance != null && GameManager.Instance.CurrentLevelIndex == 0)
-                    {
-                        angel.TakeDamage(9999);
-                    }
-                    else
-                    {
-                        angel.TakeDamage(50);
-                    }
+                    angel.TakeDamage(isTutorial ? Constants.BEAM_DMG_TUTORIAL_KILL : Constants.BEAM_DMG_3_BOUNCE);
                     break;
                     
                 default:
                     // 4+ bounces
-                    if (GameManager.Instance != null && GameManager.Instance.CurrentLevelIndex == 0)
-                    {
-                        // Tutorial Start condition — instant kill the tutorial angel
-                        angel.TakeDamage(9999);
-                    }
-                    else
-                    {
-                        angel.TakeDamage(data.bounceCount * 15);
-                    }
+                    angel.TakeDamage(isTutorial ? Constants.BEAM_DMG_TUTORIAL_KILL : data.bounceCount * Constants.BEAM_DMG_MULTIPLIER);
                     break;
             }
         }
     }
 }
+

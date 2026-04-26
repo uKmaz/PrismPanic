@@ -54,6 +54,14 @@ namespace PrismPanic.Core
         public const float ENERGY_DRAIN_WIDE = 10f; // per sec
         public const float ENERGY_DRAIN_LASER = 30f; // per sec
         public const float ENERGY_OVERHEAT_THRESHOLD = 0.70f; // 70% before usable again
+        public const int PLAYER_BASE_HP = 5;
+
+        // --- Beam Damage (per tick, 0.3s cooldown) ---
+        public const int BEAM_DMG_1_BOUNCE = 10;     // ~33 DPS
+        public const int BEAM_DMG_2_BOUNCE = 25;     // ~83 DPS
+        public const int BEAM_DMG_3_BOUNCE = 50;     // ~166 DPS
+        public const int BEAM_DMG_MULTIPLIER = 15;   // 4+ bounces: bounceCount * this
+        public const int BEAM_DMG_TUTORIAL_KILL = 9999;
 
         // --- Angel Defaults ---
         public const float ANGEL_BASE_SPEED = 1.5f;
@@ -125,6 +133,7 @@ namespace PrismPanic.Core
         public const float BOSS_MIN_DISTANCE_BETWEEN_OBJECTS = 0.5f; // Objects can't be closer than this to each other
 
         // --- UI ---
-        public const float HEART_BREAK_FRAME_DURATION = 0.4f;   // Seconds each break sprite is shown
+        public const float HEART_BREAK_FRAME_DURATION = 0.15f;  // Seconds each break sprite is shown (0.3s total anim)
+        public const float PLAYER_INVINCIBILITY_DURATION = 2.0f; // Seconds of immunity after taking damage
     }
 }
