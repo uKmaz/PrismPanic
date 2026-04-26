@@ -68,7 +68,9 @@ namespace PrismPanic.Enemies
         public void Initialize(EnemyDataSO data)
         {
             _data = data;
-            _currentHP = data != null ? data.maxHP : Constants.ANGEL_BASE_HP;
+            // Use the larger of SO value and Constants to avoid stale serialized assets
+            int soHP = data != null ? data.maxHP : 0;
+            _currentHP = Mathf.Max(soHP, Constants.ANGEL_BASE_HP);
             _stunTimer = 0f;
             _damageCooldownTimer = 0f;
             _vibrateTimer = 0f;
