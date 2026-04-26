@@ -151,6 +151,8 @@ namespace PrismPanic.Player
             _damageFlashTimer = DAMAGE_FLASH_DURATION;
             _damageShakeTimer = DAMAGE_SHAKE_DURATION;
 
+            Audio.AudioEffectHandler.Instance?.PlayDamage();
+
             Debug.Log($"[Player] TakeDamage({amount}). HP: {_playerStats.currentHP}/{_playerStats.maxHP}");
 
             if (_playerStats.currentHP <= 0)

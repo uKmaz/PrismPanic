@@ -32,6 +32,7 @@ namespace PrismPanic.Audio
         [SerializeField] private AudioClip _explosionClip;
         [SerializeField] private AudioClip _flashlightClickClip;
         [SerializeField] private AudioClip _doorOpeningClip;
+        [SerializeField] private AudioClip _damageClip;
 
         [Header("Looping Sound Effects")]
         [SerializeField] private AudioClip _heartbeatClip;
@@ -207,6 +208,18 @@ namespace PrismPanic.Audio
             if (_laserLoopSource == null) return;
             _laserLoopSource.Stop();
             _laserLoopSource.clip = null;
+        }
+
+        // ====================================================
+        //  PUBLIC METHODS — Called by Player scripts
+        // ====================================================
+
+        /// <summary>
+        /// Call from PlayerController when player takes damage.
+        /// </summary>
+        public void PlayDamage()
+        {
+            PlayOneShot(_damageClip);
         }
 
         // ====================================================
