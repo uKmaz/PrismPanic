@@ -370,15 +370,15 @@ MonoBehaviour:
   - {x: 8, y: 0, z: 8}
   mirrorPlacements:
   - position: {x: 4, y: 1, z: 3}
-    rotationY: 40
+    rotationY: -50
   - position: {x: -4, y: 1, z: -3}
-    rotationY: -55
+    rotationY: -145
   - position: {x: 2, y: 1, z: -4}
-    rotationY: 70
+    rotationY: -20
   - position: {x: -2, y: 1, z: 4}
-    rotationY: -25
+    rotationY: -115
   - position: {x: 0, y: 1, z: 0}
-    rotationY: 45
+    rotationY: -45
   pillarPositions:
   - {x: 3, y: 1.5, z: 0}
   - {x: -3, y: 1.5, z: 0}

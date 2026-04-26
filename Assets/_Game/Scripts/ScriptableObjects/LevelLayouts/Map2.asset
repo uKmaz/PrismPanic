@@ -264,11 +264,11 @@ MonoBehaviour:
   - {x: 7, y: 0, z: 6}
   mirrorPlacements:
   - position: {x: 3, y: 1, z: 2}
-    rotationY: 50
+    rotationY: -40
   - position: {x: -3, y: 1, z: -1}
-    rotationY: -45
+    rotationY: -135
   - position: {x: 0, y: 1, z: 4}
-    rotationY: 20
+    rotationY: -70
   pillarPositions:
   - {x: 2, y: 1.5, z: -2}
   - {x: -2, y: 1.5, z: 2}

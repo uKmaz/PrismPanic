@@ -138,9 +138,11 @@ namespace PrismPanic.Player
             if (_invincibilityTimer > 0f) return false;
 
             _playerStats.currentHP -= amount;
-            _invincibilityTimer = 1.5f; // 1.5 seconds of invincibility
+            _invincibilityTimer = Constants.PLAYER_INVINCIBILITY_DURATION;
             _damageFlashTimer = DAMAGE_FLASH_DURATION;
             _damageShakeTimer = DAMAGE_SHAKE_DURATION;
+
+            Debug.Log($"[Player] TakeDamage({amount}). HP: {_playerStats.currentHP}/{_playerStats.maxHP}");
 
             if (_playerStats.currentHP <= 0)
             {

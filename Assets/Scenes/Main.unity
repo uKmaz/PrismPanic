@@ -155,6 +155,7 @@ RectTransform:
   - {fileID: 103794675}
   - {fileID: 966149371}
   - {fileID: 1416340070}
+  - {fileID: 1817266918}
   m_Father: {fileID: 241338989}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -205,12 +206,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 32
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1227,7 +1228,7 @@ GameObject:
   - component: {fileID: 553791259}
   - component: {fileID: 553791258}
   m_Layer: 0
-  m_Name: Image
+  m_Name: Energy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1242,14 +1243,14 @@ RectTransform:
   m_GameObject: {fileID: 553791256}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.82323, y: 0.82323, z: 0.82323}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 966149371}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: -11}
+  m_AnchoredPosition: {x: -100, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &553791258
@@ -1639,6 +1640,68 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 596839536}
   m_CullTransparentMesh: 1
+--- !u!1 &645215710
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 645215711}
+  - component: {fileID: 645215712}
+  m_Layer: 0
+  m_Name: HearthsContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &645215711
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645215710}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1817266918}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &645215712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645215710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.HorizontalLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 1
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &651718366
 GameObject:
   m_ObjectHideFlags: 0
@@ -2886,8 +2949,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 400, y: 120}
+  m_AnchoredPosition: {x: 0, y: -75}
+  m_SizeDelta: {x: 400, y: 60}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &966149372
 MonoBehaviour:
@@ -2903,9 +2966,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.UI.EnergyUI
   _playerStats: {fileID: 11400000, guid: d2df445314ec1514e91f9820335d0d1c, type: 2}
   _energySlider: {fileID: 966149373}
-  _fillImage: {fileID: 0}
-  _normalColor: {r: 0, g: 1, b: 1, a: 1}
-  _overheatColor: {r: 1, g: 0, b: 0, a: 1}
+  _fillImage: {fileID: 913784103}
+  _overheatMarker: {fileID: 1366762890}
+  _normalColor: {r: 1, g: 1, b: 1, a: 1}
+  _overheatColor: {r: 0.08679241, g: 0.00966179, b: 0.00966179, a: 1}
 --- !u!114 &966149373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3914,7 +3978,7 @@ GameObject:
   - component: {fileID: 1366762892}
   - component: {fileID: 1366762891}
   m_Layer: 0
-  m_Name: Overheat
+  m_Name: OverheatLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3934,11 +3998,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 966149371}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.7, y: 0.5}
-  m_AnchorMax: {x: 0.7, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2, y: 30}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.7, y: 0.7}
+  m_AnchorMax: {x: 0.7, y: 0.7}
+  m_AnchoredPosition: {x: -34.600006, y: -24}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1366762891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4026,7 +4090,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1416340070
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4060,10 +4124,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 728023c569b5e71498068ece83674011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.UI.BossHealthBarUI
-  _canvasGroup: {fileID: 1416340072}
-  _healthFill: {fileID: 572997254}
-  _damageFill: {fileID: 1581851125}
-  _bossNameText: {fileID: 1336112653}
+  _canvasGroup: {fileID: 0}
+  _healthFill: {fileID: 0}
+  _damageFill: {fileID: 0}
+  _bossNameText: {fileID: 0}
   _bossName: PRISM GUARDIAN
   _damageLerpSpeed: 1.5
   _damageLerpDelay: 0.6
@@ -4918,12 +4982,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 32
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -4953,6 +5017,63 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1817266917
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1817266918}
+  - component: {fileID: 1817266919}
+  m_Layer: 0
+  m_Name: PlayerHealthBar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1817266918
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817266917}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 4.2819586, y: 3.4417176, z: 3.4417176}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 645215711}
+  m_Father: {fileID: 65257827}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.000061035156, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 1, y: 1}
+--- !u!114 &1817266919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817266917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e1fa60fbd9019f458aeca8355056c83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PrismPanic.UI.PlayerHealthUI
+  _playerStats: {fileID: 11400000, guid: d2df445314ec1514e91f9820335d0d1c, type: 2}
+  _heartsContainer: {fileID: 645215711}
+  _heartPrefab: {fileID: 1207670276876298302, guid: 9b5ba748dd8f42f4ca651a139ae9d9c5, type: 3}
+  _heartFull: {fileID: -1063132457, guid: 64f8a3b4bcf86eb4a86e53cc35373f33, type: 3}
+  _heartCracking: {fileID: -717277646, guid: 64f8a3b4bcf86eb4a86e53cc35373f33, type: 3}
+  _heartBreaking: {fileID: 1291461853, guid: 64f8a3b4bcf86eb4a86e53cc35373f33, type: 3}
+  _heartEmpty: {fileID: 134191994, guid: 64f8a3b4bcf86eb4a86e53cc35373f33, type: 3}
+  _breakFrameDuration: 1
 --- !u!1 &1875110321
 GameObject:
   m_ObjectHideFlags: 0

@@ -193,7 +193,7 @@ MonoBehaviour:
   - {x: -2, y: 1.5, z: 4}
   - {x: 2, y: 1.5, z: 4}
   waves:
-  - enemyData: {fileID: 11400000, guid: 1019bd824a8750c498e909d71cf7deca, type: 2}
+  - enemyData: {fileID: 11400000, guid: 9c3a9b5b6ffda1a46a912012fe8b2ccd, type: 2}
     count: 1
     isShadowAngel: 0
   hasBoss: 0

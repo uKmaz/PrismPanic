@@ -78,8 +78,8 @@ namespace PrismPanic.Editor
 
             layout.mirrorPlacements = new MirrorPlacement[]
             {
-                new MirrorPlacement { position = new Vector3(2f, 1f, 0f), rotationY = 45f },
-                new MirrorPlacement { position = new Vector3(-2f, 1f, 3f), rotationY = -30f }
+                new MirrorPlacement { position = new Vector3(2f, 1f, 0f), rotationY = -45f },
+                new MirrorPlacement { position = new Vector3(-2f, 1f, 3f), rotationY = -120f }
             };
 
             layout.pillarPositions = new Vector3[] { new Vector3(0f, 1.5f, -2f) };
@@ -102,9 +102,9 @@ namespace PrismPanic.Editor
 
             layout.mirrorPlacements = new MirrorPlacement[]
             {
-                new MirrorPlacement { position = new Vector3(3f, 1f, 2f), rotationY = 50f },
-                new MirrorPlacement { position = new Vector3(-3f, 1f, -1f), rotationY = -45f },
-                new MirrorPlacement { position = new Vector3(0f, 1f, 4f), rotationY = 20f }
+                new MirrorPlacement { position = new Vector3(3f, 1f, 2f), rotationY = -40f },
+                new MirrorPlacement { position = new Vector3(-3f, 1f, -1f), rotationY = -135f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, 4f), rotationY = -70f }
             };
 
             layout.pillarPositions = new Vector3[] { new Vector3(2f, 1.5f, -2f), new Vector3(-2f, 1.5f, 2f) };
@@ -127,10 +127,10 @@ namespace PrismPanic.Editor
 
             layout.mirrorPlacements = new MirrorPlacement[]
             {
-                new MirrorPlacement { position = new Vector3(4f, 1f, 0f), rotationY = 45f },
-                new MirrorPlacement { position = new Vector3(-4f, 1f, 3f), rotationY = -60f },
-                new MirrorPlacement { position = new Vector3(0f, 1f, -2f), rotationY = 30f },
-                new MirrorPlacement { position = new Vector3(2f, 1f, 4f), rotationY = -45f }
+                new MirrorPlacement { position = new Vector3(4f, 1f, 0f), rotationY = -45f },
+                new MirrorPlacement { position = new Vector3(-4f, 1f, 3f), rotationY = -150f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, -2f), rotationY = -60f },
+                new MirrorPlacement { position = new Vector3(2f, 1f, 4f), rotationY = -135f }
             };
 
             layout.pillarPositions = new Vector3[] { new Vector3(3f, 1.5f, 2f), new Vector3(-3f, 1.5f, -1f), new Vector3(0f, 1.5f, 1f) };
@@ -153,11 +153,11 @@ namespace PrismPanic.Editor
 
             layout.mirrorPlacements = new MirrorPlacement[]
             {
-                new MirrorPlacement { position = new Vector3(4f, 1f, 3f), rotationY = 40f },
-                new MirrorPlacement { position = new Vector3(-4f, 1f, -3f), rotationY = -55f },
-                new MirrorPlacement { position = new Vector3(2f, 1f, -4f), rotationY = 70f },
-                new MirrorPlacement { position = new Vector3(-2f, 1f, 4f), rotationY = -25f },
-                new MirrorPlacement { position = new Vector3(0f, 1f, 0f), rotationY = 45f }
+                new MirrorPlacement { position = new Vector3(4f, 1f, 3f), rotationY = -50f },
+                new MirrorPlacement { position = new Vector3(-4f, 1f, -3f), rotationY = -145f },
+                new MirrorPlacement { position = new Vector3(2f, 1f, -4f), rotationY = -20f },
+                new MirrorPlacement { position = new Vector3(-2f, 1f, 4f), rotationY = -115f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, 0f), rotationY = -45f }
             };
 
             layout.pillarPositions = new Vector3[] { new Vector3(3f, 1.5f, 0f), new Vector3(-3f, 1.5f, 0f), new Vector3(0f, 1.5f, 3f), new Vector3(0f, 1.5f, -3f) };
@@ -180,11 +180,11 @@ namespace PrismPanic.Editor
 
             layout.mirrorPlacements = new MirrorPlacement[]
             {
-                new MirrorPlacement { position = new Vector3(6f, 1f, 4f), rotationY = -30f },
-                new MirrorPlacement { position = new Vector3(-6f, 1f, 4f), rotationY = 30f },
-                new MirrorPlacement { position = new Vector3(4f, 1f, -2f), rotationY = 60f },
-                new MirrorPlacement { position = new Vector3(-4f, 1f, -2f), rotationY = -60f },
-                new MirrorPlacement { position = new Vector3(0f, 1f, 2f), rotationY = 90f }
+                new MirrorPlacement { position = new Vector3(6f, 1f, 4f), rotationY = -120f },
+                new MirrorPlacement { position = new Vector3(-6f, 1f, 4f), rotationY = -60f },
+                new MirrorPlacement { position = new Vector3(4f, 1f, -2f), rotationY = -30f },
+                new MirrorPlacement { position = new Vector3(-4f, 1f, -2f), rotationY = -150f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, 2f), rotationY = 0f }
             };
 
             layout.pillarPositions = new Vector3[] { new Vector3(2f, 1.5f, 2f), new Vector3(-2f, 1.5f, 2f), new Vector3(0f, 1.5f, -1f) };
@@ -207,11 +207,11 @@ namespace PrismPanic.Editor
 
             layout.mirrorPlacements = new MirrorPlacement[]
             {
-                new MirrorPlacement { position = new Vector3(5f, 1f, 5f), rotationY = 45f },
-                new MirrorPlacement { position = new Vector3(-5f, 1f, -5f), rotationY = 45f },
-                new MirrorPlacement { position = new Vector3(-5f, 1f, 5f), rotationY = -45f },
-                new MirrorPlacement { position = new Vector3(5f, 1f, -5f), rotationY = -45f },
-                new MirrorPlacement { position = new Vector3(0f, 1f, 0f), rotationY = 22.5f }
+                new MirrorPlacement { position = new Vector3(5f, 1f, 5f), rotationY = -45f },
+                new MirrorPlacement { position = new Vector3(-5f, 1f, -5f), rotationY = -45f },
+                new MirrorPlacement { position = new Vector3(-5f, 1f, 5f), rotationY = -135f },
+                new MirrorPlacement { position = new Vector3(5f, 1f, -5f), rotationY = -135f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, 0f), rotationY = -67.5f }
             };
 
             layout.pillarPositions = new Vector3[] { new Vector3(3f, 1.5f, 3f), new Vector3(-3f, 1.5f, -3f), new Vector3(-3f, 1.5f, 3f), new Vector3(3f, 1.5f, -3f) };
@@ -234,12 +234,12 @@ namespace PrismPanic.Editor
 
             layout.mirrorPlacements = new MirrorPlacement[]
             {
-                new MirrorPlacement { position = new Vector3(7f, 1f, 4f), rotationY = 15f },
-                new MirrorPlacement { position = new Vector3(-7f, 1f, 4f), rotationY = -15f },
-                new MirrorPlacement { position = new Vector3(3f, 1f, -2f), rotationY = 75f },
-                new MirrorPlacement { position = new Vector3(-3f, 1f, -2f), rotationY = -75f },
-                new MirrorPlacement { position = new Vector3(0f, 1f, 5f), rotationY = 90f },
-                new MirrorPlacement { position = new Vector3(0f, 1f, 2f), rotationY = 0f }
+                new MirrorPlacement { position = new Vector3(7f, 1f, 4f), rotationY = -75f },
+                new MirrorPlacement { position = new Vector3(-7f, 1f, 4f), rotationY = -105f },
+                new MirrorPlacement { position = new Vector3(3f, 1f, -2f), rotationY = -15f },
+                new MirrorPlacement { position = new Vector3(-3f, 1f, -2f), rotationY = -165f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, 5f), rotationY = 0f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, 2f), rotationY = -90f }
             };
 
             layout.pillarPositions = new Vector3[] { new Vector3(5f, 1.5f, 0f), new Vector3(-5f, 1.5f, 0f), new Vector3(2f, 1.5f, 3f), new Vector3(-2f, 1.5f, 3f) };
@@ -263,14 +263,14 @@ namespace PrismPanic.Editor
 
             layout.mirrorPlacements = new MirrorPlacement[]
             {
-                new MirrorPlacement { position = new Vector3(8f, 1f, 8f), rotationY = 45f },
-                new MirrorPlacement { position = new Vector3(-8f, 1f, -8f), rotationY = 45f },
-                new MirrorPlacement { position = new Vector3(-8f, 1f, 8f), rotationY = -45f },
-                new MirrorPlacement { position = new Vector3(8f, 1f, -8f), rotationY = -45f },
-                new MirrorPlacement { position = new Vector3(4f, 1f, 4f), rotationY = 15f },
-                new MirrorPlacement { position = new Vector3(-4f, 1f, 4f), rotationY = -15f },
-                new MirrorPlacement { position = new Vector3(0f, 1f, 0f), rotationY = 90f },
-                new MirrorPlacement { position = new Vector3(0f, 1f, 7f), rotationY = 0f }
+                new MirrorPlacement { position = new Vector3(8f, 1f, 8f), rotationY = -45f },
+                new MirrorPlacement { position = new Vector3(-8f, 1f, -8f), rotationY = -45f },
+                new MirrorPlacement { position = new Vector3(-8f, 1f, 8f), rotationY = -135f },
+                new MirrorPlacement { position = new Vector3(8f, 1f, -8f), rotationY = -135f },
+                new MirrorPlacement { position = new Vector3(4f, 1f, 4f), rotationY = -75f },
+                new MirrorPlacement { position = new Vector3(-4f, 1f, 4f), rotationY = -105f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, 0f), rotationY = 0f },
+                new MirrorPlacement { position = new Vector3(0f, 1f, 7f), rotationY = -90f }
             };
 
             layout.pillarPositions = new Vector3[] { new Vector3(6f, 1.5f, 0f), new Vector3(-6f, 1.5f, 0f), new Vector3(0f, 1.5f, 4f), new Vector3(4f, 1.5f, -4f), new Vector3(-4f, 1.5f, -4f) };
@@ -309,10 +309,10 @@ namespace PrismPanic.Editor
             // but we can spawn initial mirrors here
             layout.mirrorPlacements = new MirrorPlacement[]
             {
-                new MirrorPlacement { position = new Vector3(8f, 1f, 8f), rotationY = 45f },
-                new MirrorPlacement { position = new Vector3(-8f, 1f, -8f), rotationY = 45f },
-                new MirrorPlacement { position = new Vector3(-8f, 1f, 8f), rotationY = -45f },
-                new MirrorPlacement { position = new Vector3(8f, 1f, -8f), rotationY = -45f }
+                new MirrorPlacement { position = new Vector3(8f, 1f, 8f), rotationY = -45f },
+                new MirrorPlacement { position = new Vector3(-8f, 1f, -8f), rotationY = -45f },
+                new MirrorPlacement { position = new Vector3(-8f, 1f, 8f), rotationY = -135f },
+                new MirrorPlacement { position = new Vector3(8f, 1f, -8f), rotationY = -135f }
             };
 
             // Pillars to hide behind from the boss laser
