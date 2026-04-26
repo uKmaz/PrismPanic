@@ -53,6 +53,12 @@ namespace PrismPanic.Audio
                 return;
             }
             Instance = this;
+
+            // Set priorities so sounds don't cancel each other
+            // Lower number = higher priority. Music is 0 (in AudioManager).
+            if (_sfxSource != null) _sfxSource.priority = 64;         // One-shot SFX: high
+            if (_laserLoopSource != null) _laserLoopSource.priority = 100; // Laser: medium-high
+            if (_loopingSource != null) _loopingSource.priority = 128;     // Ambient loops: medium
         }
 
         private void OnEnable()
