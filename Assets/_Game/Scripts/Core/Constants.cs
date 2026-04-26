@@ -123,5 +123,8 @@ namespace PrismPanic.Core
         public const int BOSS_MAX_RAY_COUNT = 4;                 // Maximum number of simultaneous rays
         public const float BOSS_MIN_DISTANCE_FROM_BOSS = 3f;    // Objects can't be closer than this to boss
         public const float BOSS_MIN_DISTANCE_BETWEEN_OBJECTS = 0.5f; // Objects can't be closer than this to each other
+
+        // --- UI ---
+        public const float HEART_BREAK_FRAME_DURATION = 0.4f;   // Seconds each break sprite is shown
     }
 }
