@@ -331,6 +331,41 @@ Create `Map1` through `Map4`. Here's **Map1** data to type in:
 - Select the `LevelManager` object in the Main scene.
 - Add `Map9_Boss` as the **last entry** in the Layouts array.
 
+### Step 15: Boss Health Bar UI (Dark Souls Style)
+
+**1. Create the UI hierarchy under your Canvas:**
+```
+Canvas
+└── BossHealthBar (Empty GO — anchor: bottom-center, stretch horizontal)
+    ├── BossBarBackground (Image — dark gray/black, stretched)
+    │   ├── DamageFill (Image — yellow/orange, Image Type: Filled, Fill Method: Horizontal)
+    │   └── HealthFill (Image — deep red/crimson, Image Type: Filled, Fill Method: Horizontal)
+    └── BossNameText (TextMeshPro — centered above bar, "PRISM GUARDIAN")
+```
+
+**2. RectTransform Settings for BossHealthBar:**
+- Anchor: Bottom-Center (stretch horizontal)
+- Left: 200, Right: 200 (wide bar with margin)
+- Height: 25
+- Pos Y: 60 (above screen bottom)
+
+**3. Image Settings:**
+- **BossBarBackground**: Color = `(20, 20, 20, 200)` dark semi-transparent
+- **DamageFill**: Color = `(255, 180, 0, 255)` yellow-orange — must be BEHIND HealthFill
+- **HealthFill**: Color = `(180, 30, 30, 255)` deep crimson — must be IN FRONT of DamageFill
+- Both fills: Image Type = **Filled**, Fill Method = **Horizontal**, Fill Origin = **Left**
+
+**4. BossNameText (TextMeshPro):**
+- Font Size: 18, Color: White, Alignment: Center
+- Anchor above the bar (Pos Y offset: ~20)
+
+**5. Add BossHealthBarUI Script:**
+- Add `BossHealthBarUI` component to the `BossHealthBar` object
+- Drag `BossHealthBar` → **Boss Bar Root**
+- Drag `HealthFill` → **Health Fill**
+- Drag `DamageFill` → **Damage Fill**
+- Drag `BossNameText` → **Boss Name Text**
+
 ---
 
 ## Architecture Flow Recap

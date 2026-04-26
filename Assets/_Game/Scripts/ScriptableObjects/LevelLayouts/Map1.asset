@@ -248,8 +248,8 @@ MonoBehaviour:
   - {x: -3, y: 1.5, z: 5}
   - {x: 3, y: 1.5, z: 5}
   waves:
-  - enemyData: {fileID: 11400000, guid: 9c3a9b5b6ffda1a46a912012fe8b2ccd, type: 2}
+  - enemyData: {fileID: 11400000, guid: 504c78bea3d2b2a45b51bc5063cdbdb4, type: 2}
     count: 2
-    isShadowAngel: 0
+    isShadowAngel: 1
   hasBoss: 0
   bossSpawnPoint: {x: 0, y: 0, z: 0}

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d5cebfe45beedef4bab8763ae3dc8ff8
+guid: 64f8a3b4bcf86eb4a86e53cc35373f33
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: energy_bar_0
+      name: hp_bar_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 42
+        y: 32
         width: 32
-        height: 10
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,20 +112,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d7a5e1bd93d89464a97741c73d04dee9
-      internalID: -1272700575
+      spriteID: 02ae0f3a7e50f5e45afc79b2cd69982e
+      internalID: 134191994
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: energy_bar_1
+      name: hp_bar_1
       rect:
         serializedVersion: 2
-        x: 34
-        y: 44
-        width: 28
-        height: 6
+        x: 32
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,20 +134,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c972168f5904af44c8fccadd6e35b334
-      internalID: 1691632755
+      spriteID: e928027004fd8f941be12ae7469bda2b
+      internalID: -1063132457
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: energy_bar_2
+      name: hp_bar_2
       rect:
         serializedVersion: 2
-        x: 22
-        y: 11
-        width: 2
-        height: 8
+        x: 0
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,8 +156,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d9ac9a57315c174c88003f8565fa93d
-      internalID: -526495137
+      spriteID: 771ccda2fed41a347964436451aba81c
+      internalID: -717277646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hp_bar_3
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 778e0579394797c408739f67587e7f43
+      internalID: 1291461853
       vertices: []
       indices: 
       edges: []
@@ -166,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ca12911a6799e014f9e1fc673c5a4239
+    spriteID: 6c36a078de8e6d04c92d687b11a4e8ae
     internalID: 0
     vertices: []
     indices: 
@@ -178,9 +200,10 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      energy_bar_0: -1272700575
-      energy_bar_1: 1691632755
-      energy_bar_2: -526495137
+      hp_bar_0: 134191994
+      hp_bar_1: -1063132457
+      hp_bar_2: -717277646
+      hp_bar_3: 1291461853
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

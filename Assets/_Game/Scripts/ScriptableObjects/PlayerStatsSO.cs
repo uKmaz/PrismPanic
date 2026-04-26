@@ -58,8 +58,8 @@ namespace PrismPanic.ScriptableObjects
             mirrorsPerRoom = _basePlaceableMirrors;
             placeableMirrorCount = mirrorsPerRoom;
 
-            // Player starts with 3 HP
-            maxHP = 3;
+            // Player starts with 5 HP
+            maxHP = 5;
             currentHP = maxHP;
 
             multishotCount = 1;

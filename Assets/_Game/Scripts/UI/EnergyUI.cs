@@ -8,59 +8,61 @@ namespace PrismPanic.UI
     /// <summary>
     /// Updates a UI Slider to display the player's current flashlight energy.
     /// Changes color if the flashlight is overheated.
-    /// Dynamically resizes the bar when maxEnergy increases from upgrades.
+    /// Fixed-size bar — no dynamic resizing. Resolution-independent via Canvas Scaler.
     /// </summary>
     public class EnergyUI : MonoBehaviour
     {
         [SerializeField] private PlayerStatsSO _playerStats;
         [SerializeField] private Slider _energySlider;
         [SerializeField] private Image _fillImage; // Assign the slider's Fill object here
-        
+
+        [Header("Overheat Threshold Marker")]
+        [Tooltip("Optional: an Image placed at the 70% mark to show the overheat line")]
+        [SerializeField] private RectTransform _overheatMarker;
+
         [Header("Colors")]
         [SerializeField] private Color _normalColor = Color.cyan;
         [SerializeField] private Color _overheatColor = Color.red;
 
-        private float _baseWidth;
-        private RectTransform _sliderRect;
-
         private void Start()
         {
-            if (_energySlider != null)
-            {
-                _sliderRect = _energySlider.GetComponent<RectTransform>();
-                _baseWidth = _sliderRect.sizeDelta.x;
-            }
+            PositionOverheatMarker();
         }
 
         private void Update()
         {
-            if (_playerStats != null && _energySlider != null)
+            if (_playerStats == null || _energySlider == null) return;
+
+            if (_playerStats.maxEnergy > 0)
             {
-                // Prevent division by zero just in case
-                if (_playerStats.maxEnergy > 0)
-                {
-                    _energySlider.value = _playerStats.currentEnergy / _playerStats.maxEnergy;
-
-                    // Dynamically grow the bar width when maxEnergy increases
-                    if (_sliderRect != null && _baseWidth > 0)
-                    {
-                        float scale = _playerStats.maxEnergy / Constants.BASE_MAX_ENERGY;
-                        float targetWidth = _baseWidth * scale;
-                        if (Mathf.Abs(_sliderRect.sizeDelta.x - targetWidth) > 0.5f)
-                        {
-                            _sliderRect.sizeDelta = new Vector2(
-                                Mathf.Lerp(_sliderRect.sizeDelta.x, targetWidth, Time.deltaTime * 5f),
-                                _sliderRect.sizeDelta.y
-                            );
-                        }
-                    }
-                }
-
-                if (_fillImage != null)
-                {
-                    _fillImage.color = _playerStats.isOverheated ? _overheatColor : _normalColor;
-                }
+                _energySlider.value = _playerStats.currentEnergy / _playerStats.maxEnergy;
             }
+
+            if (_fillImage != null)
+            {
+                _fillImage.color = _playerStats.isOverheated ? _overheatColor : _normalColor;
+            }
+        }
+
+        /// <summary>
+        /// Places the overheat marker at exactly 70% of the slider width.
+        /// Uses anchors so it stays correct at any resolution.
+        /// </summary>
+        private void PositionOverheatMarker()
+        {
+            if (_overheatMarker == null || _energySlider == null) return;
+
+            // Parent the marker under the slider so it scales with it
+            _overheatMarker.SetParent(_energySlider.transform, false);
+
+            // Use anchors to pin at 70% horizontally, stretch vertically
+            _overheatMarker.anchorMin = new Vector2(Constants.ENERGY_OVERHEAT_THRESHOLD, 0f);
+            _overheatMarker.anchorMax = new Vector2(Constants.ENERGY_OVERHEAT_THRESHOLD, 1f);
+            _overheatMarker.pivot = new Vector2(0.5f, 0.5f);
+
+            // Thin vertical line: 3px wide, full height
+            _overheatMarker.sizeDelta = new Vector2(3f, 0f);
+            _overheatMarker.anchoredPosition = Vector2.zero;
         }
     }
 }

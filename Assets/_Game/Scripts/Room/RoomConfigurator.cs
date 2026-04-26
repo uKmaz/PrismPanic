@@ -76,6 +76,10 @@ namespace PrismPanic.Room
             pool.Mirrors?.ReturnAll(_activeMirrors);
             pool.Pillars?.ReturnAll(_activePillars);
 
+            // Stop boss room shuffling before clearing
+            if (_bossRoomManager != null)
+                _bossRoomManager.StopShuffling();
+
             // Deactivate boss if present
             if (_activeBoss != null)
                 _activeBoss.SetActive(false);
@@ -204,7 +208,7 @@ namespace PrismPanic.Room
                     var controller = angel.GetComponent<Enemies.AngelController>();
                     if (controller != null)
                     {
-                        controller.Initialize(wave.enemyData);
+                        controller.Initialize(wave.enemyData, wave.isShadowAngel);
                     }
 
                     _activeEnemies.Add(angel);

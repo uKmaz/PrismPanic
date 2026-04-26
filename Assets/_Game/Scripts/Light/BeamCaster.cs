@@ -91,12 +91,12 @@ namespace PrismPanic.Light
                         int blockMask = (1 << Constants.LayerWall) | (1 << Constants.LayerPillar) | (1 << Constants.LayerMirror);
                         if (!Physics.Raycast(origin, toEnemy.normalized, toEnemy.magnitude, blockMask))
                         {
-                            AngelController angel = hit.GetComponent<AngelController>();
+                            AngelController angel = hit.GetComponentInParent<AngelController>();
                             if (angel != null)
                             {
                                 AngelIlluminationRegistry.Register(angel);
                                 // Wide mode is always stun only (bounce 0), even with blue beam upgrade
-                                EventBus.FireBeamHit(new BeamHitData(hit.gameObject, 0, hit.transform.position));
+                                EventBus.FireBeamHit(new BeamHitData(angel.gameObject, 0, hit.transform.position));
                             }
                         }
                     }
@@ -174,16 +174,29 @@ namespace PrismPanic.Light
                 // Enemy — register illumination and fire hit event
                 else if (hitLayer == Constants.LayerEnemy)
                 {
-                    AngelController angel = hit.collider.GetComponent<AngelController>();
+                    AngelController angel = hit.collider.GetComponentInParent<AngelController>();
                     if (angel != null)
                     {
                         AngelIlluminationRegistry.Register(angel);
 
                         EventBus.FireBeamHit(new BeamHitData(
-                            hit.collider.gameObject,
+                            angel.gameObject,
                             bounceCount,
                             hit.point
                         ));
+                    }
+                    else
+                    {
+                        // Not an Angel — check if it's a Boss
+                        BossController boss = hit.collider.GetComponentInParent<BossController>();
+                        if (boss != null)
+                        {
+                            EventBus.FireBeamHit(new BeamHitData(
+                                boss.gameObject,
+                                bounceCount,
+                                hit.point
+                            ));
+                        }
                     }
                 }
                 // Wall or Pillar — beam terminates (segment already drawn)

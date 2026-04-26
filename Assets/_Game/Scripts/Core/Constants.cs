@@ -57,7 +57,7 @@ namespace PrismPanic.Core
 
         // --- Angel Defaults ---
         public const float ANGEL_BASE_SPEED = 1.5f;
-        public const int ANGEL_BASE_HP = 2;
+        public const int ANGEL_BASE_HP = 100;
 
         // --- Pool Sizes ---
         public const int POOL_ANGELS = 8;
@@ -113,7 +113,7 @@ namespace PrismPanic.Core
         public const float BOSS_ROTATION_SPEED = 30f;            // Degrees per second
         public const float BOSS_LASER_RANGE = 50f;
         public const int BOSS_LASER_DAMAGE = 1;
-        public const int BOSS_MAX_HP = 10;
+        public const int BOSS_MAX_HP = 500;
         public const float BOSS_LASER_WIDTH = 0.1f;
         public const float BOSS_SHUFFLE_INTERVAL = 10f;          // Seconds between pillar/mirror reshuffle
         public const float BOSS_SHUFFLE_MOVE_SPEED = 3f;         // How fast objects slide to new positions
@@ -123,5 +123,8 @@ namespace PrismPanic.Core
         public const int BOSS_MAX_RAY_COUNT = 4;                 // Maximum number of simultaneous rays
         public const float BOSS_MIN_DISTANCE_FROM_BOSS = 3f;    // Objects can't be closer than this to boss
         public const float BOSS_MIN_DISTANCE_BETWEEN_OBJECTS = 0.5f; // Objects can't be closer than this to each other
+
+        // --- UI ---
+        public const float HEART_BREAK_FRAME_DURATION = 0.4f;   // Seconds each break sprite is shown
     }
 }

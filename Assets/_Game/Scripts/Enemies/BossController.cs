@@ -25,6 +25,7 @@ namespace PrismPanic.Enemies
 
         private int _currentHealth;
         private bool _isDead;
+        private float _damageCooldownTimer;
 
         // Ray escalation
         private int _currentRayCount = 1;
@@ -43,8 +44,11 @@ namespace PrismPanic.Enemies
 
         private void OnEnable()
         {
+            // Always read from Constants to avoid stale serialized values in the prefab
+            _maxHealth = Constants.BOSS_MAX_HP;
             _currentHealth = _maxHealth;
             _isDead = false;
+            _damageCooldownTimer = 0f;
             _currentRayCount = 1;
             _totalCombatTime = 0f;
             _escalationTimer = Constants.BOSS_RAY_ESCALATION_INTERVAL;
@@ -55,6 +59,8 @@ namespace PrismPanic.Enemies
         private void Update()
         {
             if (_isDead) return;
+
+            if (_damageCooldownTimer > 0f) _damageCooldownTimer -= Time.deltaTime;
 
             if (GameManager.Instance != null && GameManager.Instance.CurrentPhase != GamePhase.Combat)
             {
@@ -252,9 +258,10 @@ namespace PrismPanic.Enemies
         /// </summary>
         public void TakeDamage(int damage)
         {
-            if (_isDead) return;
+            if (_isDead || _damageCooldownTimer > 0f) return;
 
             _currentHealth -= damage;
+            _damageCooldownTimer = 0.3f; // 0.3s cooldown — matches Angel
             Debug.Log($"[Boss] Took {damage} damage! HP left: {_currentHealth}");
 
             if (_currentHealth <= 0)
