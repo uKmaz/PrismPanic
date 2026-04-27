@@ -30,7 +30,7 @@
 
 ## 🎮 Game Overview
 
-**Don't Panic** is a top-down 3D incremental survival-action game built for a **44-hour Game Jam**. You're trapped in a shifting room with relentless **Angel** enemies — stone beings inspired by Weeping Angels that freeze when illuminated but pursue you the moment they're in shadow.
+**Don't Panic** is a Top-Down 3D incremental survival-action game built for a **48-hour Game Jam**. You're trapped in a continually changing room with relentless enemies — shadowy beings that freeze when illuminated but pursue you the moment they're in darkness.
 
 Your only defense? A **flashlight** that casts beams of light. Direct light merely stuns. But bounce that beam off **mirrors** and it transforms into a deadly weapon — the more reflections, the more devastating the damage.
 
@@ -39,10 +39,10 @@ Your only defense? A **flashlight** that casts beams of light. Direct light mere
 ### ✨ Key Features
 
 - 🔦 **Beam Reflection System** — Raycast-based light that bounces off mirrors with real-time physics
-- 👼 **Weeping Angel AI** — Enemies freeze under illumination, pursue in darkness via NavMesh
+- 👼 **Dynamic AI Enemies** — Enemies freeze under illumination, pursue in darkness via NavMesh. Features standard, fast, and invisible variants!
 - 🚪 **Roguelite Progression** — Choose from 3 upgrade doors after each cleared room
 - 🏠 **Single-Scene Architecture** — One room, infinitely reconfigured with handcrafted layouts
-- 💀 **Boss Fight** — A climactic encounter with unique mechanics and a dynamic health bar
+- 💀 **Boss Fight** — A climactic encounter with the Prism Guardian, featuring rotating lasers and dynamic obstacles
 - 🎯 **Adrenaline System** — Screen-space heartbeat effects and camera shake as danger approaches
 - 🎵 **Dynamic Audio** — Contextual SFX and music that responds to gameplay events
 
@@ -55,7 +55,7 @@ Your only defense? A **flashlight** that casts beams of light. Direct light mere
 The flashlight is your lifeline. Direct beams only stun, but each mirror bounce amplifies the beam's power:
 
 | Tier | Bounces | Color | Effect |
-|:---:|:---:|:---:|:---|
+|:---:|:---:|:---:|:---:|
 | **Basic** | 0 (direct) | ⬜ White | Stun only — 3 sec base duration |
 | **Tier 1** | 1 mirror | 🟦 Blue | Base damage (1 hit) |
 | **Tier 2** | 2 mirrors | 🟥 Red | 2× damage (2 hits) |
@@ -67,13 +67,12 @@ The flashlight is your lifeline. Direct beams only stun, but each mirror bounce 
 
 ### 👼 The Angels
 
-Relentless enemies inspired by the Weeping Angels:
+Relentless enemies that hunt you from the shadows:
 
-- **Freeze** when illuminated by the flashlight beam
-- **Pursue** the player relentlessly when in shadow (NavMesh pathfinding)
-- Contact deals **1 damage** — the player has **3 HP** with brief invincibility frames
-- Angels **tint from white to red** based on remaining HP
-- **Base Stats:** 1.5 units/sec speed · 2 HP · 3 sec stun duration
+- **Base Angel:** Standard speed. Freezes in light, pursues in darkness.
+- **Fast Angel:** Faster movement speed with visual speed trails.
+- **Shadow Angel:** Completely invisible in darkness. Only reveals itself when directly illuminated!
+- Contact deals **1 damage** — the player has **5 HP** with brief invincibility frames.
 
 ### 🚪 Upgrade Doors
 
@@ -84,18 +83,20 @@ After clearing all Angels, **3 upgrade doors** appear:
 | 🛡️ Stun Duration+ | +1 second stun duration |
 | 🏃 Move Speed+ | +0.5 units/sec player speed |
 | 🔦 Flashlight Cone+ | Widens flashlight cone angle |
-| 🪞 Extra Mirror | +1 placeable mirror for next level |
+| 🪞 Shield Mirror | Gain a deployable shield that reflects beams around you |
 | 📏 Beam Range+ | Extends max beam travel distance |
+| 🎨 Blue Beam | Instantly turns the first beam segment blue for extra damage |
+| ⚡ Extra Energy | Increases maximum flashlight energy capacity |
 
 Walk through a door to receive its upgrade — no menus, pure flow.
 
 ### 💀 Boss Fight
 
-Level 8 features a unique **Boss encounter** with:
+Level 8 features a unique **Boss encounter (Prism Guardian)** with:
 - Dedicated boss room configuration
-- Dynamic mirror mechanics
-- Boss health bar UI
-- Escalating difficulty phases
+- Dynamic, constantly shifting mirror mechanics
+- Rotating laser strikes you must dodge
+- A massive 500 HP health pool
 
 ---
 
@@ -118,21 +119,7 @@ GameManager (Phase Controller)
 
 ### EventBus Pattern
 
-All cross-system communication uses a **static EventBus** — no direct method calls between systems:
-
-```
-BeamCaster → OnBeamHit → BeamHitHandler → OnAngelKilled → GameManager
-                                                              │
-                                                    OnAllAngelsCleared
-                                                              │
-                                              DoorManager → OnUpgradeSelected
-                                                              │
-                                              UpgradeApplier + LevelManager
-                                                              │
-                                                     OnRoomReconfigure
-                                                              │
-                                                     RoomConfigurator
-```
+All cross-system communication uses a **static EventBus** — no direct method calls between systems.
 
 ### Key Design Decisions
 
@@ -202,13 +189,13 @@ Assets/
 
 ## 🎮 Controls
 
-| Action | Keyboard / Mouse | Gamepad |
-|:---|:---|:---|
-| **Move** | `WASD` | Left Stick |
-| **Aim** | Mouse Position | Right Stick |
-| **Flashlight** | Left Mouse (Hold) | Right Trigger (Hold) |
-| **Place Mirror** | Right Mouse Click | Right Shoulder |
-| **Confirm Placement** | Left Mouse Click | A Button |
+| Action | Keyboard / Mouse |
+|:---|:---|
+| **Move** | `WASD` |
+| **Aim** | Mouse Position |
+| **Toggle Flashlight Mode** | `R` (Cycles: Closed → Wide → Laser) |
+| **Toggle Shield Mirror** | `T` (Requires Shield Upgrade) |
+| **Interact / Enter Door** | `F` |
 
 ---
 
@@ -293,7 +280,7 @@ File → Build Settings → Add Open Scenes → Build
 
 ## 🧑‍💻 Team
 
-Built with 💡 during a **44-hour Game Jam**.
+Built with 💡 during a **48-hour Game Jam**.
 
 ---
 
