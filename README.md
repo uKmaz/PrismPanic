@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="docs/banner.png" alt="Prism Panic Banner" width="100%"/>
+  <img src="docs/banner.png" alt="Don't Panic Banner" width="100%"/>
 </p>
 
-<h1 align="center">🔦 Prism Panic</h1>
+<h1 align="center">🔦 Don't Panic</h1>
 
 <p align="center">
   <strong>An incremental survival-action game built with Unity 6 — where light is your only weapon.</strong>
@@ -30,7 +30,7 @@
 
 ## 🎮 Game Overview
 
-**Prism Panic** is a top-down 3D incremental survival-action game built for a **44-hour Game Jam**. You're trapped in a shifting room with relentless **Angel** enemies — stone beings inspired by Weeping Angels that freeze when illuminated but pursue you the moment they're in shadow.
+**Don't Panic** is a top-down 3D incremental survival-action game built for a **44-hour Game Jam**. You're trapped in a shifting room with relentless **Angel** enemies — stone beings inspired by Weeping Angels that freeze when illuminated but pursue you the moment they're in shadow.
 
 Your only defense? A **flashlight** that casts beams of light. Direct light merely stuns. But bounce that beam off **mirrors** and it transforms into a deadly weapon — the more reflections, the more devastating the damage.
 
@@ -101,7 +101,7 @@ Level 8 features a unique **Boss encounter** with:
 
 ## 🏗️ Architecture
 
-Prism Panic follows a **clean, event-driven architecture** designed for rapid Game Jam development while maintaining code quality.
+Don't Panic follows a **clean, event-driven architecture** designed for rapid Game Jam development while maintaining code quality.
 
 ### System Flow
 
