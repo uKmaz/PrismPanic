@@ -224,7 +224,7 @@ Assets/
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/uKmaz/PrismPanic.git
+   git clone https://github.com/uKmaz/Dont-Panic.git
    ```
 
 2. **Open in Unity Hub:**
